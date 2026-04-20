@@ -1,0 +1,74 @@
+[#Menu: Gateway of Tally]
+    Add    : Item : Before : @@locQuit : Jaydeep Sales Item Export : Display : JP_SALES_EXPORT_REPORT
+
+[Report: JP_SALES_EXPORT_REPORT]
+    Form   : JP_SALES_EXPORT_FORM
+    Title  : "Jaydeep Sales Item Export"
+
+[Form: JP_SALES_EXPORT_FORM]
+    Part   : JP_SALES_EXPORT_PART
+
+[Part: JP_SALES_EXPORT_PART]
+    Line   : JP_SALES_EXPORT_LINE
+    Repeat : JP_SALES_EXPORT_LINE : JP_SALES_EXPORT_VOUCHERS
+    Scroll : Vertical
+
+[Line: JP_SALES_EXPORT_LINE]
+    Field  : JP Voucher Date, JP Voucher Number, JP Party Name
+    Explode: JP_SALES_EXPORT_ITEMS
+
+[Field: JP Voucher Date]
+    Use    : Short Date Field
+    Set As : $Date
+    XML Tag: "VoucherDate"
+
+[Field: JP Voucher Number]
+    Use    : Name Field
+    Set As : $VoucherNumber
+    XML Tag: "VoucherNumber"
+
+[Field: JP Party Name]
+    Use    : Name Field
+    Set As : $PartyLedgerName
+    XML Tag: "PartyName"
+
+[Part: JP_SALES_EXPORT_ITEMS]
+    Line   : JP_SALES_EXPORT_ITEM_LINE
+    Repeat : JP_SALES_EXPORT_ITEM_LINE : All Inventory Entries
+    Scroll : Vertical
+
+[Line: JP_SALES_EXPORT_ITEM_LINE]
+    Field  : JP Stock Item Name, JP Quantity, JP Unit, JP Rate, JP Amount
+
+[Field: JP Stock Item Name]
+    Use    : Name Field
+    Set As : $StockItemName
+    XML Tag: "StockItemName"
+
+[Field: JP Quantity]
+    Use    : Qty Field
+    Set As : $BilledQty
+    XML Tag: "Quantity"
+
+[Field: JP Unit]
+    Use    : Name Field
+    Set As : $$String:$BilledQty
+    XML Tag: "Unit"
+
+[Field: JP Rate]
+    Use    : Rate Price Field
+    Set As : $Rate
+    XML Tag: "Rate"
+
+[Field: JP Amount]
+    Use    : Amount Field
+    Set As : $Amount
+    XML Tag: "Amount"
+
+[Collection: JP_SALES_EXPORT_VOUCHERS]
+    Type   : Voucher
+    Fetch  : Date, VoucherNumber, VoucherTypeName, PartyLedgerName, All Inventory Entries.*
+    Filter : JP Sales Vouchers Only
+
+[System: Formula]
+    JP Sales Vouchers Only : $$IsSales:$VoucherTypeName

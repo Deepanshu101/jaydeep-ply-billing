@@ -1,0 +1,40 @@
+{
+  "name": "Jaydeep Ply Billing",
+  "short_name": "Jaydeep Ply",
+  "description": "Quotation, billing, import, and Tally workflow for Jaydeep Ply.",
+  "start_url": "/dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f6f7f4",
+  "theme_color": "#1f6f50",
+  "orientation": "portrait-primary",
+  "categories": ["business", "productivity"],
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "New Quotation",
+      "short_name": "Quote",
+      "url": "/quotations/new",
+      "description": "Create a quotation"
+    },
+    {
+      "name": "Import Desk",
+      "short_name": "Import",
+      "url": "/import",
+      "description": "Import BOQ or product rows"
+    },
+    {
+      "name": "Tally Sync",
+      "short_name": "Tally",
+      "url": "/tally-sync",
+      "description": "Sync Tally data"
+    }
+  ]
+}

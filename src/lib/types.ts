@@ -1,0 +1,144 @@
+export type Customer = {
+  id: string;
+  name: string;
+  address: string | null;
+  gst_number: string | null;
+  email: string | null;
+  phone: string | null;
+};
+
+export type LineItem = {
+  id?: string;
+  description: string;
+  specification: string;
+  qty: number;
+  unit: string;
+  rate: number;
+  amount: number;
+};
+
+export type Quotation = {
+  id: string;
+  quotation_no: string;
+  customer_id: string;
+  client_name: string;
+  project_name: string;
+  address: string;
+  gst_number: string;
+  ship_to_enabled?: boolean;
+  ship_to_name?: string | null;
+  ship_to_address?: string | null;
+  ship_to_gst_number?: string | null;
+  quote_date: string;
+  subtotal: number;
+  discount_type?: "amount" | "percent";
+  discount_value?: number;
+  discount_amount?: number;
+  gst_percent: number;
+  cgst: number;
+  sgst: number;
+  grand_total: number;
+  amount_in_words: string;
+  terms: string;
+  status: "draft" | "pending_approval" | "approved" | "converted";
+  created_at: string;
+  quotation_items?: LineItem[];
+};
+
+export type Invoice = {
+  id: string;
+  invoice_no: string;
+  quotation_id: string | null;
+  customer_id: string;
+  client_name: string;
+  project_name: string;
+  address: string;
+  gst_number: string;
+  invoice_date: string;
+  due_date?: string | null;
+  subtotal: number;
+  discount_type?: "amount" | "percent";
+  discount_value?: number;
+  discount_amount?: number;
+  gst_percent: number;
+  cgst: number;
+  sgst: number;
+  grand_total: number;
+  amount_in_words: string;
+  terms: string;
+  created_at: string;
+  tally_sync_status?: string;
+  tally_synced_at?: string | null;
+  tally_response?: string | null;
+  invoice_items?: LineItem[];
+};
+
+export type DeliveryChallan = {
+  id: string;
+  challan_no: string;
+  quotation_id: string | null;
+  customer_id: string;
+  client_name: string;
+  project_name: string;
+  address: string;
+  gst_number: string;
+  challan_date: string;
+  status: "draft" | "ready" | "dispatched" | "delivered" | "cancelled";
+  transporter: string | null;
+  vehicle_no: string | null;
+  notes: string | null;
+  selected_columns: string[];
+  created_at: string;
+  delivery_challan_items?: LineItem[];
+};
+
+export type Product = {
+  id: string;
+  name: string;
+  brand: string | null;
+  category: string | null;
+  thickness: string | null;
+  size: string | null;
+  unit: string;
+  base_rate: number | null;
+  gst_percent: number;
+  image_url: string | null;
+  notes: string | null;
+  is_active: boolean;
+};
+
+export type ImportRow = {
+  id?: string;
+  item_name: string;
+  description: string;
+  qty: number | null;
+  unit: string | null;
+  rate: number | null;
+  amount: number | null;
+  brand: string | null;
+  size: string | null;
+  thickness: string | null;
+  category: string | null;
+  confidence: number | null;
+  raw_text: string | null;
+  matched_product_id?: string | null;
+  matched_product_name?: string | null;
+  matched_product_unit?: string | null;
+  matched_product_rate?: number | null;
+  matched_product_brand?: string | null;
+  matched_product_size?: string | null;
+  matched_product_thickness?: string | null;
+  matched_product_category?: string | null;
+  save_to_product?: boolean;
+  approved?: boolean;
+  image_url?: string | null;
+};
+
+export type PricingRule = {
+  id: string;
+  product_id: string | null;
+  category: string | null;
+  brand: string | null;
+  margin_percent: number;
+  is_active: boolean;
+};

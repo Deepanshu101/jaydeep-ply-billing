@@ -1,0 +1,42 @@
+export const importRowsJsonSchema = {
+  type: "object",
+  additionalProperties: false,
+  properties: {
+    rows: {
+      type: "array",
+      items: {
+        type: "object",
+        additionalProperties: false,
+        properties: {
+          item_name: { type: "string" },
+          description: { type: "string" },
+          qty: { type: ["number", "null"] },
+          unit: { type: ["string", "null"] },
+          rate: { type: ["number", "null"] },
+          amount: { type: ["number", "null"] },
+          brand: { type: ["string", "null"] },
+          size: { type: ["string", "null"] },
+          thickness: { type: ["string", "null"] },
+          category: { type: ["string", "null"] },
+          confidence: { type: ["number", "null"] },
+          raw_text: { type: ["string", "null"] },
+        },
+        required: [
+          "item_name",
+          "description",
+          "qty",
+          "unit",
+          "rate",
+          "amount",
+          "brand",
+          "size",
+          "thickness",
+          "category",
+          "confidence",
+          "raw_text",
+        ],
+      },
+    },
+  },
+  required: ["rows"],
+} as const;

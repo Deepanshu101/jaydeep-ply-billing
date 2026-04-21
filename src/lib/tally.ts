@@ -24,11 +24,25 @@ export type TallyInvoiceOptions = {
   stockGroupName?: string;
   discountLedgerName?: string;
   accountingMode?: boolean;
+  createMissingPartyLedger?: boolean;
+  voucherNumberSuffix?: string;
+  inventoryQtySign?: "positive" | "negative";
+  omitVchEntryMode?: boolean;
+  stockXmlMode?: "invoice-batch" | "invoice-no-batch" | "inventory-voucher-batch" | "inventory-voucher-no-batch";
+  inventoryEntriesFirst?: boolean;
+  voucherAction?: "Create" | "Alter";
 };
 
 export type TallyStockItemInput = {
   name: string;
   unit: string;
+};
+
+export type TallyLedgerInput = {
+  name: string;
+  parent: string;
+  address?: string | null;
+  gstNumber?: string | null;
 };
 
 export function invoiceToTallyXml(invoice: Invoice, options: TallyInvoiceOptions = {}) {
@@ -42,6 +56,15 @@ export function invoiceToTallyXml(invoice: Invoice, options: TallyInvoiceOptions
   const discountLedgerName = cleanTallyText(options.discountLedgerName || process.env.TALLY_DISCOUNT_LEDGER || "");
   const isInterstate = Boolean(options.isInterstate);
   const accountingMode = Boolean(options.accountingMode);
+  const stockXmlMode = options.stockXmlMode || "invoice-batch";
+  const voucherAction = options.voucherAction || "Create";
+  const isInventoryVoucherView = !accountingMode && stockXmlMode.startsWith("inventory-voucher");
+  const voucherView = accountingMode
+    ? "Accounting Voucher View"
+    : isInventoryVoucherView
+      ? "Inventory Voucher View"
+      : "Invoice Voucher View";
+  const entryMode = accountingMode ? "Accounting Invoice" : "Item Invoice";
   const taxAmount = Number(invoice.cgst || 0) + Number(invoice.sgst || 0);
   const subtotal = Number(invoice.subtotal || 0);
   const discountAmount = Number(invoice.discount_amount || 0);
@@ -63,18 +86,22 @@ export function invoiceToTallyXml(invoice: Invoice, options: TallyInvoiceOptions
     .up()
     .ele("REQUESTDATA")
     .ele("TALLYMESSAGE", { "xmlns:UDF": "TallyUDF" })
-    .ele("VOUCHER", { VCHTYPE: voucherTypeName, ACTION: "Create", OBJVIEW: accountingMode ? "Accounting Voucher View" : "Invoice Voucher View" });
+    .ele("VOUCHER", { VCHTYPE: voucherTypeName, ACTION: voucherAction, OBJVIEW: voucherView });
 
   root.ele("DATE").txt(date).up();
   root.ele("EFFECTIVEDATE").txt(date).up();
   root.ele("VOUCHERTYPENAME").txt(voucherTypeName).up();
-  root.ele("VOUCHERNUMBER").txt(cleanTallyText(invoice.invoice_no)).up();
+  root.ele("VOUCHERNUMBER").txt(cleanTallyText(`${invoice.invoice_no}${options.voucherNumberSuffix || ""}`)).up();
   root.ele("REFERENCE").txt(cleanTallyText(options.orderReference || invoice.project_name || invoice.invoice_no)).up();
   root.ele("PARTYLEDGERNAME").txt(cleanTallyText(invoice.client_name)).up();
   root.ele("PARTYNAME").txt(cleanTallyText(invoice.client_name)).up();
   root.ele("BASICBASEPARTYNAME").txt(cleanTallyText(invoice.client_name)).up();
-  root.ele("PERSISTEDVIEW").txt(accountingMode ? "Accounting Voucher View" : "Invoice Voucher View").up();
-  root.ele("VCHENTRYMODE").txt(accountingMode ? "Accounting Invoice" : "Item Invoice").up();
+  root.ele("COUNTRYOFRESIDENCE").txt("India").up();
+  root.ele("STATENAME").txt(stateNameFromGstin(invoice.gst_number)).up();
+  root.ele("PLACEOFSUPPLY").txt(stateNameFromGstin(invoice.gst_number)).up();
+  root.ele("GSTREGISTRATIONTYPE").txt(invoice.gst_number ? "Regular" : "Unregistered/Consumer").up();
+  root.ele("PERSISTEDVIEW").txt(voucherView).up();
+  if (!options.omitVchEntryMode) root.ele("VCHENTRYMODE").txt(entryMode).up();
   root.ele("ISINVOICE").txt("Yes").up();
   root.ele("ISDELETED").txt("No").up();
   root.ele("ISOPTIONAL").txt("No").up();
@@ -88,16 +115,28 @@ export function invoiceToTallyXml(invoice: Invoice, options: TallyInvoiceOptions
   addAddress(root, "ADDRESS.LIST", invoice.address);
   addAddress(root, "BASICBUYERADDRESS.LIST", invoice.address);
 
-  partyLedger(root, invoice.client_name, invoice.grand_total);
-
-  if (accountingMode) {
-    ledger(root, salesLedgerName, -taxableSubtotal, false);
-  } else {
+  const addInventoryEntries = () => {
     for (const item of invoice.invoice_items ?? []) {
-      inventoryEntry(root, item, salesLedgerName, options.godownName);
+      inventoryEntry(root, item, salesLedgerName, {
+        godownName: options.godownName,
+        qtySign: options.inventoryQtySign || "negative",
+        includeBatchAllocation: stockXmlMode.endsWith("batch"),
+      });
     }
     if (discountAmount > 0 && discountLedgerName) {
       ledger(root, discountLedgerName, discountAmount, false);
+    }
+  };
+
+  if (!accountingMode && options.inventoryEntriesFirst) {
+    addInventoryEntries();
+    partyLedger(root, invoice.client_name, invoice.grand_total);
+  } else {
+    partyLedger(root, invoice.client_name, invoice.grand_total);
+    if (accountingMode) {
+      ledger(root, salesLedgerName, -taxableSubtotal, false);
+    } else {
+      addInventoryEntries();
     }
   }
 
@@ -115,7 +154,7 @@ export function invoiceToTallyXml(invoice: Invoice, options: TallyInvoiceOptions
   return root.doc().end({ prettyPrint: true });
 }
 
-export function stockItemsToTallyXml(items: TallyStockItemInput[], stockGroupName = "Primary") {
+export function stockItemsToTallyXml(items: TallyStockItemInput[], stockGroupName = "") {
   const requestData = create({ version: "1.0", encoding: "UTF-8" })
     .ele("ENVELOPE")
     .ele("HEADER")
@@ -136,13 +175,47 @@ export function stockItemsToTallyXml(items: TallyStockItemInput[], stockGroupNam
     const message = requestData.ele("TALLYMESSAGE", { "xmlns:UDF": "TallyUDF" });
     const stockItem = message.ele("STOCKITEM", { NAME: cleanTallyText(item.name), ACTION: "Create" });
     stockItem.ele("NAME").txt(cleanTallyText(item.name)).up();
-    stockItem.ele("PARENT").txt(cleanTallyText(stockGroupName || "Primary")).up();
-    stockItem.ele("BASEUNITS").txt(cleanTallyText(item.unit || "Nos")).up();
+    if (stockGroupName.trim()) stockItem.ele("PARENT").txt(cleanTallyText(stockGroupName)).up();
+    stockItem.ele("BASEUNITS").txt(cleanTallyUnit(item.unit || "Nos")).up();
     stockItem.ele("ISBATCHWISEON").txt("No").up();
     stockItem.ele("ISCOSTCENTRESON").txt("No").up();
     stockItem.ele("ISPERISHABLEON").txt("No").up();
     stockItem.ele("IGNOREPHYSICALDIFFERENCE").txt("No").up();
     stockItem.up();
+    message.up();
+  }
+
+  return requestData.doc().end({ prettyPrint: true });
+}
+
+export function ledgersToTallyXml(ledgers: TallyLedgerInput[]) {
+  const requestData = create({ version: "1.0", encoding: "UTF-8" })
+    .ele("ENVELOPE")
+    .ele("HEADER")
+    .ele("TALLYREQUEST")
+    .txt("Import Data")
+    .up()
+    .up()
+    .ele("BODY")
+    .ele("IMPORTDATA")
+    .ele("REQUESTDESC")
+    .ele("REPORTNAME")
+    .txt("All Masters")
+    .up()
+    .up()
+    .ele("REQUESTDATA");
+
+  for (const item of ledgers) {
+    const message = requestData.ele("TALLYMESSAGE", { "xmlns:UDF": "TallyUDF" });
+    const ledger = message.ele("LEDGER", { NAME: cleanTallyText(item.name), ACTION: "Create" });
+    ledger.ele("NAME").txt(cleanTallyText(item.name)).up();
+    ledger.ele("PARENT").txt(cleanTallyText(item.parent)).up();
+    ledger.ele("ISBILLWISEON").txt("Yes").up();
+    ledger.ele("ISCOSTCENTRESON").txt("No").up();
+    ledger.ele("AFFECTSSTOCK").txt("No").up();
+    if (item.gstNumber) ledger.ele("PARTYGSTIN").txt(cleanTallyText(item.gstNumber)).up();
+    if (item.address) addAddress(ledger, "ADDRESS.LIST", item.address);
+    ledger.up();
     message.up();
   }
 
@@ -451,12 +524,23 @@ function partyLedger(parent: XmlNode, name: string, amount: number) {
   entry.up();
 }
 
-function inventoryEntry(parent: XmlNode, item: LineItem, salesLedgerName: string, godownName?: string) {
+function inventoryEntry(
+  parent: XmlNode,
+  item: LineItem,
+  salesLedgerName: string,
+  options: {
+    godownName?: string;
+    qtySign?: "positive" | "negative";
+    includeBatchAllocation?: boolean;
+  } = {},
+) {
   const qty = Math.abs(Number(item.qty || 0));
   const rate = Math.abs(Number(item.rate || 0));
   const amount = round2(Number(item.amount || qty * rate));
-  const unit = cleanTallyText(item.unit || "Nos");
+  const unit = cleanTallyUnit(item.unit || "Nos");
   const stockName = cleanTallyText(item.description);
+  const qtySign = options.qtySign || "negative";
+  const outwardQty = `${qtySign === "negative" ? "-" : ""}${formatQty(qty)} ${unit}`;
   const entry = parent.ele("ALLINVENTORYENTRIES.LIST");
 
   entry.ele("STOCKITEMNAME").txt(stockName).up();
@@ -464,8 +548,8 @@ function inventoryEntry(parent: XmlNode, item: LineItem, salesLedgerName: string
   entry.ele("ISLASTDEEMEDPOSITIVE").txt("No").up();
   entry.ele("RATE").txt(`${rate.toFixed(2)}/${unit}`).up();
   entry.ele("AMOUNT").txt((-amount).toFixed(2)).up();
-  entry.ele("ACTUALQTY").txt(`${formatQty(qty)} ${unit}`).up();
-  entry.ele("BILLEDQTY").txt(`${formatQty(qty)} ${unit}`).up();
+  entry.ele("ACTUALQTY").txt(outwardQty).up();
+  entry.ele("BILLEDQTY").txt(outwardQty).up();
   if (item.specification) entry.ele("BASICUSERDESCRIPTION.LIST").ele("BASICUSERDESCRIPTION").txt(cleanTallyText(item.specification)).up().up();
 
   const accounting = entry.ele("ACCOUNTINGALLOCATIONS.LIST");
@@ -474,13 +558,13 @@ function inventoryEntry(parent: XmlNode, item: LineItem, salesLedgerName: string
   accounting.ele("AMOUNT").txt((-amount).toFixed(2)).up();
   accounting.up();
 
-  if (godownName) {
+  if (options.includeBatchAllocation) {
     const batch = entry.ele("BATCHALLOCATIONS.LIST");
-    batch.ele("GODOWNNAME").txt(cleanTallyText(godownName)).up();
+    batch.ele("GODOWNNAME").txt(cleanTallyText(options.godownName || "Main Location")).up();
     batch.ele("BATCHNAME").txt("Primary Batch").up();
     batch.ele("AMOUNT").txt((-amount).toFixed(2)).up();
-    batch.ele("ACTUALQTY").txt(`${formatQty(qty)} ${unit}`).up();
-    batch.ele("BILLEDQTY").txt(`${formatQty(qty)} ${unit}`).up();
+    batch.ele("ACTUALQTY").txt(outwardQty).up();
+    batch.ele("BILLEDQTY").txt(outwardQty).up();
     batch.up();
   }
 
@@ -502,6 +586,57 @@ function addAddress(parent: XmlNode, listName: string, address: string) {
 
 function cleanTallyText(value: string) {
   return String(value ?? "").replace(/[\u0000-\u001f]+/g, " ").replace(/\s+/g, " ").trim();
+}
+
+function cleanTallyUnit(value: string) {
+  const unit = cleanTallyText(value)
+    .replace(/\s*=\s*/g, "=")
+    .split("=")[0]
+    .trim();
+
+  const normalized = unit.toLowerCase();
+  if (normalized === "no" || normalized === "piece") return "nos";
+  if (normalized === "sq ft" || normalized === "sft") return "sqft";
+  if (normalized === "sheets") return "sheet";
+  return unit || "Nos";
+}
+
+function stateNameFromGstin(gstin: string) {
+  const code = cleanTallyText(gstin).slice(0, 2);
+  const states: Record<string, string> = {
+    "01": "Jammu & Kashmir",
+    "02": "Himachal Pradesh",
+    "03": "Punjab",
+    "04": "Chandigarh",
+    "05": "Uttarakhand",
+    "06": "Haryana",
+    "07": "Delhi",
+    "08": "Rajasthan",
+    "09": "Uttar Pradesh",
+    "10": "Bihar",
+    "11": "Sikkim",
+    "12": "Arunachal Pradesh",
+    "13": "Nagaland",
+    "14": "Manipur",
+    "15": "Mizoram",
+    "16": "Tripura",
+    "17": "Meghalaya",
+    "18": "Assam",
+    "19": "West Bengal",
+    "20": "Jharkhand",
+    "21": "Odisha",
+    "22": "Chhattisgarh",
+    "23": "Madhya Pradesh",
+    "24": "Gujarat",
+    "27": "Maharashtra",
+    "29": "Karnataka",
+    "30": "Goa",
+    "32": "Kerala",
+    "33": "Tamil Nadu",
+    "36": "Telangana",
+    "37": "Andhra Pradesh",
+  };
+  return states[code] || "Maharashtra";
 }
 
 function round2(value: number) {

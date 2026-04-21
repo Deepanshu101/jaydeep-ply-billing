@@ -29,18 +29,24 @@ export function QuotationForm({
   quotation,
   productOptions = [],
   clientOptions = [],
+  initialClientId,
 }: {
   quotation?: Quotation;
   productOptions?: ProductOption[];
   clientOptions?: ClientOption[];
+  initialClientId?: string;
 }) {
   const router = useRouter();
   const [items, setItems] = useState<LineItem[]>(
     quotation?.quotation_items?.length ? quotation.quotation_items : [{ ...emptyItem }],
   );
-  const [clientName, setClientName] = useState(quotation?.client_name ?? "");
-  const [clientAddress, setClientAddress] = useState(quotation?.address ?? "");
-  const [clientGstNumber, setClientGstNumber] = useState(quotation?.gst_number ?? "");
+  const initialClient = quotation?.customer_id || initialClientId
+    ? clientOptions.find((client) => client.id === (quotation?.customer_id ?? initialClientId))
+    : clientOptions.find((client) => normalize(client.name) === normalize(quotation?.client_name ?? ""));
+  const [selectedClientId, setSelectedClientId] = useState(initialClient?.id ?? "");
+  const [clientName, setClientName] = useState(quotation?.client_name ?? initialClient?.name ?? "");
+  const [clientAddress, setClientAddress] = useState(quotation?.address ?? initialClient?.address ?? "");
+  const [clientGstNumber, setClientGstNumber] = useState(quotation?.gst_number ?? initialClient?.gst_number ?? "");
   const [gstPercent, setGstPercent] = useState(quotation?.gst_percent ?? 18);
   const [discountType, setDiscountType] = useState<"amount" | "percent">(quotation?.discount_type ?? "amount");
   const [discountValue, setDiscountValue] = useState(Number(quotation?.discount_value ?? 0));
@@ -72,13 +78,33 @@ export function QuotationForm({
     }));
   }
 
-  function applyClient(value: string) {
-    setClientName(value);
-    const client = clientOptions.find((option) => normalize(option.name) === normalize(value));
-    if (!client) return;
+  function applyClient(client: ClientOption) {
+    setSelectedClientId(client.id);
     setClientName(client.name);
     setClientAddress(client.address || "");
     setClientGstNumber(client.gst_number || "");
+  }
+
+  function updateClientName(value: string) {
+    setClientName(value);
+    const client = findClient(value);
+    if (!client) return;
+    applyClient(client);
+  }
+
+  function syncClientFromName(value: string) {
+    const client = findClient(value);
+    if (client) applyClient(client);
+  }
+
+  function findClient(value: string) {
+    const normalized = normalize(value);
+    if (!normalized) return null;
+    return (
+      clientOptions.find((option) => normalize(option.name) === normalized) ??
+      clientOptions.find((option) => normalize(option.name).includes(normalized)) ??
+      null
+    );
   }
 
   function alternateRateFor(index: number, source = alternateRates): AlternateRate {
@@ -126,14 +152,33 @@ export function QuotationForm({
     <form onSubmit={handleSubmit} className="space-y-6">
       <input type="hidden" name="items" value={JSON.stringify(totals.items)} />
       <section className="grid gap-4 rounded-md border border-[#d8dfd7] bg-white p-4 sm:grid-cols-2">
-        <Field
-          label="Client name"
-          name="client_name"
-          list="quotation-clients"
-          value={clientName}
-          onChange={(event) => applyClient(event.target.value)}
-          required
-        />
+        <div>
+          <Field
+            label="Client name"
+            name="client_name"
+            list="quotation-clients"
+            value={clientName}
+            onChange={(event) => updateClientName(event.target.value)}
+            onBlur={(event) => syncClientFromName(event.target.value)}
+            required
+          />
+          <select
+            className="mt-2 w-full rounded-md border border-[#cdd6cf] bg-[#fbfcfa] px-3 py-2 text-sm outline-none focus:border-[#1f6f50]"
+            value={selectedClientId}
+            onChange={(event) => {
+              const client = clientOptions.find((option) => option.id === event.target.value);
+              if (client) applyClient(client);
+              else setSelectedClientId("");
+            }}
+          >
+            <option value="">Select synced client</option>
+            {clientOptions.map((client) => (
+              <option key={client.id} value={client.id}>
+                {client.name}
+              </option>
+            ))}
+          </select>
+        </div>
         <Field label="Project name" name="project_name" defaultValue={quotation?.project_name} required />
         <Field
           label="GST number"

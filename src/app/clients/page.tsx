@@ -7,6 +7,7 @@ type CustomerRow = {
   id: string;
   name: string;
   phone: string | null;
+  email: string | null;
   gst_number: string | null;
   payment_terms_days: number;
   price_sensitivity: string;
@@ -18,7 +19,7 @@ export default async function ClientsPage() {
   const [{ data, count }, { data: quotations }] = await Promise.all([
     supabase
       .from("customers")
-      .select("id, name, phone, gst_number, payment_terms_days, price_sensitivity, risk_level", { count: "exact" })
+      .select("id, name, phone, email, gst_number, payment_terms_days, price_sensitivity, risk_level", { count: "exact" })
       .order("name")
       .range(0, 999),
     supabase.from("quotations").select("customer_id, grand_total"),
@@ -46,7 +47,7 @@ export default async function ClientsPage() {
           <table className="min-w-[900px] w-full text-sm">
             <thead className="bg-[#eef3ee] text-left">
               <tr>
-                {["Client", "Phone", "GST", "Terms", "Sensitivity", "Risk", "Lifetime quoted", "Open"].map((heading) => (
+                {["Client", "Phone", "GST", "Terms", "Sensitivity", "Risk", "Lifetime quoted", "Actions"].map((heading) => (
                   <th className="px-4 py-3 font-semibold" key={heading}>{heading}</th>
                 ))}
               </tr>
@@ -79,7 +80,37 @@ function ClientRow({ customer, total }: { customer: CustomerRow; total: number }
       <td className="px-4 py-3">{customer.risk_level}</td>
       <td className="px-4 py-3">{inr(total)}</td>
       <td className="px-4 py-3">
-        <Link className="font-semibold text-[#1f6f50]" href={`/clients/${customer.id}`}>Open</Link>
+        <div className="flex flex-wrap gap-2">
+          <Link
+            className="rounded-md bg-[#1f6f50] px-3 py-2 text-xs font-semibold text-white"
+            href={`/quotations/new?client_id=${customer.id}`}
+          >
+            New quotation
+          </Link>
+          <Link
+            className="rounded-md border border-[#cdd6cf] px-3 py-2 text-xs font-semibold text-[#1f6f50]"
+            href={`/clients/${customer.id}`}
+          >
+            Previous
+          </Link>
+          <a
+            className={`rounded-md border border-[#cdd6cf] px-3 py-2 text-xs font-semibold ${
+              customer.email ? "text-[#1f6f50]" : "pointer-events-none text-[#9aa49d]"
+            }`}
+            href={customer.email ? `mailto:${customer.email}?subject=${encodeURIComponent("Jaydeep Ply")}` : "#"}
+          >
+            Mail
+          </a>
+          {customer.phone ? (
+            <a
+              className="rounded-md border border-[#cdd6cf] px-3 py-2 text-xs font-semibold text-[#1f6f50]"
+              href={`https://wa.me/91${customer.phone.replace(/\D/g, "").slice(-10)}`}
+              target="_blank"
+            >
+              WhatsApp
+            </a>
+          ) : null}
+        </div>
       </td>
     </tr>
   );

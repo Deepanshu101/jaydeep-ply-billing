@@ -2,13 +2,14 @@ import { AppShell } from "@/components/app-shell";
 import { QuotationForm, type ClientOption, type ProductOption } from "@/components/quotation-form";
 import { createClient } from "@/lib/supabase/server";
 
-export default async function NewQuotationPage() {
+export default async function NewQuotationPage({ searchParams }: { searchParams: Promise<{ client_id?: string }> }) {
+  const { client_id: clientId } = await searchParams;
   const [productOptions, clientOptions] = await Promise.all([loadProductOptions(), loadClientOptions()]);
   return (
     <AppShell>
       <h1 className="text-3xl font-bold">New quotation</h1>
       <p className="mb-6 text-[#5d6b60]">Build a branded quotation with GST split and amount in words.</p>
-      <QuotationForm productOptions={productOptions} clientOptions={clientOptions} />
+      <QuotationForm productOptions={productOptions} clientOptions={clientOptions} initialClientId={clientId} />
     </AppShell>
   );
 }

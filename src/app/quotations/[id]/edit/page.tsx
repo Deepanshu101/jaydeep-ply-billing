@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { AppShell } from "@/components/app-shell";
-import { QuotationForm, type ProductOption } from "@/components/quotation-form";
+import { QuotationForm, type ClientOption, type ProductOption } from "@/components/quotation-form";
 import { QuotationShareActions } from "@/components/quotation-share-actions";
 import { createClient } from "@/lib/supabase/server";
 import type { Quotation } from "@/lib/types";
@@ -8,9 +8,10 @@ import type { Quotation } from "@/lib/types";
 export default async function EditQuotationPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const supabase = await createClient();
-  const [{ data }, productOptions] = await Promise.all([
+  const [{ data }, productOptions, clientOptions] = await Promise.all([
     supabase.from("quotations").select("*, quotation_items(*)").eq("id", id).single(),
     loadProductOptions(),
+    loadClientOptions(),
   ]);
   if (!data) notFound();
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
@@ -32,9 +33,21 @@ export default async function EditQuotationPage({ params }: { params: Promise<{ 
           pdfUrl={pdfUrl}
         />
       </div>
-      <QuotationForm quotation={data as Quotation} productOptions={productOptions} />
+      <QuotationForm quotation={data as Quotation} productOptions={productOptions} clientOptions={clientOptions} />
     </AppShell>
   );
+}
+
+async function loadClientOptions() {
+  const supabase = await createClient();
+  const { data: customers } = await supabase.from("customers").select("id, name, address, gst_number").order("name");
+
+  return ((customers ?? []) as ClientOption[]).map((customer) => ({
+    id: customer.id,
+    name: customer.name,
+    address: customer.address,
+    gst_number: customer.gst_number,
+  }));
 }
 
 async function loadProductOptions() {

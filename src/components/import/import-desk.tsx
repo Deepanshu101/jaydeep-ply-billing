@@ -13,6 +13,9 @@ type ClientLedgerCheck = {
   matches: { id: string; name: string; address: string | null; gst_number: string | null; score: number }[];
 };
 
+const maxUploadFiles = 3;
+const maxUploadBytes = 1_800_000;
+
 const blankRow: ImportRow = {
   item_name: "",
   description: "",
@@ -58,11 +61,15 @@ export function ImportDesk() {
       if (tab === "pdf") return file.type === "application/pdf";
       return true;
     });
-    setFiles((current) => [...current, ...accepted]);
+    setError("");
+    setFiles((current) => [...current, ...accepted].slice(0, maxUploadFiles));
     setPreviews((current) => [
       ...current,
       ...accepted.map((file) => ({ name: file.name, type: file.type, url: URL.createObjectURL(file) })),
-    ]);
+    ].slice(0, maxUploadFiles));
+    if (accepted.length + files.length > maxUploadFiles) {
+      setMessage(`Only first ${maxUploadFiles} files were added. Upload the remaining files in a second batch.`);
+    }
   }
 
   async function extractRows() {
@@ -74,11 +81,15 @@ export function ImportDesk() {
       formData.set("source_type", tab === "images" ? "image" : tab);
       formData.set("text", text);
       const uploadFiles = await Promise.all(files.map((file) => (file.type.startsWith("image/") ? compressImage(file) : file)));
+      const totalUploadSize = uploadFiles.reduce((sum, file) => sum + file.size, 0);
+      if (totalUploadSize > maxUploadBytes) {
+        throw new Error("Images are still too large for online import. Upload fewer images at once or crop the screenshots and try again.");
+      }
       uploadFiles.forEach((file) => formData.append("files", file));
 
       const response = await fetch("/api/import/extract", { method: "POST", body: formData });
       const payload = await readJsonResponse(response);
-      if (!response.ok) throw new Error(payload.error ?? "Extraction failed.");
+      if (!response.ok) throw new Error(cleanImportError(payload.error ?? "Extraction failed."));
 
       const firstImage = previews.find((preview) => preview.type.startsWith("image/"))?.url ?? null;
       setRows(
@@ -101,7 +112,7 @@ export function ImportDesk() {
           .join(" "),
       );
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Could not extract rows.");
+      setError(cleanImportError(err instanceof Error ? err.message : "Could not extract rows."));
     } finally {
       setLoading(false);
     }
@@ -357,8 +368,8 @@ export function ImportDesk() {
 }
 
 async function compressImage(file: File) {
-  const maxSide = 1600;
-  const quality = 0.72;
+  const maxSide = 1000;
+  const quality = 0.48;
   const bitmap = await createImageBitmap(file);
   const scale = Math.min(1, maxSide / Math.max(bitmap.width, bitmap.height));
   const width = Math.round(bitmap.width * scale);
@@ -370,18 +381,48 @@ async function compressImage(file: File) {
   if (!context) return file;
   context.drawImage(bitmap, 0, 0, width, height);
 
-  const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/jpeg", quality));
+  let blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/jpeg", quality));
+  if (blob && blob.size > 550_000) {
+    blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/jpeg", 0.34));
+  }
   if (!blob || blob.size >= file.size) return file;
   return new File([blob], file.name.replace(/\.[^.]+$/, ".jpg"), { type: "image/jpeg" });
 }
 
 async function readJsonResponse(response: Response) {
   const text = await response.text();
+  const contentType = response.headers.get("content-type") || "";
+  if (contentType.includes("text/html") || text.trimStart().startsWith("<!DOCTYPE html") || text.includes("__next_error__")) {
+    return {
+      error:
+        response.status === 413
+          ? "The upload is too large for the live server. Upload one cropped image at a time."
+          : "The live server returned an error page. Upload one smaller/cropped image and check that OPENAI_API_KEY is set in production.",
+    };
+  }
   try {
     return text ? JSON.parse(text) : {};
   } catch {
     return { error: text || `Request failed with status ${response.status}.` };
   }
+}
+
+function cleanImportError(value: string) {
+  const message = String(value || "").replace(/\s+/g, " ").trim();
+  if (!message) return "Import extraction failed. Please try again.";
+  if (message.includes("OPENAI_API_KEY") || message.toLowerCase().includes("api key")) {
+    return "AI import is not configured on the live site. Add OPENAI_API_KEY in the deployment environment and redeploy.";
+  }
+  if (message.toLowerCase().includes("maximum") || message.toLowerCase().includes("too large") || message.includes("413")) {
+    return "The upload is too large for the live site. Upload fewer/cropped images and try again.";
+  }
+  if (message.toLowerCase().includes("rate limit")) {
+    return "AI import is temporarily rate-limited. Please wait a minute and try again.";
+  }
+  if (message.startsWith("AI extraction failed")) {
+    return "AI could not read this image clearly. Try a sharper/cropped image or paste the text instead.";
+  }
+  return message.length > 220 ? `${message.slice(0, 220)}...` : message;
 }
 
 function ReviewTable({

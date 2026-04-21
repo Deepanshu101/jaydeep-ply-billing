@@ -1,14 +1,14 @@
 import { AppShell } from "@/components/app-shell";
-import { QuotationForm, type ProductOption } from "@/components/quotation-form";
+import { QuotationForm, type ClientOption, type ProductOption } from "@/components/quotation-form";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function NewQuotationPage() {
-  const productOptions = await loadProductOptions();
+  const [productOptions, clientOptions] = await Promise.all([loadProductOptions(), loadClientOptions()]);
   return (
     <AppShell>
       <h1 className="text-3xl font-bold">New quotation</h1>
       <p className="mb-6 text-[#5d6b60]">Build a branded quotation with GST split and amount in words.</p>
-      <QuotationForm productOptions={productOptions} />
+      <QuotationForm productOptions={productOptions} clientOptions={clientOptions} />
     </AppShell>
   );
 }
@@ -34,4 +34,16 @@ async function loadProductOptions() {
         category: product.category,
       }) satisfies ProductOption,
   );
+}
+
+async function loadClientOptions() {
+  const supabase = await createClient();
+  const { data: customers } = await supabase.from("customers").select("id, name, address, gst_number").order("name");
+
+  return ((customers ?? []) as ClientOption[]).map((customer) => ({
+    id: customer.id,
+    name: customer.name,
+    address: customer.address,
+    gst_number: customer.gst_number,
+  }));
 }

@@ -28,14 +28,19 @@ type AlternateRate = {
 export function QuotationForm({
   quotation,
   productOptions = [],
+  clientOptions = [],
 }: {
   quotation?: Quotation;
   productOptions?: ProductOption[];
+  clientOptions?: ClientOption[];
 }) {
   const router = useRouter();
   const [items, setItems] = useState<LineItem[]>(
     quotation?.quotation_items?.length ? quotation.quotation_items : [{ ...emptyItem }],
   );
+  const [clientName, setClientName] = useState(quotation?.client_name ?? "");
+  const [clientAddress, setClientAddress] = useState(quotation?.address ?? "");
+  const [clientGstNumber, setClientGstNumber] = useState(quotation?.gst_number ?? "");
   const [gstPercent, setGstPercent] = useState(quotation?.gst_percent ?? 18);
   const [discountType, setDiscountType] = useState<"amount" | "percent">(quotation?.discount_type ?? "amount");
   const [discountValue, setDiscountValue] = useState(Number(quotation?.discount_value ?? 0));
@@ -65,6 +70,15 @@ export function QuotationForm({
       ...current,
       [index]: { rate: String(Number(product.rate || 0)), per: product.unit || "Nos", factor: "1" },
     }));
+  }
+
+  function applyClient(value: string) {
+    setClientName(value);
+    const client = clientOptions.find((option) => normalize(option.name) === normalize(value));
+    if (!client) return;
+    setClientName(client.name);
+    setClientAddress(client.address || "");
+    setClientGstNumber(client.gst_number || "");
   }
 
   function alternateRateFor(index: number, source = alternateRates): AlternateRate {
@@ -112,9 +126,21 @@ export function QuotationForm({
     <form onSubmit={handleSubmit} className="space-y-6">
       <input type="hidden" name="items" value={JSON.stringify(totals.items)} />
       <section className="grid gap-4 rounded-md border border-[#d8dfd7] bg-white p-4 sm:grid-cols-2">
-        <Field label="Client name" name="client_name" defaultValue={quotation?.client_name} required />
+        <Field
+          label="Client name"
+          name="client_name"
+          list="quotation-clients"
+          value={clientName}
+          onChange={(event) => applyClient(event.target.value)}
+          required
+        />
         <Field label="Project name" name="project_name" defaultValue={quotation?.project_name} required />
-        <Field label="GST number" name="gst_number" defaultValue={quotation?.gst_number} />
+        <Field
+          label="GST number"
+          name="gst_number"
+          value={clientGstNumber}
+          onChange={(event) => setClientGstNumber(event.target.value)}
+        />
         <Field
           label="Date"
           name="quote_date"
@@ -126,12 +152,20 @@ export function QuotationForm({
           <span className="text-sm font-semibold">Address</span>
           <textarea
             name="address"
-            defaultValue={quotation?.address}
+            value={clientAddress}
+            onChange={(event) => setClientAddress(event.target.value)}
             required
             rows={3}
             className="mt-1 w-full rounded-md border border-[#cdd6cf] px-3 py-2 outline-none focus:border-[#1f6f50]"
           />
         </label>
+        <datalist id="quotation-clients">
+          {clientOptions.map((client) => (
+            <option key={client.id} value={client.name}>
+              {client.gst_number || client.address || "Synced client"}
+            </option>
+          ))}
+        </datalist>
         <label className="flex items-center gap-2 rounded-md border border-[#d8dfd7] bg-[#f8faf7] px-3 py-2 sm:col-span-2">
           <input
             type="checkbox"
@@ -349,6 +383,13 @@ export type ProductOption = {
   size: string | null;
   thickness: string | null;
   category: string | null;
+};
+
+export type ClientOption = {
+  id: string;
+  name: string;
+  address: string | null;
+  gst_number: string | null;
 };
 
 function normalize(value: string) {

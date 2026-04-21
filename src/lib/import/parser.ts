@@ -22,6 +22,10 @@ export async function parseImportRows(input: ParserInput) {
   const canSkipAi = productRows.length > 0 && !(input.files ?? []).length;
   let rows = mergeRows(productRows, fallbackRows);
 
+  if ((input.files ?? []).length && !process.env.OPENAI_API_KEY) {
+    throw new Error("AI import is not configured. Add OPENAI_API_KEY in production environment variables.");
+  }
+
   if (!canSkipAi && process.env.OPENAI_API_KEY) {
     try {
       rows = mergeRows(rows, await parseWithOpenAIInChunks(input));
@@ -34,6 +38,10 @@ export async function parseImportRows(input: ParserInput) {
         confidence: Math.min(row.confidence ?? 0.35, 0.35),
       }));
     }
+  }
+
+  if (!rows.length && ((input.files ?? []).length || input.text?.trim())) {
+    throw new Error("No quotation rows could be extracted. Try a clearer image, crop the table area, or paste the text.");
   }
 
   return matchProducts(rows, input.products ?? [], input.aliases ?? []);
@@ -115,13 +123,39 @@ async function parseWithOpenAI(input: ParserInput) {
 
   if (!response.ok) {
     const detail = await response.text();
-    throw new Error(`AI extraction failed: ${detail}`);
+    throw new Error(readableOpenAiError(detail, response.status));
   }
 
   const payload = await response.json();
   const json = extractOutputText(payload);
   const parsed = JSON.parse(json) as { rows: unknown[] };
   return importRowsSchema.parse(parsed.rows);
+}
+
+function readableOpenAiError(detail: string, status: number) {
+  let message = "";
+  try {
+    const parsed = JSON.parse(detail) as { error?: { message?: string; code?: string; type?: string } };
+    message = parsed.error?.message || parsed.error?.code || parsed.error?.type || "";
+  } catch {
+    message = detail;
+  }
+
+  const normalized = message.toLowerCase();
+  if (status === 401 || normalized.includes("api key")) {
+    return "AI import is not configured correctly. Check OPENAI_API_KEY in the deployment environment.";
+  }
+  if (status === 413 || normalized.includes("too large") || normalized.includes("maximum")) {
+    return "The image/PDF upload is too large for AI import. Upload fewer or smaller files.";
+  }
+  if (status === 429 || normalized.includes("rate limit")) {
+    return "AI import is temporarily rate-limited. Please retry after a minute.";
+  }
+  if (status >= 500) {
+    return "AI import service is temporarily unavailable. Please retry.";
+  }
+
+  return `AI extraction failed: ${message.slice(0, 240) || `HTTP ${status}`}`;
 }
 
 function parseWithProductDatabase(

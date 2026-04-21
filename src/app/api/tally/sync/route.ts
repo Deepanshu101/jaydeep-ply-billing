@@ -363,20 +363,15 @@ async function syncLedgers(supabase: Awaited<ReturnType<typeof createClient>>, r
   const existingCustomers = await loadExistingIds(supabase, "customers");
   const errors: string[] = [];
   let debtorLedgers = 0;
+  let addressesImported = 0;
   let count = 0;
   for (const ledger of ledgers) {
     const name = getName(ledger);
     const group = nodeText(ledger.PARENT);
     if (!name || !isClientLedger(group)) continue;
     debtorLedgers += 1;
-    const address = [
-      ...asArray(ledger["ADDRESS.LIST"] as unknown[] | undefined),
-      ...asArray(ledger.ADDRESSLIST as unknown[] | undefined),
-    ]
-      .flatMap((item) => asArray((item as Record<string, unknown>)?.ADDRESS as unknown[] | undefined))
-      .map(nodeText)
-      .filter(Boolean)
-      .join(", ");
+    const address = extractLedgerAddress(ledger);
+    if (address) addressesImported += 1;
     const gst = nodeText(ledger.GSTIN) || nodeText(ledger.PARTYGSTIN);
     const phone = nodeText(ledger.LEDGERPHONE) || nodeText(ledger.LEDGERMOBILE);
     const email = nodeText(ledger.EMAIL);
@@ -405,9 +400,49 @@ async function syncLedgers(supabase: Awaited<ReturnType<typeof createClient>>, r
     count,
     tallyLedgersFound: ledgers.length,
     debtorLedgersFound: debtorLedgers,
+    addressesImported,
     existingCustomersBeforeSync: existingCustomers.size,
     errors,
   };
+}
+
+function extractLedgerAddress(ledger: Record<string, unknown>) {
+  const lines = [
+    ...collectTextByKey(ledger, "ADDRESS"),
+    nodeText(ledger.LEDGERADDRESS),
+    nodeText(ledger.MAILINGADDRESS),
+    nodeText(ledger.PINCODE) ? `PIN: ${nodeText(ledger.PINCODE)}` : "",
+  ]
+    .map((line) => line.replace(/\s+/g, " ").trim())
+    .filter(Boolean);
+
+  return [...new Set(lines)].slice(0, 6).join(", ");
+}
+
+function collectTextByKey(value: unknown, wantedKey: string): string[] {
+  const found: string[] = [];
+  collectTextByKeyInto(value, wantedKey.toUpperCase(), found);
+  return found;
+}
+
+function collectTextByKeyInto(value: unknown, wantedKey: string, found: string[]) {
+  if (Array.isArray(value)) {
+    value.forEach((item) => collectTextByKeyInto(item, wantedKey, found));
+    return;
+  }
+  if (!value || typeof value !== "object") return;
+
+  for (const [key, child] of Object.entries(value as Record<string, unknown>)) {
+    if (key.toUpperCase() === wantedKey) {
+      if (Array.isArray(child)) {
+        child.map(nodeText).filter(Boolean).forEach((text) => found.push(text));
+      } else {
+        const text = nodeText(child);
+        if (text) found.push(text);
+      }
+    }
+    collectTextByKeyInto(child, wantedKey, found);
+  }
 }
 
 async function syncStockItems(supabase: Awaited<ReturnType<typeof createClient>>, root: unknown) {

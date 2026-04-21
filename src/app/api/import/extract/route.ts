@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import type { PricingRule, Product } from "@/lib/types";
 
 export const runtime = "nodejs";
+export const maxDuration = 60;
 
 export async function POST(request: Request) {
   try {
@@ -162,9 +163,30 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ batch_id: batch.id, rows, warning: productContext.warning });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Import extraction failed.";
+    console.error("[Import extraction failed]", error);
+    const message = publicImportError(error);
     return NextResponse.json({ error: message }, { status: 500 });
   }
+}
+
+function publicImportError(error: unknown) {
+  const message = error instanceof Error ? error.message : "Import extraction failed.";
+  const normalized = message.toLowerCase();
+
+  if (normalized.includes("openai_api_key") || normalized.includes("api key")) {
+    return "AI import is not configured on the live site. Add OPENAI_API_KEY in deployment environment variables and redeploy.";
+  }
+  if (normalized.includes("too large") || normalized.includes("maximum") || normalized.includes("413")) {
+    return "The upload is too large for online import. Upload fewer/cropped images and try again.";
+  }
+  if (normalized.includes("rate limit")) {
+    return "AI import is temporarily rate-limited. Please wait a minute and try again.";
+  }
+  if (normalized.includes("no quotation rows") || normalized.includes("no local fallback")) {
+    return "No quotation rows could be extracted. Try a clearer/cropped image or paste the text.";
+  }
+
+  return message.length > 240 ? `${message.slice(0, 240)}...` : message;
 }
 
 function isMissingImportTable(message: string) {

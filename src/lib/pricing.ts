@@ -22,7 +22,6 @@ export function applyPricing(rows: ImportRow[], products: Product[] = [], rules:
       category: row.category ?? product?.category ?? null,
       size: row.size ?? product?.size ?? null,
       thickness: row.thickness ?? product?.thickness ?? null,
-      raw_text: [row.raw_text, `Pricing: base ${baseRate}, margin ${margin}%`].filter(Boolean).join("\n"),
     };
   });
 }

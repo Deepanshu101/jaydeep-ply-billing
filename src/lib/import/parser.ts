@@ -95,8 +95,6 @@ async function parseWithOpenAI(input: ParserInput) {
   for (const file of input.files ?? []) {
     if (file.mimeType.startsWith("image/")) {
       content.push({ type: "input_image", image_url: file.dataUrl });
-    } else if (file.mimeType === "application/pdf") {
-      content.push({ type: "input_file", filename: file.name, file_data: file.dataUrl });
     }
   }
 
@@ -272,31 +270,206 @@ function extractOutputText(payload: unknown): string {
 }
 
 function fallbackParse(text: string): ImportRow[] {
+  const structuredRows = parseStructuredTableText(text);
+  if (structuredRows.length) return structuredRows;
+
   const lines = text
     .split(/\r?\n/)
     .map((line) => line.trim())
+    .filter((line) => line && !isNoiseLine(line));
+
+  return lines
+    .filter((line) => looksLikeItemLine(line))
+    .map((line) => {
+      const numbers = line.match(/\d+(?:\.\d+)?/g)?.map(Number) ?? [];
+      const qty = numbers[0] ?? null;
+      const rate = numbers.length > 1 ? numbers[numbers.length - 2] : null;
+      const amount = numbers.length > 1 ? numbers[numbers.length - 1] : qty && rate ? qty * rate : null;
+      return {
+        item_name: line.replace(/\s+\d.*$/, "").trim() || line,
+        description: line,
+        qty,
+        unit: detectUnit(line),
+        rate,
+        amount,
+        brand: null,
+        size: detectSize(line),
+        thickness: detectThickness(line),
+        category: null,
+        confidence: 0.35,
+        raw_text: line,
+      };
+    });
+}
+
+function parseStructuredTableText(text: string): ImportRow[] {
+  const lines = text
+    .split(/\r?\n/)
+    .map((line) => line.replace(/\u0000/g, " ").trim())
     .filter(Boolean);
 
-  return lines.map((line) => {
-    const numbers = line.match(/\d+(?:\.\d+)?/g)?.map(Number) ?? [];
-    const qty = numbers[0] ?? null;
-    const rate = numbers.length > 1 ? numbers[numbers.length - 2] : null;
-    const amount = numbers.length > 1 ? numbers[numbers.length - 1] : qty && rate ? qty * rate : null;
-    return {
-      item_name: line.replace(/\s+\d.*$/, "").trim() || line,
-      description: line,
-      qty,
-      unit: line.match(/\b(sqft|nos|pcs|sheet|box|kg|ft|mm)\b/i)?.[0] ?? null,
-      rate,
-      amount,
-      brand: null,
-      size: line.match(/\b\d+\s?x\s?\d+(?:\s?x\s?\d+)?\b/i)?.[0] ?? null,
-      thickness: line.match(/\b\d+(?:\.\d+)?\s?mm\b/i)?.[0] ?? null,
-      category: null,
-      confidence: 0.35,
-      raw_text: line,
-    };
-  });
+  const rows: ImportRow[] = [];
+  let index = 0;
+
+  while (index < lines.length) {
+    const line = lines[index];
+    if (isFooterLine(line)) break;
+    if (!/^\d+$/.test(line)) {
+      index += 1;
+      continue;
+    }
+
+    const block: string[] = [line];
+    index += 1;
+    while (index < lines.length && !/^\d+$/.test(lines[index]) && !isFooterLine(lines[index])) {
+      block.push(lines[index]);
+      index += 1;
+    }
+
+    const parsed = parseStructuredBlock(block);
+    if (parsed) rows.push(parsed);
+  }
+
+  return rows;
+}
+
+function parseStructuredBlock(block: string[]): ImportRow | null {
+  const lines = block.map((line) => line.trim()).filter(Boolean);
+  if (lines.length < 2) return null;
+
+  const serial = lines.shift();
+  if (!serial || !/^\d+$/.test(serial)) return null;
+
+  while (lines.length && isShortReqnToken(lines[0])) lines.shift();
+
+  const values = [...lines];
+  const amount = takeTrailingNumber(values);
+  const schedule = takeTrailingSchedule(values);
+  const rate = takeTrailingNumber(values);
+  const unit = takeTrailingUnit(values);
+  const qty = takeTrailingNumber(values);
+  const description = values.filter((line) => !isNoiseLine(line)).join(" ").replace(/\s+/g, " ").trim();
+
+  if (!description || !looksLikeItemDescription(description)) return null;
+
+  return {
+    item_name: description,
+    description,
+    qty,
+    unit,
+    rate,
+    amount,
+    brand: null,
+    size: detectSize(description),
+    thickness: detectThickness(description),
+    category: null,
+    confidence: schedule ? 0.72 : 0.7,
+    raw_text: block.join(" | "),
+  };
+}
+
+function takeTrailingNumber(values: string[]) {
+  if (!values.length) return null;
+  const last = values[values.length - 1];
+  if (!isNumberToken(last)) return null;
+  values.pop();
+  return parseNumberToken(last);
+}
+
+function takeTrailingUnit(values: string[]) {
+  if (!values.length) return null;
+  const last = values[values.length - 1];
+  const unit = detectUnit(last);
+  if (!unit || normalize(last) !== normalize(unit)) return null;
+  values.pop();
+  return unit;
+}
+
+function takeTrailingSchedule(values: string[]) {
+  if (!values.length) return null;
+  const last = values[values.length - 1];
+  if (!isScheduleToken(last)) return null;
+  values.pop();
+  return last;
+}
+
+function isNoiseLine(line: string) {
+  const value = normalize(line);
+  return (
+    !value ||
+    [
+      "sr no",
+      "our reqn no",
+      "description",
+      "qty",
+      "um",
+      "unit rate rs",
+      "amount rs",
+      "dly schedule",
+      "dd mm yyyy",
+      "sub total",
+      "gst",
+      "gst percent",
+      "grand total",
+    ].includes(value)
+  );
+}
+
+function isFooterLine(line: string) {
+  const value = normalize(line);
+  return (
+    value.startsWith("delivery at") ||
+    value.startsWith("for partition work") ||
+    value.startsWith("any clarification") ||
+    value === "sub total" ||
+    value === "gst" ||
+    value === "gst percent" ||
+    value === "grand total"
+  );
+}
+
+function isShortReqnToken(line: string) {
+  return /^[a-z0-9/-]{1,4}$/i.test(line.trim());
+}
+
+function isNumberToken(line: string) {
+  return /^\d+(?:,\d{3})*(?:\.\d+)?$/.test(line.trim());
+}
+
+function parseNumberToken(line: string) {
+  const value = Number(line.replace(/,/g, "").trim());
+  return Number.isFinite(value) ? value : null;
+}
+
+function isScheduleToken(line: string) {
+  return /^(urgent|\d{2}\/\d{2}\/\d{4})$/i.test(line.trim());
+}
+
+function looksLikeItemDescription(line: string) {
+  const value = normalize(line);
+  if (value.length < 3) return false;
+  if (isNoiseLine(line) || isFooterLine(line)) return false;
+  return /[a-z]/i.test(line);
+}
+
+function looksLikeItemLine(line: string) {
+  if (isNoiseLine(line) || isFooterLine(line)) return false;
+  const value = normalize(line);
+  if (/^\d+$/.test(value)) return false;
+  if (isNumberToken(line) || isScheduleToken(line)) return false;
+  return /[a-z]/i.test(line);
+}
+
+function detectUnit(line: string) {
+  return line.match(/\b(sqft|sq ft|nos|no|pcs|pc|piece|sheet|box|kg|ft|mm)\b/i)?.[0] ?? null;
+}
+
+function detectSize(line: string) {
+  return line.match(/\b\d+\s?(?:x|X)\s?\d+(?:\s?(?:x|X)\s?\d+)?\b/)?.[0] ?? null;
+}
+
+function detectThickness(line: string) {
+  return line.match(/\b\d+(?:\.\d+)?\s?mm\b/i)?.[0] ?? null;
 }
 
 function matchProducts(

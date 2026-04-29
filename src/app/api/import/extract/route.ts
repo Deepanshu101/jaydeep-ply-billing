@@ -17,39 +17,49 @@ export async function POST(request: Request) {
     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     async function loadProductContext() {
-      const [
-        { data: products, error: productsError },
-        { data: aliases, error: aliasesError },
-        { data: pricingRules, error: pricingRulesError },
-      ] = await Promise.all([
-        supabase.from("products").select("*").eq("is_active", true),
-        supabase.from("product_aliases").select("product_id, alias, products(*)"),
-        supabase.from("pricing_rules").select("*").eq("is_active", true),
-      ]);
+      try {
+        const [
+          { data: products, error: productsError },
+          { data: aliases, error: aliasesError },
+          { data: pricingRules, error: pricingRulesError },
+        ] = await Promise.all([
+          supabase.from("products").select("*").eq("is_active", true),
+          supabase.from("product_aliases").select("product_id, alias, products(*)"),
+          supabase.from("pricing_rules").select("*").eq("is_active", true),
+        ]);
 
-      if (
-        (productsError?.message && isMissingImportTable(productsError.message)) ||
-        (aliasesError?.message && isMissingImportTable(aliasesError.message)) ||
-        (pricingRulesError?.message && isMissingImportTable(pricingRulesError.message))
-      ) {
+        if (
+          (productsError?.message && isMissingImportTable(productsError.message)) ||
+          (aliasesError?.message && isMissingImportTable(aliasesError.message)) ||
+          (pricingRulesError?.message && isMissingImportTable(pricingRulesError.message))
+        ) {
+          return {
+            products: [] as Product[],
+            aliases: [] as { product_id: string; alias: string; products?: Product | Product[] | null }[],
+            pricingRules: [] as PricingRule[],
+            warning: "Product matching is off until you run the latest supabase/schema.sql.",
+          };
+        }
+
+        if (productsError) throw productsError;
+        if (aliasesError) throw aliasesError;
+        if (pricingRulesError) throw pricingRulesError;
+
+        return {
+          products: (products ?? []) as Product[],
+          aliases: (aliases ?? []) as { product_id: string; alias: string; products?: Product | Product[] | null }[],
+          pricingRules: (pricingRules ?? []) as PricingRule[],
+          warning: null,
+        };
+      } catch (error) {
+        console.warn("[Import product context warning]", error);
         return {
           products: [] as Product[],
           aliases: [] as { product_id: string; alias: string; products?: Product | Product[] | null }[],
           pricingRules: [] as PricingRule[],
-          warning: "Product matching is off until you run the latest supabase/schema.sql.",
+          warning: "Product matching and pricing memory are temporarily unavailable. Rows were extracted without master lookups.",
         };
       }
-
-      if (productsError) throw productsError;
-      if (aliasesError) throw aliasesError;
-      if (pricingRulesError) throw pricingRulesError;
-
-      return {
-        products: (products ?? []) as Product[],
-        aliases: (aliases ?? []) as { product_id: string; alias: string; products?: Product | Product[] | null }[],
-        pricingRules: (pricingRules ?? []) as PricingRule[],
-        warning: null,
-      };
     }
 
     const formData = await request.formData();
@@ -57,35 +67,47 @@ export async function POST(request: Request) {
     const text = String(formData.get("text") || "");
     const uploadedFiles = formData.getAll("files").filter((value): value is File => value instanceof File && value.size > 0);
     const extractedPdfText: string[] = [];
-    const files = await Promise.all(
-      uploadedFiles.map(async (file) => {
-        const buffer = Buffer.from(await file.arrayBuffer());
-        let useFileForAi = true;
-        if (file.type === "application/pdf") {
-          let parser: PDFParse | null = null;
-          try {
-            parser = new PDFParse({ data: buffer });
-            const parsedPdf = await parser.getText();
-            if (parsedPdf.text.trim()) {
-              extractedPdfText.push(`PDF ${file.name}\n${parsedPdf.text}`);
-              useFileForAi = false;
-            }
-          } catch {
-            extractedPdfText.push(`PDF ${file.name}\nSelectable text could not be read; AI file parsing will be used.`);
-          } finally {
-            await parser?.destroy();
+    const pdfWarnings: string[] = [];
+    const aiFiles: { name: string; mimeType: string; dataUrl: string }[] = [];
+
+    for (const file of uploadedFiles) {
+      const buffer = Buffer.from(await file.arrayBuffer());
+      if (file.type === "application/pdf") {
+        const parsedPdfText = await extractPdfText(buffer);
+        if (isUsefulPdfText(parsedPdfText)) {
+          extractedPdfText.push(`PDF ${file.name}\n${parsedPdfText}`);
+        } else {
+          const screenshots = await extractPdfScreenshots(buffer, file.name);
+          if (screenshots.length) {
+            aiFiles.push(...screenshots);
+            pdfWarnings.push(`${file.name}: using page images because selectable PDF text was not usable.`);
+          } else if (parsedPdfText) {
+            extractedPdfText.push(`PDF ${file.name}\n${parsedPdfText}`);
+            pdfWarnings.push(`${file.name}: PDF text looked weak, but screenshot fallback was unavailable.`);
+          } else {
+            pdfWarnings.push(`${file.name}: no selectable text was found in the PDF.`);
           }
         }
-        if (!useFileForAi) return null;
-        return {
-          name: file.name,
-          mimeType: file.type || "application/octet-stream",
-          dataUrl: `data:${file.type};base64,${buffer.toString("base64")}`,
-        };
-      }),
-    );
+        continue;
+      }
+
+      aiFiles.push({
+        name: file.name,
+        mimeType: file.type || "application/octet-stream",
+        dataUrl: `data:${file.type};base64,${buffer.toString("base64")}`,
+      });
+    }
+
     const parserText = [text, ...extractedPdfText].filter(Boolean).join("\n\n");
-    const aiFiles = files.filter((file): file is NonNullable<(typeof files)[number]> => file !== null);
+    if (sourceType === "pdf" && !parserText.trim() && !aiFiles.length) {
+      return NextResponse.json(
+        {
+          error:
+            "This PDF does not contain readable selectable text. Upload the PDF pages as images or paste the text for import.",
+        },
+        { status: 400 },
+      );
+    }
 
     const productContext = await loadProductContext();
     const normalizedAliases = productContext.aliases.map((alias) => ({
@@ -113,14 +135,18 @@ export async function POST(request: Request) {
       .select("id")
       .single();
     if (batchError) {
-      if (isMissingImportTable(batchError.message)) {
-        return NextResponse.json({
-          batch_id: null,
-          rows,
-          warning: "Rows extracted for review. Run supabase/schema.sql to enable import batch saving and product matching.",
-        });
-      }
-      throw batchError;
+      console.warn("[Import batch save warning]", batchError);
+      return NextResponse.json({
+        batch_id: null,
+        rows,
+        warning: [
+          productContext.warning,
+          "Rows extracted for review, but import batch saving is unavailable until the latest Supabase schema is applied.",
+          ...pdfWarnings,
+        ]
+          .filter(Boolean)
+          .join(" "),
+      });
     }
 
     if (rows.length) {
@@ -147,26 +173,91 @@ export async function POST(request: Request) {
         )
         .select("id");
       if (rowsError) {
-        if (isMissingImportTable(rowsError.message)) {
-          return NextResponse.json({
-            batch_id: batch.id,
-            rows,
-            warning: "Rows extracted for review. Run supabase/schema.sql to enable saving import rows.",
-          });
-        }
-        throw rowsError;
+        console.warn("[Import rows save warning]", rowsError);
+        return NextResponse.json({
+          batch_id: batch.id,
+          rows,
+          warning: [
+            productContext.warning,
+            "Rows extracted for review, but saving import rows is unavailable until the latest Supabase schema is applied.",
+            ...pdfWarnings,
+          ]
+            .filter(Boolean)
+            .join(" "),
+        });
       }
       rows.forEach((row, index) => {
         row.id = savedRows?.[index]?.id;
       });
     }
 
-    return NextResponse.json({ batch_id: batch.id, rows, warning: productContext.warning });
+    return NextResponse.json({
+      batch_id: batch.id,
+      rows,
+      warning: [productContext.warning, ...pdfWarnings].filter(Boolean).join(" "),
+    });
   } catch (error) {
     console.error("[Import extraction failed]", error);
     const message = publicImportError(error);
     return NextResponse.json({ error: message }, { status: 500 });
   }
+}
+
+async function extractPdfText(buffer: Buffer) {
+  let parser: PDFParse | null = null;
+  try {
+    parser = new PDFParse({ data: buffer });
+    const parsedPdf = await parser.getText();
+    return normalizePdfText(parsedPdf.text || "");
+  } catch (error) {
+    console.warn("[PDF text extraction warning]", error);
+    return "";
+  } finally {
+    await parser?.destroy();
+  }
+}
+
+async function extractPdfScreenshots(buffer: Buffer, fileName: string) {
+  let parser: PDFParse | null = null;
+  try {
+    parser = new PDFParse({ data: buffer });
+    const screenshots = await parser.getScreenshot({
+      first: 4,
+      desiredWidth: 1200,
+      imageDataUrl: true,
+      imageBuffer: false,
+    });
+
+    return screenshots.pages
+      .filter((page) => typeof page.dataUrl === "string" && page.dataUrl.startsWith("data:image/"))
+      .map((page) => ({
+        name: `${fileName} page ${page.pageNumber}.png`,
+        mimeType: "image/png",
+        dataUrl: page.dataUrl,
+      }));
+  } catch (error) {
+    console.warn("[PDF screenshot fallback warning]", error);
+    return [];
+  } finally {
+    await parser?.destroy();
+  }
+}
+
+function isUsefulPdfText(value: string) {
+  const text = normalizePdfText(value);
+  if (text.length < 80) return false;
+  const signal = text.replace(/--\s*\d+\s+of\s+\d+\s*--/gi, "").trim();
+  const alphaNumericHits = (signal.match(/[a-z0-9]/gi) ?? []).length;
+  const words = signal.split(/\s+/).filter(Boolean);
+  return alphaNumericHits >= 40 && words.length >= 12;
+}
+
+function normalizePdfText(value: string) {
+  return value
+    .replace(/\u0000/g, " ")
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 }
 
 function publicImportError(error: unknown) {

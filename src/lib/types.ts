@@ -34,6 +34,7 @@ export type Quotation = {
   discount_type?: "amount" | "percent";
   discount_value?: number;
   discount_amount?: number;
+  expected_margin_percent?: number | null;
   gst_percent: number;
   cgst: number;
   sgst: number;

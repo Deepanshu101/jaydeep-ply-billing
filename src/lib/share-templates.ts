@@ -1,9 +1,51 @@
+type QuotationShareInput = {
+  quotationNo: string;
+  clientName: string;
+  projectName?: string;
+  grandTotal?: number;
+  pdfUrl: string;
+};
+
 export const quotationShareTemplates = {
-  whatsapp:
-    "Dear Sir/Madam,\n\nPlease find the quotation below for your kind reference.\n\nKindly review the same and let us know in case of any queries or required changes.\n\nRegards,\nJaydeep Ply",
   emailSubject: "Quotation from Jaydeep Ply",
-  emailBody:
-    "Dear Sir/Madam,\n\nPlease find the quotation below for your kind reference.\n\nKindly review the same and let us know if any clarification, modification, or additional requirement is needed.\n\nWe shall be glad to assist you.\n\nRegards,\nJaydeep Ply",
+  whatsapp({ quotationNo, clientName, projectName, grandTotal, pdfUrl }: QuotationShareInput) {
+    return [
+      "Dear Sir/Madam,",
+      "",
+      `Please find our quotation ${quotationNo}${projectName ? ` for ${projectName}` : ""} for your kind review.`,
+      grandTotal ? `Quoted amount: ${inr(grandTotal)}` : "",
+      clientName ? `Client: ${clientName}` : "",
+      "",
+      "Kindly review the same and let us know in case of any queries, clarification, or required changes.",
+      "",
+      pdfUrl,
+      "",
+      "Regards,",
+      "Jaydeep Ply",
+    ]
+      .filter(Boolean)
+      .join("\n");
+  },
+  emailBody({ quotationNo, clientName, projectName, grandTotal, pdfUrl }: QuotationShareInput) {
+    return [
+      "Dear Sir/Madam,",
+      "",
+      `Please find our quotation ${quotationNo}${projectName ? ` for ${projectName}` : ""} for your kind reference.`,
+      grandTotal ? `Quoted amount: ${inr(grandTotal)}` : "",
+      clientName ? `Client: ${clientName}` : "",
+      "",
+      "Kindly review the same and let us know if any clarification, modification, or additional requirement is needed.",
+      "",
+      pdfUrl,
+      "",
+      "We shall be glad to assist you.",
+      "",
+      "Regards,",
+      "Jaydeep Ply",
+    ]
+      .filter(Boolean)
+      .join("\n");
+  },
 };
 
 export const communicationTemplates = {
@@ -20,3 +62,10 @@ export const communicationTemplates = {
   sternPaymentReminder:
     "Dear Sir/Madam,\n\nThis is a follow-up regarding the overdue payment pending against your account.\n\nWe request you to clear the outstanding amount immediately to avoid further escalation.\n\nRegards,\nJaydeep Ply",
 };
+
+function inr(value: number) {
+  return `Rs. ${Number(value || 0).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
+}

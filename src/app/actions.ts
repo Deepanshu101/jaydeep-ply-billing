@@ -22,6 +22,7 @@ function parseQuotationForm(formData: FormData) {
     gst_percent: formData.get("gst_percent"),
     discount_type: formData.get("discount_type") || "amount",
     discount_value: formData.get("discount_value") || 0,
+    expected_margin_percent: formData.get("expected_margin_percent") || 15,
     terms: formData.get("terms"),
     items: JSON.parse(rawItems),
   });
@@ -85,6 +86,7 @@ export async function createQuotation(formData: FormData) {
       discount_type: totals.discount_type,
       discount_value: totals.discount_value,
       discount_amount: totals.discount_amount,
+      expected_margin_percent: input.expected_margin_percent,
       cgst: totals.cgst,
       sgst: totals.sgst,
       grand_total: totals.grand_total,
@@ -136,6 +138,7 @@ export async function updateQuotation(id: string, formData: FormData) {
       discount_type: totals.discount_type,
       discount_value: totals.discount_value,
       discount_amount: totals.discount_amount,
+      expected_margin_percent: input.expected_margin_percent,
       cgst: totals.cgst,
       sgst: totals.sgst,
       grand_total: totals.grand_total,

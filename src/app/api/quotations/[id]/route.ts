@@ -36,6 +36,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       discount_type: totals.discount_type,
       discount_value: totals.discount_value,
       discount_amount: totals.discount_amount,
+      expected_margin_percent: input.expected_margin_percent,
       cgst: totals.cgst,
       sgst: totals.sgst,
       grand_total: totals.grand_total,

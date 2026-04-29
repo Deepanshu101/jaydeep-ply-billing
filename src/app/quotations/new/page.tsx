@@ -29,6 +29,7 @@ async function loadProductOptions() {
         name: product.name,
         unit: product.unit,
         rate: product.base_rate,
+        baseRate: product.base_rate,
         brand: product.brand,
         size: product.size,
         thickness: product.thickness,

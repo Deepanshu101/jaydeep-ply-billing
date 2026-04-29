@@ -25,6 +25,18 @@ type AlternateRate = {
   factor: string;
 };
 
+type PricingMode = "dealer" | "project" | "retail" | "custom";
+type ItemPricing = {
+  baseRate: number;
+};
+
+const pricingPresets: Record<PricingMode, number> = {
+  dealer: 8,
+  project: 15,
+  retail: 22,
+  custom: 15,
+};
+
 export function QuotationForm({
   quotation,
   productOptions = [],
@@ -50,8 +62,11 @@ export function QuotationForm({
   const [gstPercent, setGstPercent] = useState(quotation?.gst_percent ?? 18);
   const [discountType, setDiscountType] = useState<"amount" | "percent">(quotation?.discount_type ?? "amount");
   const [discountValue, setDiscountValue] = useState(Number(quotation?.discount_value ?? 0));
+  const [pricingMode, setPricingMode] = useState<PricingMode>("project");
+  const [marginPercent, setMarginPercent] = useState(Number(quotation?.expected_margin_percent ?? pricingPresets.project));
   const [showShipTo, setShowShipTo] = useState(Boolean(quotation?.ship_to_enabled));
   const [alternateRates, setAlternateRates] = useState<Record<number, AlternateRate>>({});
+  const [itemPricing, setItemPricing] = useState<Record<number, ItemPricing>>({});
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const totals = useMemo(() => calculateTotals(items, gstPercent, discountValue, discountType), [items, gstPercent, discountValue, discountType]);
@@ -60,22 +75,75 @@ export function QuotationForm({
     setItems((current) => current.map((item, itemIndex) => (itemIndex === index ? { ...item, ...patch } : item)));
   }
 
+  function setBaseRate(index: number, baseRate: number) {
+    setItemPricing((current) => ({
+      ...current,
+      [index]: { baseRate: round(baseRate) },
+    }));
+  }
+
+  function itemBaseRate(index: number) {
+    const tracked = itemPricing[index]?.baseRate;
+    if (Number.isFinite(tracked)) return Number(tracked);
+    return Number(items[index]?.rate || 0);
+  }
+
+  function sellingRateFromBase(baseRate: number, margin = marginPercent) {
+    return round(Number(baseRate || 0) * (1 + Number(margin || 0) / 100));
+  }
+
   function applyProduct(index: number, value: string) {
     const product = productOptions.find((option) => normalize(option.name) === normalize(value));
     if (!product) {
       updateItem(index, { description: value });
       return;
     }
+    const baseRate = Number(product.baseRate ?? product.rate ?? 0);
+    const sellingRate = sellingRateFromBase(baseRate);
+    setBaseRate(index, baseRate);
     updateItem(index, {
       description: product.name,
       specification: [product.brand, product.size, product.thickness, product.category].filter(Boolean).join(" | "),
       unit: product.unit || "Nos",
-      rate: Number(product.rate || 0),
+      rate: sellingRate,
     });
     setAlternateRates((current) => ({
       ...current,
-      [index]: { rate: String(Number(product.rate || 0)), per: product.unit || "Nos", factor: "1" },
+      [index]: { rate: String(sellingRate), per: product.unit || "Nos", factor: "1" },
     }));
+  }
+
+  function applyPricingMode(nextMode: PricingMode) {
+    setPricingMode(nextMode);
+    const nextMargin = nextMode === "custom" ? marginPercent : pricingPresets[nextMode];
+    setMarginPercent(nextMargin);
+    applyMarginToAll(nextMargin);
+  }
+
+  function applyMarginToAll(nextMargin = marginPercent) {
+    setItems((current) =>
+      current.map((item, index) => {
+        const baseRate = itemBaseRate(index);
+        if (!baseRate) return item;
+        return {
+          ...item,
+          rate: sellingRateFromBase(baseRate, nextMargin),
+        };
+      }),
+    );
+    setAlternateRates((current) => {
+      const next = { ...current };
+      items.forEach((item, index) => {
+        const baseRate = itemBaseRate(index);
+        if (!baseRate) return;
+        next[index] = {
+          ...alternateRateFor(index, current),
+          rate: String(sellingRateFromBase(baseRate, nextMargin)),
+          per: item.unit || alternateRateFor(index, current).per,
+        };
+      });
+      return next;
+    });
   }
 
   function applyClient(client: ClientOption) {
@@ -133,6 +201,7 @@ export function QuotationForm({
     try {
       const formData = new FormData(event.currentTarget);
       formData.set("items", JSON.stringify(totals.items));
+      formData.set("expected_margin_percent", String(marginPercent));
       const response = await fetch(quotation ? `/api/quotations/${quotation.id}` : "/api/quotations", {
         method: quotation ? "PUT" : "POST",
         body: formData,
@@ -151,6 +220,7 @@ export function QuotationForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <input type="hidden" name="items" value={JSON.stringify(totals.items)} />
+      <input type="hidden" name="expected_margin_percent" value={String(marginPercent)} />
       <section className="grid gap-4 rounded-md border border-[#d8dfd7] bg-white p-4 sm:grid-cols-2">
         <div>
           <Field
@@ -238,6 +308,66 @@ export function QuotationForm({
         ) : null}
       </section>
 
+      <section className="rounded-md border border-[#d8dfd7] bg-white p-4">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <h2 className="text-lg font-bold">Pricing engine</h2>
+            <p className="text-sm text-[#5d6b60]">Choose selling mode, adjust margin, and update all item rates from product base rates.</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {(["dealer", "project", "retail", "custom"] as PricingMode[]).map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                onClick={() => applyPricingMode(mode)}
+                className={`rounded-md border px-3 py-2 text-sm font-semibold ${
+                  pricingMode === mode ? "border-[#1f6f50] bg-[#1f6f50] text-white" : "border-[#cdd6cf] bg-white text-[#1d2520]"
+                }`}
+              >
+                {labelForMode(mode)}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="mt-4 grid gap-4 lg:grid-cols-[1fr_180px_160px]">
+          <label className="block">
+            <span className="text-sm font-semibold">Margin slider</span>
+            <input
+              className="mt-2 w-full"
+              type="range"
+              min="0"
+              max="40"
+              step="0.5"
+              value={marginPercent}
+              onChange={(event) => {
+                setPricingMode("custom");
+                setMarginPercent(Number(event.target.value));
+              }}
+            />
+          </label>
+          <label className="block">
+            <span className="text-sm font-semibold">Margin %</span>
+            <input
+              className="mt-1 w-full rounded-md border border-[#cdd6cf] px-3 py-2 outline-none focus:border-[#1f6f50]"
+              type="number"
+              min="0"
+              max="100"
+              step="0.5"
+              value={marginPercent}
+              onChange={(event) => {
+                setPricingMode("custom");
+                setMarginPercent(Number(event.target.value));
+              }}
+            />
+          </label>
+          <div className="flex items-end">
+            <Button type="button" variant="secondary" onClick={() => applyMarginToAll()}>
+              Apply to all items
+            </Button>
+          </div>
+        </div>
+      </section>
+
       <section className="overflow-hidden rounded-md border border-[#d8dfd7] bg-white">
         <div className="flex flex-col gap-3 border-b border-[#d8dfd7] p-4 sm:flex-row sm:items-center sm:justify-between">
           <h2 className="text-lg font-bold">Items</h2>
@@ -298,6 +428,25 @@ export function QuotationForm({
                     </td>
                     <td className="w-56 px-3 py-2">
                       <div className="rounded-md border border-[#cdd6cf] bg-white p-2">
+                        <div className="mb-1 flex items-center justify-between text-[11px] text-[#5d6b61]">
+                          <span>Base: {inr(itemBaseRate(index))}</span>
+                          <button
+                            type="button"
+                            className="font-semibold text-[#1f6f50]"
+                            onClick={() => {
+                              const baseRate = itemBaseRate(index);
+                              if (!baseRate) return;
+                              const sellingRate = sellingRateFromBase(baseRate);
+                              updateItem(index, { rate: sellingRate });
+                              setAlternateRates((current) => ({
+                                ...current,
+                                [index]: { ...alternateRateFor(index, current), rate: String(sellingRate) },
+                              }));
+                            }}
+                          >
+                            Apply mode
+                          </button>
+                        </div>
                         <div className="grid grid-cols-[1fr_74px] gap-1">
                           <input
                             className="rounded-md border border-[#cdd6cf] px-2 py-2"
@@ -331,7 +480,9 @@ export function QuotationForm({
                             <span>{alternateRate.per}</span>
                           </label>
                         ) : null}
-                        <p className="mt-1 text-[11px] text-[#5d6b61]">Billing rate: {inr(item.rate)} / {item.unit || "unit"}</p>
+                        <p className="mt-1 text-[11px] text-[#5d6b61]">
+                          Billing rate: {inr(item.rate)} / {item.unit || "unit"} | Margin: {marginPercent}%
+                        </p>
                       </div>
                     </td>
                     <td className="px-3 py-2 font-semibold">{inr(item.amount)}</td>
@@ -424,6 +575,7 @@ export type ProductOption = {
   name: string;
   unit: string;
   rate: number | null;
+  baseRate?: number | null;
   brand: string | null;
   size: string | null;
   thickness: string | null;
@@ -439,6 +591,13 @@ export type ClientOption = {
 
 function normalize(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+}
+
+function labelForMode(mode: PricingMode) {
+  if (mode === "dealer") return "Dealer";
+  if (mode === "project") return "Project";
+  if (mode === "retail") return "Retail";
+  return "Custom";
 }
 
 function Field({ label, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) {

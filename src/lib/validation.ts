@@ -22,6 +22,7 @@ export const quotationSchema = z.object({
   gst_percent: z.coerce.number().min(0).max(100),
   discount_type: z.enum(["amount", "percent"]).default("amount"),
   discount_value: z.coerce.number().min(0).default(0),
+  expected_margin_percent: z.coerce.number().min(0).max(100).default(15),
   terms: z.string().min(1),
   items: z.array(lineItemSchema).min(1),
 });

@@ -30,6 +30,7 @@ export default async function EditQuotationPage({ params }: { params: Promise<{ 
           quotationNo={data.quotation_no}
           clientName={data.client_name}
           projectName={data.project_name}
+          grandTotal={data.grand_total}
           pdfUrl={pdfUrl}
         />
       </div>
@@ -65,6 +66,7 @@ async function loadProductOptions() {
         name: product.name,
         unit: product.unit,
         rate: product.base_rate,
+        baseRate: product.base_rate,
         brand: product.brand,
         size: product.size,
         thickness: product.thickness,

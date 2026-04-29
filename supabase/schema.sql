@@ -11,6 +11,7 @@ create or replace function public.next_document_number(p_doc_type text)
 returns text
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   y int := extract(year from current_date);
@@ -389,6 +390,7 @@ alter table public.invoices add column if not exists tally_request_xml text;
 create or replace function public.set_quotation_no()
 returns trigger
 language plpgsql
+set search_path = public
 as $$
 begin
   if new.quotation_no is null or new.quotation_no = '' then
@@ -402,6 +404,7 @@ $$;
 create or replace function public.set_invoice_no()
 returns trigger
 language plpgsql
+set search_path = public
 as $$
 begin
   if new.invoice_no is null or new.invoice_no = '' then
@@ -415,6 +418,7 @@ $$;
 create or replace function public.set_delivery_challan_no()
 returns trigger
 language plpgsql
+set search_path = public
 as $$
 begin
   if new.challan_no is null or new.challan_no = '' then
@@ -445,11 +449,19 @@ create index if not exists invoice_items_invoice_id_idx on public.invoice_items(
 create index if not exists delivery_challan_items_delivery_challan_id_idx on public.delivery_challan_items(delivery_challan_id);
 create index if not exists delivery_challans_challan_date_idx on public.delivery_challans(challan_date);
 create index if not exists delivery_challans_status_idx on public.delivery_challans(status);
+create index if not exists delivery_challans_customer_id_idx on public.delivery_challans(customer_id);
+create index if not exists delivery_challans_quotation_id_idx on public.delivery_challans(quotation_id);
 create index if not exists quotations_status_idx on public.quotations(status);
+create index if not exists quotations_customer_id_idx on public.quotations(customer_id);
+create index if not exists quotations_lead_id_idx on public.quotations(lead_id);
+create index if not exists quotations_opportunity_id_idx on public.quotations(opportunity_id);
 create index if not exists invoices_invoice_date_idx on public.invoices(invoice_date);
+create index if not exists invoices_customer_id_idx on public.invoices(customer_id);
+create index if not exists invoices_quotation_id_idx on public.invoices(quotation_id);
 create index if not exists products_search_idx on public.products using gin (to_tsvector('simple', coalesce(name, '') || ' ' || coalesce(brand, '') || ' ' || coalesce(category, '') || ' ' || coalesce(size, '') || ' ' || coalesce(thickness, '')));
 create unique index if not exists product_alias_unique_idx on public.product_aliases(product_id, alias);
 create index if not exists product_aliases_alias_idx on public.product_aliases(alias);
+create index if not exists import_batches_created_by_idx on public.import_batches(created_by);
 create index if not exists import_rows_batch_id_idx on public.import_rows(batch_id);
 create index if not exists import_rows_matched_product_id_idx on public.import_rows(matched_product_id);
 create index if not exists pricing_rules_product_id_idx on public.pricing_rules(product_id);
@@ -457,17 +469,32 @@ create index if not exists whatsapp_intake_message_id_idx on public.whatsapp_int
 create index if not exists whatsapp_intake_quotation_id_idx on public.whatsapp_intake(quotation_id);
 create index if not exists leads_status_idx on public.leads(status);
 create index if not exists leads_next_follow_up_idx on public.leads(next_follow_up_at);
+create index if not exists leads_customer_id_idx on public.leads(customer_id);
 create index if not exists opportunities_stage_idx on public.opportunities(stage);
+create index if not exists opportunities_lead_id_idx on public.opportunities(lead_id);
+create index if not exists opportunities_customer_id_idx on public.opportunities(customer_id);
+create index if not exists opportunities_quotation_id_idx on public.opportunities(quotation_id);
 create index if not exists communication_logs_follow_up_idx on public.communication_logs(follow_up_at);
+create index if not exists communication_logs_customer_id_idx on public.communication_logs(customer_id);
+create index if not exists communication_logs_quotation_id_idx on public.communication_logs(quotation_id);
+create index if not exists communication_logs_invoice_id_idx on public.communication_logs(invoice_id);
 create index if not exists sales_orders_status_idx on public.sales_orders(status);
+create index if not exists sales_orders_customer_id_idx on public.sales_orders(customer_id);
+create index if not exists sales_orders_quotation_id_idx on public.sales_orders(quotation_id);
 create index if not exists dispatches_status_idx on public.dispatches(status);
+create index if not exists dispatches_sales_order_id_idx on public.dispatches(sales_order_id);
+create index if not exists dispatches_invoice_id_idx on public.dispatches(invoice_id);
 create index if not exists payments_invoice_id_idx on public.payments(invoice_id);
+create index if not exists payments_customer_id_idx on public.payments(customer_id);
 create index if not exists payment_followups_status_idx on public.payment_followups(status);
+create index if not exists payment_followups_invoice_id_idx on public.payment_followups(invoice_id);
+create index if not exists payment_followups_customer_id_idx on public.payment_followups(customer_id);
 create index if not exists tally_sync_runs_created_at_idx on public.tally_sync_runs(created_at);
 create index if not exists product_rate_history_product_id_idx on public.product_rate_history(product_id);
 create index if not exists product_rate_history_customer_id_idx on public.product_rate_history(customer_id);
 create index if not exists product_rate_history_voucher_date_idx on public.product_rate_history(voucher_date);
 
+alter table public.document_counters enable row level security;
 alter table public.customers enable row level security;
 alter table public.quotations enable row level security;
 alter table public.quotation_items enable row level security;
@@ -513,26 +540,32 @@ drop policy if exists "authenticated payments" on public.payments;
 drop policy if exists "authenticated payment followups" on public.payment_followups;
 drop policy if exists "authenticated tally sync runs" on public.tally_sync_runs;
 drop policy if exists "authenticated product rate history" on public.product_rate_history;
+drop policy if exists "service role document counters" on public.document_counters;
 
-create policy "authenticated customers" on public.customers for all to authenticated using (true) with check (true);
-create policy "authenticated quotations" on public.quotations for all to authenticated using (true) with check (true);
-create policy "authenticated quotation items" on public.quotation_items for all to authenticated using (true) with check (true);
-create policy "authenticated invoices" on public.invoices for all to authenticated using (true) with check (true);
-create policy "authenticated invoice items" on public.invoice_items for all to authenticated using (true) with check (true);
-create policy "authenticated delivery challans" on public.delivery_challans for all to authenticated using (true) with check (true);
-create policy "authenticated delivery challan items" on public.delivery_challan_items for all to authenticated using (true) with check (true);
-create policy "authenticated products" on public.products for all to authenticated using (true) with check (true);
-create policy "authenticated product aliases" on public.product_aliases for all to authenticated using (true) with check (true);
-create policy "authenticated import batches" on public.import_batches for all to authenticated using (true) with check (true);
-create policy "authenticated import rows" on public.import_rows for all to authenticated using (true) with check (true);
-create policy "authenticated pricing rules" on public.pricing_rules for all to authenticated using (true) with check (true);
-create policy "authenticated whatsapp intake" on public.whatsapp_intake for all to authenticated using (true) with check (true);
-create policy "authenticated leads" on public.leads for all to authenticated using (true) with check (true);
-create policy "authenticated opportunities" on public.opportunities for all to authenticated using (true) with check (true);
-create policy "authenticated communication logs" on public.communication_logs for all to authenticated using (true) with check (true);
-create policy "authenticated sales orders" on public.sales_orders for all to authenticated using (true) with check (true);
-create policy "authenticated dispatches" on public.dispatches for all to authenticated using (true) with check (true);
-create policy "authenticated payments" on public.payments for all to authenticated using (true) with check (true);
-create policy "authenticated payment followups" on public.payment_followups for all to authenticated using (true) with check (true);
-create policy "authenticated tally sync runs" on public.tally_sync_runs for all to authenticated using (true) with check (true);
-create policy "authenticated product rate history" on public.product_rate_history for all to authenticated using (true) with check (true);
+create policy "service role document counters" on public.document_counters for all to service_role using (true) with check (true);
+create policy "authenticated customers" on public.customers for all to authenticated using (auth.uid() is not null) with check (auth.uid() is not null);
+create policy "authenticated quotations" on public.quotations for all to authenticated using (auth.uid() is not null) with check (auth.uid() is not null);
+create policy "authenticated quotation items" on public.quotation_items for all to authenticated using (auth.uid() is not null) with check (auth.uid() is not null);
+create policy "authenticated invoices" on public.invoices for all to authenticated using (auth.uid() is not null) with check (auth.uid() is not null);
+create policy "authenticated invoice items" on public.invoice_items for all to authenticated using (auth.uid() is not null) with check (auth.uid() is not null);
+create policy "authenticated delivery challans" on public.delivery_challans for all to authenticated using (auth.uid() is not null) with check (auth.uid() is not null);
+create policy "authenticated delivery challan items" on public.delivery_challan_items for all to authenticated using (auth.uid() is not null) with check (auth.uid() is not null);
+create policy "authenticated products" on public.products for all to authenticated using (auth.uid() is not null) with check (auth.uid() is not null);
+create policy "authenticated product aliases" on public.product_aliases for all to authenticated using (auth.uid() is not null) with check (auth.uid() is not null);
+create policy "authenticated import batches" on public.import_batches for all to authenticated using (auth.uid() is not null) with check (auth.uid() is not null);
+create policy "authenticated import rows" on public.import_rows for all to authenticated using (auth.uid() is not null) with check (auth.uid() is not null);
+create policy "authenticated pricing rules" on public.pricing_rules for all to authenticated using (auth.uid() is not null) with check (auth.uid() is not null);
+create policy "authenticated whatsapp intake" on public.whatsapp_intake for all to authenticated using (auth.uid() is not null) with check (auth.uid() is not null);
+create policy "authenticated leads" on public.leads for all to authenticated using (auth.uid() is not null) with check (auth.uid() is not null);
+create policy "authenticated opportunities" on public.opportunities for all to authenticated using (auth.uid() is not null) with check (auth.uid() is not null);
+create policy "authenticated communication logs" on public.communication_logs for all to authenticated using (auth.uid() is not null) with check (auth.uid() is not null);
+create policy "authenticated sales orders" on public.sales_orders for all to authenticated using (auth.uid() is not null) with check (auth.uid() is not null);
+create policy "authenticated dispatches" on public.dispatches for all to authenticated using (auth.uid() is not null) with check (auth.uid() is not null);
+create policy "authenticated payments" on public.payments for all to authenticated using (auth.uid() is not null) with check (auth.uid() is not null);
+create policy "authenticated payment followups" on public.payment_followups for all to authenticated using (auth.uid() is not null) with check (auth.uid() is not null);
+create policy "authenticated tally sync runs" on public.tally_sync_runs for all to authenticated using (auth.uid() is not null) with check (auth.uid() is not null);
+create policy "authenticated product rate history" on public.product_rate_history for all to authenticated using (auth.uid() is not null) with check (auth.uid() is not null);
+
+revoke execute on function public.next_document_number(text) from public;
+revoke execute on function public.next_document_number(text) from anon;
+revoke execute on function public.next_document_number(text) from authenticated;

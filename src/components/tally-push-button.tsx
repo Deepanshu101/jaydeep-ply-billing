@@ -14,6 +14,9 @@ type Readiness = {
   missingPartyLedger: boolean;
   missingLedgers: string[];
   missingStockItems: string[];
+  checked?: {
+    gstThroughSalesLedger?: boolean;
+  };
 };
 
 type AttemptedVariant = {
@@ -40,20 +43,23 @@ export function TallyPushButton({ invoiceId, projectName }: { invoiceId: string;
   const [sgstLedgerName, setSgstLedgerName] = useState("Output SGST");
   const [igstLedgerName, setIgstLedgerName] = useState("Output IGST");
   const [discountLedgerName, setDiscountLedgerName] = useState("");
-  const [voucherTypeName, setVoucherTypeName] = useState("Sales");
+  const [voucherTypeName, setVoucherTypeName] = useState("Sales GST");
   const [voucherSuffix, setVoucherSuffix] = useState("-STK");
   const [godownName, setGodownName] = useState("Main Location");
   const [inventoryMode, setInventoryMode] = useState(true);
   const [isInterstate, setIsInterstate] = useState(false);
+  const [gstThroughSalesLedger, setGstThroughSalesLedger] = useState(true);
   const [createMissingPartyLedger, setCreateMissingPartyLedger] = useState(true);
   const [createMissingStockItems, setCreateMissingStockItems] = useState(true);
   const [salesLedgers, setSalesLedgers] = useState<LedgerOption[]>([]);
   const [taxLedgers, setTaxLedgers] = useState<LedgerOption[]>([]);
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   const options = useMemo(
     () => ({
       voucherTypeName,
       salesLedgerName,
+      gstThroughSalesLedger,
       cgstLedgerName,
       sgstLedgerName,
       igstLedgerName,
@@ -72,6 +78,7 @@ export function TallyPushButton({ invoiceId, projectName }: { invoiceId: string;
     [
       voucherTypeName,
       salesLedgerName,
+      gstThroughSalesLedger,
       cgstLedgerName,
       sgstLedgerName,
       igstLedgerName,
@@ -93,7 +100,11 @@ export function TallyPushButton({ invoiceId, projectName }: { invoiceId: string;
       if (!response.ok || !payload.ok) throw new Error(payload.error || "Could not load Tally ledgers.");
       const ledgers = (payload.ledgers ?? []) as LedgerOption[];
       setSalesLedgers(ledgers);
-      if (ledgers[0]?.name) setSalesLedgerName((current) => current || ledgers[0].name);
+      const preferred =
+        ledgers.find((ledger) => /gst/i.test(ledger.name))?.name ??
+        ledgers.find((ledger) => /sales/i.test(ledger.name))?.name ??
+        ledgers[0]?.name;
+      if (preferred) setSalesLedgerName((current) => current || preferred);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Could not load Tally ledgers.");
     } finally {
@@ -121,19 +132,32 @@ export function TallyPushButton({ invoiceId, projectName }: { invoiceId: string;
     void loadTaxLedgers();
   }, [loadSalesLedgers, loadTaxLedgers]);
 
-  async function checkReadiness() {
-    setLoading(true);
-    setMessage("");
-    setDebug(null);
+  useEffect(() => {
+    if (!salesLedgerName.trim() || loadingLedgers) return;
+    void checkReadiness(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [salesLedgerName, loadingLedgers]);
+
+  useEffect(() => {
+    if (!salesLedgerName.trim()) return;
+    if (/gst/i.test(salesLedgerName)) setGstThroughSalesLedger(true);
+  }, [salesLedgerName]);
+
+  async function checkReadiness(silent = false) {
+    if (!silent) {
+      setLoading(true);
+      setMessage("");
+      setDebug(null);
+    }
     try {
       if (!salesLedgerName.trim()) throw new Error("Select the exact Sales ledger from Tally.");
       const payload = await callTally({ ...options, preflightOnly: true });
       setReadiness(payload.readiness ?? null);
-      setMessage(payload.message || (payload.ok ? "Ready for Tally push." : "Some Tally masters are missing."));
+      if (!silent) setMessage(payload.message || (payload.ok ? "Ready for Tally push." : "Some Tally masters are missing."));
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Could not check Tally readiness.");
+      if (!silent) setMessage(error instanceof Error ? error.message : "Could not check Tally readiness.");
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   }
 
@@ -191,24 +215,15 @@ export function TallyPushButton({ invoiceId, projectName }: { invoiceId: string;
     <div className="space-y-4 rounded-md border border-[#d8dfd7] bg-white p-4">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
         <div>
-          <h2 className="text-lg font-bold">Easy Tally Sync</h2>
-          <p className="text-sm text-[#5d6b60]">Push as Tally item invoice first. Use accounting push only as a fallback.</p>
+          <h2 className="text-lg font-bold">Tally Push</h2>
+          <p className="text-sm text-[#5d6b60]">Check readiness first, then push stock invoice. Use accounting push only for emergency fallback.</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button type="button" variant="secondary" onClick={checkReadiness} disabled={loading || loadingLedgers}>
+          <Button type="button" variant="secondary" onClick={() => checkReadiness()} disabled={loading || loadingLedgers}>
             {loading ? "Checking..." : "Check Tally readiness"}
           </Button>
           <Button type="button" onClick={() => pushToTally("inventory")} disabled={loading || loadingLedgers}>
             {loading ? "Working..." : "Push stock invoice"}
-          </Button>
-          <Button type="button" variant="secondary" onClick={() => pushToTally("stock-test")} disabled={loading || loadingLedgers}>
-            Push stock test voucher
-          </Button>
-          <Button type="button" variant="secondary" onClick={() => pushToTally("stock-alter")} disabled={loading || loadingLedgers}>
-            Replace existing as stock
-          </Button>
-          <Button type="button" variant="secondary" onClick={() => pushToTally("accounting")} disabled={loading || loadingLedgers}>
-            Emergency accounting push
           </Button>
         </div>
       </div>
@@ -230,12 +245,8 @@ export function TallyPushButton({ invoiceId, projectName }: { invoiceId: string;
           </select>
         </label>
         <Field label="Voucher type" value={voucherTypeName} onChange={setVoucherTypeName} />
-        <LedgerSelect label="CGST ledger" value={cgstLedgerName} onChange={setCgstLedgerName} ledgers={taxLedgers} disabled={isInterstate} />
-        <LedgerSelect label="SGST ledger" value={sgstLedgerName} onChange={setSgstLedgerName} ledgers={taxLedgers} disabled={isInterstate} />
-        <LedgerSelect label="IGST ledger" value={igstLedgerName} onChange={setIgstLedgerName} ledgers={taxLedgers} disabled={!isInterstate} />
-        <Field label="Discount ledger" value={discountLedgerName} onChange={setDiscountLedgerName} placeholder="Only if discount exists" />
-        <Field label="Godown / location" value={godownName} onChange={setGodownName} placeholder="Optional, exact Tally name" disabled={!inventoryMode} />
-        <Field label="Test voucher suffix" value={voucherSuffix} onChange={setVoucherSuffix} placeholder="-STK" disabled={!inventoryMode} />
+        <LedgerSelect label="CGST ledger" value={cgstLedgerName} onChange={setCgstLedgerName} ledgers={taxLedgers} disabled={isInterstate || gstThroughSalesLedger} />
+        <LedgerSelect label="SGST ledger" value={sgstLedgerName} onChange={setSgstLedgerName} ledgers={taxLedgers} disabled={isInterstate || gstThroughSalesLedger} />
       </div>
 
       <div className="grid gap-2 rounded-md bg-[#f6f7f4] p-3 md:grid-cols-2 xl:grid-cols-4">
@@ -243,7 +254,36 @@ export function TallyPushButton({ invoiceId, projectName }: { invoiceId: string;
         <Check label="Stock item billing" checked={inventoryMode} onChange={setInventoryMode} />
         <Check label="Create missing stock items" checked={createMissingStockItems} onChange={setCreateMissingStockItems} disabled={!inventoryMode} />
         <Check label="Interstate / IGST" checked={isInterstate} onChange={setIsInterstate} />
+        <Check label="GST handled by sales ledger" checked={gstThroughSalesLedger} onChange={setGstThroughSalesLedger} />
       </div>
+
+      <div className="flex flex-wrap gap-2">
+        <Button type="button" variant="secondary" onClick={() => setShowAdvanced((current) => !current)}>
+          {showAdvanced ? "Hide advanced Tally options" : "Show advanced Tally options"}
+        </Button>
+        {showAdvanced ? (
+          <>
+            <Button type="button" variant="secondary" onClick={() => pushToTally("stock-test")} disabled={loading || loadingLedgers}>
+              Push stock test voucher
+            </Button>
+            <Button type="button" variant="secondary" onClick={() => pushToTally("stock-alter")} disabled={loading || loadingLedgers}>
+              Replace existing as stock
+            </Button>
+            <Button type="button" variant="secondary" onClick={() => pushToTally("accounting")} disabled={loading || loadingLedgers}>
+              Emergency accounting push
+            </Button>
+          </>
+        ) : null}
+      </div>
+
+      {showAdvanced ? (
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4 rounded-md border border-[#d8dfd7] p-3">
+          <LedgerSelect label="IGST ledger" value={igstLedgerName} onChange={setIgstLedgerName} ledgers={taxLedgers} disabled={!isInterstate || gstThroughSalesLedger} />
+          <Field label="Discount ledger" value={discountLedgerName} onChange={setDiscountLedgerName} placeholder="Only if discount exists" />
+          <Field label="Godown / location" value={godownName} onChange={setGodownName} placeholder="Optional, exact Tally name" disabled={!inventoryMode} />
+          <Field label="Test voucher suffix" value={voucherSuffix} onChange={setVoucherSuffix} placeholder="-STK" disabled={!inventoryMode} />
+        </div>
+      ) : null}
 
       {!inventoryMode ? (
         <p className="rounded-md border border-[#d8dfd7] bg-[#eef3ee] p-3 text-sm">
@@ -258,7 +298,7 @@ export function TallyPushButton({ invoiceId, projectName }: { invoiceId: string;
       {readiness ? <ReadinessPanel readiness={readiness} /> : null}
       {readiness?.missingLedgers.length ? (
         <p className="rounded-md border border-[#f0d48a] bg-[#fff8e5] p-3 text-sm text-[#6f4b00]">
-          Pick the exact GST ledger names from the dropdowns above. Your Tally names are different from the default names.
+          Pick the exact ledger names from the dropdowns above. If your Sales ledger already handles GST, keep `GST handled by sales ledger` turned on.
         </p>
       ) : null}
       {message ? <p className="rounded-md bg-[#fbfcfa] p-3 text-sm text-[#5d6b60]">{message}</p> : null}

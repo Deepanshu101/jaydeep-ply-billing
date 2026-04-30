@@ -1,6 +1,7 @@
 import { create } from "xmlbuilder2";
 import { XMLParser } from "fast-xml-parser";
 import { brand } from "./brand";
+import { readTallyItemMeta, stripTallyItemMeta } from "./tally-item-meta";
 import type { Invoice, LineItem } from "./types";
 
 type XmlNode = {
@@ -12,6 +13,7 @@ type XmlNode = {
 export type TallyInvoiceOptions = {
   voucherTypeName?: string;
   salesLedgerName?: string;
+  gstThroughSalesLedger?: boolean;
   cgstLedgerName?: string;
   sgstLedgerName?: string;
   igstLedgerName?: string;
@@ -31,6 +33,7 @@ export type TallyInvoiceOptions = {
   stockXmlMode?: "invoice-batch" | "invoice-no-batch" | "inventory-voucher-batch" | "inventory-voucher-no-batch";
   inventoryEntriesFirst?: boolean;
   voucherAction?: "Create" | "Alter";
+  voucherEnvelopeMode?: "requestdata" | "sample-data";
 };
 
 export type TallyStockItemInput = {
@@ -49,6 +52,7 @@ export function invoiceToTallyXml(invoice: Invoice, options: TallyInvoiceOptions
   const date = invoice.invoice_date.replaceAll("-", "");
   const voucherTypeName = cleanTallyText(options.voucherTypeName || process.env.TALLY_SALES_VOUCHER_TYPE || "Sales");
   const salesLedgerName = cleanTallyText(options.salesLedgerName || process.env.TALLY_SALES_LEDGER || "Sales");
+  const gstThroughSalesLedger = Boolean(options.gstThroughSalesLedger);
   const cgstLedgerName = cleanTallyText(options.cgstLedgerName || process.env.TALLY_CGST_LEDGER || "Output CGST");
   const sgstLedgerName = cleanTallyText(options.sgstLedgerName || process.env.TALLY_SGST_LEDGER || "Output SGST");
   const igstLedgerName = cleanTallyText(options.igstLedgerName || process.env.TALLY_IGST_LEDGER || "Output IGST");
@@ -58,6 +62,7 @@ export function invoiceToTallyXml(invoice: Invoice, options: TallyInvoiceOptions
   const accountingMode = Boolean(options.accountingMode);
   const stockXmlMode = options.stockXmlMode || "invoice-batch";
   const voucherAction = options.voucherAction || "Create";
+  const envelopeMode = options.voucherEnvelopeMode || "requestdata";
   const isInventoryVoucherView = !accountingMode && stockXmlMode.startsWith("inventory-voucher");
   const voucherView = accountingMode
     ? "Accounting Voucher View"
@@ -70,28 +75,63 @@ export function invoiceToTallyXml(invoice: Invoice, options: TallyInvoiceOptions
   const discountAmount = Number(invoice.discount_amount || 0);
   const taxableSubtotal = round2(subtotal - discountAmount);
   const roundOff = round2(Number(invoice.grand_total || 0) - round2(taxableSubtotal + taxAmount));
-  const root = create({ version: "1.0", encoding: "UTF-8" })
-    .ele("ENVELOPE")
-    .ele("HEADER")
-    .ele("TALLYREQUEST")
-    .txt("Import Data")
-    .up()
-    .up()
-    .ele("BODY")
-    .ele("IMPORTDATA")
-    .ele("REQUESTDESC")
-    .ele("REPORTNAME")
-    .txt("Vouchers")
-    .up()
-    .up()
-    .ele("REQUESTDATA")
-    .ele("TALLYMESSAGE", { "xmlns:UDF": "TallyUDF" })
-    .ele("VOUCHER", { VCHTYPE: voucherTypeName, ACTION: voucherAction, OBJVIEW: voucherView });
+  const voucherNumber = cleanTallyText(`${invoice.invoice_no}${options.voucherNumberSuffix || ""}`);
+  const root =
+    envelopeMode === "sample-data"
+      ? create({ version: "1.0", encoding: "UTF-8" })
+          .ele("ENVELOPE")
+          .ele("HEADER")
+          .ele("VERSION")
+          .txt("1")
+          .up()
+          .ele("TALLYREQUEST")
+          .txt("Import")
+          .up()
+          .ele("TYPE")
+          .txt("Data")
+          .up()
+          .ele("ID")
+          .txt("Vouchers")
+          .up()
+          .up()
+          .ele("BODY")
+          .ele("DESC")
+          .up()
+          .ele("DATA")
+          .ele("TALLYMESSAGE", { "xmlns:UDF": "TallyUDF" })
+          .ele(
+            "VOUCHER",
+            voucherAction === "Alter"
+              ? { VCHTYPE: voucherTypeName, ACTION: voucherAction, OBJVIEW: voucherView, DATE: tallyDisplayDate(invoice.invoice_date), TAGNAME: "Voucher Number", TAGVALUE: voucherNumber }
+              : { VCHTYPE: voucherTypeName, ACTION: voucherAction, OBJVIEW: voucherView },
+          )
+      : create({ version: "1.0", encoding: "UTF-8" })
+          .ele("ENVELOPE")
+          .ele("HEADER")
+          .ele("TALLYREQUEST")
+          .txt("Import Data")
+          .up()
+          .up()
+          .ele("BODY")
+          .ele("IMPORTDATA")
+          .ele("REQUESTDESC")
+          .ele("REPORTNAME")
+          .txt("Vouchers")
+          .up()
+          .up()
+          .ele("REQUESTDATA")
+          .ele("TALLYMESSAGE", { "xmlns:UDF": "TallyUDF" })
+          .ele(
+            "VOUCHER",
+            voucherAction === "Alter"
+              ? { VCHTYPE: voucherTypeName, ACTION: voucherAction, OBJVIEW: voucherView, DATE: tallyDisplayDate(invoice.invoice_date), TAGNAME: "Voucher Number", TAGVALUE: voucherNumber }
+              : { VCHTYPE: voucherTypeName, ACTION: voucherAction, OBJVIEW: voucherView },
+          );
 
   root.ele("DATE").txt(date).up();
   root.ele("EFFECTIVEDATE").txt(date).up();
   root.ele("VOUCHERTYPENAME").txt(voucherTypeName).up();
-  root.ele("VOUCHERNUMBER").txt(cleanTallyText(`${invoice.invoice_no}${options.voucherNumberSuffix || ""}`)).up();
+  root.ele("VOUCHERNUMBER").txt(voucherNumber).up();
   root.ele("REFERENCE").txt(cleanTallyText(options.orderReference || invoice.project_name || invoice.invoice_no)).up();
   root.ele("PARTYLEDGERNAME").txt(cleanTallyText(invoice.client_name)).up();
   root.ele("PARTYNAME").txt(cleanTallyText(invoice.client_name)).up();
@@ -101,7 +141,7 @@ export function invoiceToTallyXml(invoice: Invoice, options: TallyInvoiceOptions
   root.ele("PLACEOFSUPPLY").txt(stateNameFromGstin(invoice.gst_number)).up();
   root.ele("GSTREGISTRATIONTYPE").txt(invoice.gst_number ? "Regular" : "Unregistered/Consumer").up();
   root.ele("PERSISTEDVIEW").txt(voucherView).up();
-  if (!options.omitVchEntryMode) root.ele("VCHENTRYMODE").txt(entryMode).up();
+  if (!options.omitVchEntryMode && envelopeMode !== "sample-data") root.ele("VCHENTRYMODE").txt(entryMode).up();
   root.ele("ISINVOICE").txt("Yes").up();
   root.ele("ISDELETED").txt("No").up();
   root.ele("ISOPTIONAL").txt("No").up();
@@ -130,25 +170,27 @@ export function invoiceToTallyXml(invoice: Invoice, options: TallyInvoiceOptions
 
   if (!accountingMode && options.inventoryEntriesFirst) {
     addInventoryEntries();
-    partyLedger(root, invoice.client_name, invoice.grand_total);
+    partyLedger(root, invoice.client_name, invoice.grand_total, envelopeMode);
   } else {
-    partyLedger(root, invoice.client_name, invoice.grand_total);
+    partyLedger(root, invoice.client_name, invoice.grand_total, envelopeMode);
     if (accountingMode) {
-      ledger(root, salesLedgerName, -taxableSubtotal, false);
+      ledger(root, salesLedgerName, taxableSubtotal, false, envelopeMode);
     } else {
       addInventoryEntries();
     }
   }
 
-  if (isInterstate) {
-    if (taxAmount > 0) ledger(root, igstLedgerName, -taxAmount, false);
-  } else {
-    if (Number(invoice.cgst || 0) > 0) ledger(root, cgstLedgerName, -Number(invoice.cgst || 0), false);
-    if (Number(invoice.sgst || 0) > 0) ledger(root, sgstLedgerName, -Number(invoice.sgst || 0), false);
+  if (!gstThroughSalesLedger) {
+    if (isInterstate) {
+      if (taxAmount > 0) ledger(root, igstLedgerName, taxAmount, false, envelopeMode);
+    } else {
+      if (Number(invoice.cgst || 0) > 0) ledger(root, cgstLedgerName, Number(invoice.cgst || 0), false, envelopeMode);
+      if (Number(invoice.sgst || 0) > 0) ledger(root, sgstLedgerName, Number(invoice.sgst || 0), false, envelopeMode);
+    }
   }
 
   if (roundOffLedgerName && Math.abs(roundOff) >= 0.01) {
-    ledger(root, roundOffLedgerName, -roundOff, false);
+    ledger(root, roundOffLedgerName, roundOff, false, envelopeMode);
   }
 
   return root.doc().end({ prettyPrint: true });
@@ -506,21 +548,28 @@ function reportNameForRequest(requestName: TallyRequestName) {
   return "JP_SALES_EXPORT_REPORT";
 }
 
-function ledger(parent: XmlNode, name: string, amount: number, isParty: boolean) {
-  const entry = parent.ele("ALLLEDGERENTRIES.LIST");
+function ledger(parent: XmlNode, name: string, amount: number, isParty: boolean, envelopeMode: "requestdata" | "sample-data" = "requestdata") {
+  const entry = parent.ele(envelopeMode === "sample-data" ? "LEDGERENTRIES.LIST" : "ALLLEDGERENTRIES.LIST");
   entry.ele("LEDGERNAME").txt(cleanTallyText(name)).up();
-  entry.ele("ISDEEMEDPOSITIVE").txt(amount > 0 ? "Yes" : "No").up();
+  entry.ele("ISDEEMEDPOSITIVE").txt(amount < 0 ? "Yes" : "No").up();
   entry.ele("ISPARTYLEDGER").txt(isParty ? "Yes" : "No").up();
-  entry.ele("AMOUNT").txt(amount.toFixed(2)).up();
+  entry.ele("ISLASTDEEMEDPOSITIVE").txt(amount < 0 ? "Yes" : "No").up();
+  entry.ele("AMOUNT").txt(round2(amount).toFixed(2)).up();
   entry.up();
 }
 
-function partyLedger(parent: XmlNode, name: string, amount: number) {
-  const entry = parent.ele("ALLLEDGERENTRIES.LIST");
+function partyLedger(parent: XmlNode, name: string, amount: number, envelopeMode: "requestdata" | "sample-data" = "requestdata") {
+  const entry = parent.ele(envelopeMode === "sample-data" ? "LEDGERENTRIES.LIST" : "ALLLEDGERENTRIES.LIST");
   entry.ele("LEDGERNAME").txt(cleanTallyText(name)).up();
   entry.ele("ISDEEMEDPOSITIVE").txt("Yes").up();
   entry.ele("ISPARTYLEDGER").txt("Yes").up();
-  entry.ele("AMOUNT").txt(round2(amount).toFixed(2)).up();
+  entry.ele("ISLASTDEEMEDPOSITIVE").txt("Yes").up();
+  entry.ele("AMOUNT").txt((-round2(amount)).toFixed(2)).up();
+  const bill = entry.ele("BILLALLOCATIONS.LIST");
+  bill.ele("NAME").txt(cleanTallyText(name)).up();
+  bill.ele("BILLTYPE").txt("New Ref").up();
+  bill.ele("AMOUNT").txt((-round2(amount)).toFixed(2)).up();
+  bill.up();
   entry.up();
 }
 
@@ -535,36 +584,42 @@ function inventoryEntry(
   } = {},
 ) {
   const qty = Math.abs(Number(item.qty || 0));
-  const rate = Math.abs(Number(item.rate || 0));
+  const meta = readTallyItemMeta(item.specification);
+  const billedUnit = cleanTallyUnit(meta?.per || item.unit || "Nos");
+  const primaryUnit = cleanTallyUnit(item.unit || "Nos");
+  const rate = Math.abs(Number(meta?.rate ?? item.rate ?? 0));
   const amount = round2(Number(item.amount || qty * rate));
-  const unit = cleanTallyUnit(item.unit || "Nos");
   const stockName = cleanTallyText(item.description);
   const qtySign = options.qtySign || "negative";
-  const outwardQty = `${qtySign === "negative" ? "-" : ""}${formatQty(qty)} ${unit}`;
+  const primaryQty = `${qtySign === "negative" ? "-" : ""}${formatQty(qty)} ${primaryUnit}`;
+  const billedQtyValue = meta ? round2(qty * Number(meta.factor || 1)) : qty;
+  const billedQty = `${qtySign === "negative" ? "-" : ""}${formatQty(billedQtyValue)} ${billedUnit}`;
   const entry = parent.ele("ALLINVENTORYENTRIES.LIST");
 
   entry.ele("STOCKITEMNAME").txt(stockName).up();
   entry.ele("ISDEEMEDPOSITIVE").txt("No").up();
   entry.ele("ISLASTDEEMEDPOSITIVE").txt("No").up();
-  entry.ele("RATE").txt(`${rate.toFixed(2)}/${unit}`).up();
-  entry.ele("AMOUNT").txt((-amount).toFixed(2)).up();
-  entry.ele("ACTUALQTY").txt(outwardQty).up();
-  entry.ele("BILLEDQTY").txt(outwardQty).up();
-  if (item.specification) entry.ele("BASICUSERDESCRIPTION.LIST").ele("BASICUSERDESCRIPTION").txt(cleanTallyText(item.specification)).up().up();
+  entry.ele("RATE").txt(`${rate.toFixed(2)}/${billedUnit}`).up();
+  entry.ele("AMOUNT").txt(amount.toFixed(2)).up();
+  entry.ele("ACTUALQTY").txt(primaryQty).up();
+  entry.ele("BILLEDQTY").txt(billedQty).up();
+  const specification = stripTallyItemMeta(item.specification);
+  if (specification) entry.ele("BASICUSERDESCRIPTION.LIST").ele("BASICUSERDESCRIPTION").txt(cleanTallyText(specification)).up().up();
 
   const accounting = entry.ele("ACCOUNTINGALLOCATIONS.LIST");
   accounting.ele("LEDGERNAME").txt(salesLedgerName).up();
   accounting.ele("ISDEEMEDPOSITIVE").txt("No").up();
-  accounting.ele("AMOUNT").txt((-amount).toFixed(2)).up();
+  accounting.ele("AMOUNT").txt(amount.toFixed(2)).up();
   accounting.up();
 
   if (options.includeBatchAllocation) {
     const batch = entry.ele("BATCHALLOCATIONS.LIST");
     batch.ele("GODOWNNAME").txt(cleanTallyText(options.godownName || "Main Location")).up();
     batch.ele("BATCHNAME").txt("Primary Batch").up();
-    batch.ele("AMOUNT").txt((-amount).toFixed(2)).up();
-    batch.ele("ACTUALQTY").txt(outwardQty).up();
-    batch.ele("BILLEDQTY").txt(outwardQty).up();
+    batch.ele("DESTINATIONGODOWNNAME").txt(cleanTallyText(options.godownName || "Main Location")).up();
+    batch.ele("AMOUNT").txt(amount.toFixed(2)).up();
+    batch.ele("ACTUALQTY").txt(primaryQty).up();
+    batch.ele("BILLEDQTY").txt(billedQty).up();
     batch.up();
   }
 

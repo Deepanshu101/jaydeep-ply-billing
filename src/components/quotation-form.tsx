@@ -1,9 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { calculateTotals, round } from "@/lib/calculations";
 import { inr } from "@/lib/money";
+import { readTallyItemMeta, stripTallyItemMeta, writeTallyItemMeta } from "@/lib/tally-item-meta";
 import type { LineItem, Quotation } from "@/lib/types";
 import { Button } from "./button";
 
@@ -49,9 +50,29 @@ export function QuotationForm({
   initialClientId?: string;
 }) {
   const router = useRouter();
-  const [items, setItems] = useState<LineItem[]>(
-    quotation?.quotation_items?.length ? quotation.quotation_items : [{ ...emptyItem }],
-  );
+  const initialRows = useMemo(() => {
+    const source = quotation?.quotation_items?.length ? quotation.quotation_items : [{ ...emptyItem }];
+    const preparedItems: LineItem[] = [];
+    const preparedAlternateRates: Record<number, AlternateRate> = {};
+
+    source.forEach((item, index) => {
+      const meta = readTallyItemMeta(item.specification);
+      preparedItems.push({
+        ...item,
+        specification: stripTallyItemMeta(item.specification),
+      });
+      if (meta) {
+        preparedAlternateRates[index] = {
+          rate: String(meta.rate),
+          per: meta.per,
+          factor: String(meta.factor),
+        };
+      }
+    });
+
+    return { preparedItems, preparedAlternateRates };
+  }, [quotation?.quotation_items]);
+  const [items, setItems] = useState<LineItem[]>(initialRows.preparedItems);
   const initialClient = quotation?.customer_id || initialClientId
     ? clientOptions.find((client) => client.id === (quotation?.customer_id ?? initialClientId))
     : clientOptions.find((client) => normalize(client.name) === normalize(quotation?.client_name ?? ""));
@@ -65,7 +86,7 @@ export function QuotationForm({
   const [pricingMode, setPricingMode] = useState<PricingMode>("project");
   const [marginPercent, setMarginPercent] = useState(Number(quotation?.expected_margin_percent ?? pricingPresets.project));
   const [showShipTo, setShowShipTo] = useState(Boolean(quotation?.ship_to_enabled));
-  const [alternateRates, setAlternateRates] = useState<Record<number, AlternateRate>>({});
+  const [alternateRates, setAlternateRates] = useState<Record<number, AlternateRate>>(initialRows.preparedAlternateRates);
   const [itemPricing, setItemPricing] = useState<Record<number, ItemPricing>>({});
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -155,24 +176,23 @@ export function QuotationForm({
 
   function updateClientName(value: string) {
     setClientName(value);
-    const client = findClient(value);
+    setSelectedClientId("");
+    const client = findClient(value, "exact");
     if (!client) return;
     applyClient(client);
   }
 
   function syncClientFromName(value: string) {
-    const client = findClient(value);
+    const client = findClient(value, "loose");
     if (client) applyClient(client);
   }
 
-  function findClient(value: string) {
+  function findClient(value: string, mode: "exact" | "loose" = "exact") {
     const normalized = normalize(value);
     if (!normalized) return null;
-    return (
-      clientOptions.find((option) => normalize(option.name) === normalized) ??
-      clientOptions.find((option) => normalize(option.name).includes(normalized)) ??
-      null
-    );
+    const exact = clientOptions.find((option) => normalize(option.name) === normalized);
+    if (exact || mode === "exact") return exact ?? null;
+    return clientOptions.find((option) => normalize(option.name).includes(normalized)) ?? null;
   }
 
   function alternateRateFor(index: number, source = alternateRates): AlternateRate {
@@ -200,7 +220,11 @@ export function QuotationForm({
     setError("");
     try {
       const formData = new FormData(event.currentTarget);
-      formData.set("items", JSON.stringify(totals.items));
+      const persistedItems = totals.items.map((item, index) => ({
+        ...item,
+        specification: writeTallyItemMeta(item.specification, tallyMetaFor(index, item)),
+      }));
+      formData.set("items", JSON.stringify(persistedItems));
       formData.set("expected_margin_percent", String(marginPercent));
       const response = await fetch(quotation ? `/api/quotations/${quotation.id}` : "/api/quotations", {
         method: quotation ? "PUT" : "POST",
@@ -217,6 +241,32 @@ export function QuotationForm({
     }
   }
 
+  function tallyMetaFor(index: number, item: LineItem) {
+    const alternateRate = alternateRateFor(index);
+    const alternateValue = Number(alternateRate.rate);
+    const factor = Number(alternateRate.factor);
+    const alternateUnit = String(alternateRate.per || "").trim();
+    if (!alternateUnit || normalize(alternateUnit) === normalize(item.unit || "")) return null;
+    if (!Number.isFinite(alternateValue) || alternateValue <= 0 || !Number.isFinite(factor) || factor <= 0) return null;
+    return {
+      rate: round(alternateValue),
+      per: alternateUnit,
+      factor: round(factor),
+    };
+  }
+
+  useEffect(() => {
+    const matchedClient =
+      (selectedClientId ? clientOptions.find((client) => client.id === selectedClientId) : null) ??
+      findClient(clientName, "exact");
+    if (!matchedClient) return;
+
+    setSelectedClientId(matchedClient.id);
+    setClientAddress(matchedClient.address || "");
+    setClientGstNumber(matchedClient.gst_number || "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedClientId, clientOptions]);
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <input type="hidden" name="items" value={JSON.stringify(totals.items)} />
@@ -227,6 +277,7 @@ export function QuotationForm({
             label="Client name"
             name="client_name"
             list="quotation-clients"
+            autoComplete="off"
             value={clientName}
             onChange={(event) => updateClientName(event.target.value)}
             onBlur={(event) => syncClientFromName(event.target.value)}

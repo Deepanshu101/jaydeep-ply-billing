@@ -7,13 +7,12 @@ import { invoiceSchema } from "@/lib/validation";
 
 export const runtime = "nodejs";
 
-export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
+export async function POST(request: Request) {
   const formData = await request.formData();
-  const rawItems = String(formData.get("items") || "[]");
 
   let input: ReturnType<typeof invoiceSchema.parse>;
   try {
+    const rawItems = String(formData.get("items") || "[]");
     input = invoiceSchema.parse({
       invoice_no: formData.get("invoice_no") || "",
       client_name: formData.get("client_name"),
@@ -52,9 +51,9 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   const customerId = await upsertCustomer(input.client_name, input.address, input.gst_number);
   const totals = calculateTotals(input.items as LineItem[], input.gst_percent, input.discount_value, input.discount_type);
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("invoices")
-    .update({
+    .insert({
       invoice_no: input.invoice_no || undefined,
       customer_id: customerId,
       client_name: input.client_name,
@@ -94,24 +93,16 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       tally_response: null,
       tally_request_xml: null,
     })
-    .eq("id", id);
+    .select("id")
+    .single();
 
-  if (error) {
-    return NextResponse.json(
-      {
-        ok: false,
-        error: `Could not update invoice: ${error.message}. If this mentions a missing column, run the latest Supabase SQL migration.`,
-      },
-      { status: 500 },
-    );
+  if (error || !data) {
+    return NextResponse.json({ ok: false, error: `Could not create invoice: ${error?.message || "Unknown error."}` }, { status: 500 });
   }
-
-  const { error: deleteError } = await supabase.from("invoice_items").delete().eq("invoice_id", id);
-  if (deleteError) return NextResponse.json({ ok: false, error: `Could not replace invoice items: ${deleteError.message}` }, { status: 500 });
 
   const { error: itemError } = await supabase.from("invoice_items").insert(
     totals.items.map((item) => ({
-      invoice_id: id,
+      invoice_id: data.id,
       description: item.description,
       specification: item.specification,
       qty: item.qty,
@@ -120,12 +111,13 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       amount: item.amount,
     })),
   );
-  if (itemError) return NextResponse.json({ ok: false, error: `Could not save invoice items: ${itemError.message}` }, { status: 500 });
+
+  if (itemError) {
+    return NextResponse.json({ ok: false, error: `Invoice created but items failed: ${itemError.message}` }, { status: 500 });
+  }
 
   revalidatePath("/invoices");
-  revalidatePath(`/invoices/${id}`);
-  revalidatePath(`/invoices/${id}/edit`);
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, id: data.id });
 }
 
 async function upsertCustomer(clientName: string, address: string, gstNumber: string) {

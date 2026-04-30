@@ -52,14 +52,18 @@ export default async function TallySyncPage() {
   const supabase = await createClient();
   const defaultFrom = process.env.TALLY_SYNC_FROM || "2025-04-01";
   const defaultTo = process.env.TALLY_SYNC_TO || "2027-03-31";
-  const [{ data: runs }, { data: rates }] = await Promise.all([
+  const [{ data: runs }, { data: rates }, customersCount, productsCount, rateCount] = await Promise.all([
     supabase.from("tally_sync_runs").select("*").order("created_at", { ascending: false }).limit(10),
     supabase
       .from("product_rate_history")
       .select("id, voucher_no, voucher_date, party_name, item_name, qty, unit, rate, amount")
       .order("voucher_date", { ascending: false })
       .limit(50),
+    countRows(supabase, "customers"),
+    countRows(supabase, "products"),
+    countRows(supabase, "product_rate_history"),
   ]);
+  const latestRun = ((runs ?? []) as SyncRun[])[0] ?? null;
 
   return (
     <AppShell>
@@ -72,6 +76,18 @@ export default async function TallySyncPage() {
       </div>
 
       <TallySyncForm defaultFrom={defaultFrom} defaultTo={defaultTo} />
+
+      <section className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <MetricCard label="Clients in database" value={String(customersCount)} />
+        <MetricCard label="Products in database" value={String(productsCount)} />
+        <MetricCard label="Rate history rows" value={String(rateCount)} />
+        <MetricCard
+          label="Latest sync"
+          value={latestRun ? syncTypeLabel(latestRun.sync_type) : "No sync yet"}
+          note={latestRun ? `${latestRun.status} • ${new Date(latestRun.created_at).toLocaleString("en-IN")}` : "Run Sync all to start"}
+          strong={latestRun?.status === "completed"}
+        />
+      </section>
 
       <section className="mt-6 grid gap-4 lg:grid-cols-2">
         <div className="rounded-md border border-[#d8dfd7] bg-white p-4 text-sm shadow-sm">
@@ -88,6 +104,38 @@ export default async function TallySyncPage() {
           </p>
         </div>
       </section>
+
+      {latestRun ? (
+        <section className="mt-6 rounded-md border border-[#d8dfd7] bg-white p-4 shadow-sm">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="text-xl font-bold">Latest run summary</h2>
+              <p className="mt-1 text-sm text-[#5d6b60]">
+                {syncTypeLabel(latestRun.sync_type)} • {latestRun.from_date} to {latestRun.to_date}
+              </p>
+            </div>
+            <span className={runBadgeClass(latestRun.status)}>{latestRun.status}</span>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
+            <StatusCard label="Clients" value={String(latestRun.clients_imported)} />
+            <StatusCard label="Products" value={String(latestRun.products_imported)} />
+            <StatusCard label="Rates" value={String(latestRun.rates_imported)} />
+          </div>
+          {latestRun.raw_summary?.currentStep ? (
+            <p className="mt-3 rounded-md bg-[#f6f7f4] px-3 py-2 text-sm">
+              <span className="font-semibold">Current step:</span> {latestRun.raw_summary.currentStep}
+            </p>
+          ) : null}
+          {latestRun.raw_summary?.warnings?.length ? (
+            <div className="mt-3 rounded-md border border-[#f0d48a] bg-[#fff8e5] p-3 text-sm text-[#8a5b00]">
+              {latestRun.raw_summary.warnings.map((warning) => (
+                <p key={warning}>{warning}</p>
+              ))}
+            </div>
+          ) : null}
+          {latestRun.error ? <p className="mt-3 text-sm text-[#b42318]">{latestRun.error}</p> : null}
+        </section>
+      ) : null}
 
       <section className="mt-6 grid gap-4 xl:grid-cols-[0.8fr_1.2fr]">
         <div className="rounded-md border border-[#d8dfd7] bg-white p-4 shadow-sm">
@@ -195,6 +243,14 @@ export default async function TallySyncPage() {
   );
 }
 
+async function countRows(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  table: "customers" | "products" | "product_rate_history",
+) {
+  const { count } = await supabase.from(table).select("*", { count: "exact", head: true });
+  return count ?? 0;
+}
+
 function debugLabel(severity: "ok" | "warning" | "error" | undefined, ok: boolean) {
   if (severity === "warning") return "Warning";
   if (severity === "error") return "Failed";
@@ -205,4 +261,39 @@ function syncTypeLabel(syncType: string) {
   if (syncType === "sales_rate_history") return "Sales Rate History";
   if (syncType === "client_product_masters") return "Client/Product Masters";
   return syncType || "Tally Sync";
+}
+
+function MetricCard({
+  label,
+  value,
+  note,
+  strong,
+}: {
+  label: string;
+  value: string;
+  note?: string;
+  strong?: boolean;
+}) {
+  return (
+    <div className={`rounded-md border px-4 py-3 shadow-sm ${strong ? "border-[#1f6f50] bg-[#1f6f50] text-white" : "border-[#d8dfd7] bg-white text-[#1d2520]"}`}>
+      <p className={`text-xs font-semibold uppercase tracking-wide ${strong ? "text-white/85" : "text-[#5d6b60]"}`}>{label}</p>
+      <p className="mt-2 text-2xl font-bold">{value}</p>
+      {note ? <p className={`mt-2 text-sm ${strong ? "text-white/85" : "text-[#5d6b60]"}`}>{note}</p> : null}
+    </div>
+  );
+}
+
+function StatusCard({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-md bg-[#f6f7f4] px-3 py-3 text-sm">
+      <p className="text-xs font-semibold uppercase tracking-wide text-[#5d6b60]">{label}</p>
+      <p className="mt-2 text-xl font-bold text-[#1d2520]">{value}</p>
+    </div>
+  );
+}
+
+function runBadgeClass(status: string) {
+  if (status === "completed") return "rounded-md bg-[#eef8f1] px-3 py-1 text-sm font-semibold text-[#17613d]";
+  if (status === "failed") return "rounded-md bg-[#fdeceb] px-3 py-1 text-sm font-semibold text-[#b42318]";
+  return "rounded-md bg-[#fff8e5] px-3 py-1 text-sm font-semibold text-[#8a5b00]";
 }

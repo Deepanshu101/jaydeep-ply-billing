@@ -1,5 +1,6 @@
 import PDFDocument from "pdfkit/js/pdfkit.standalone";
 import { brand } from "./brand";
+import { stripTallyItemMeta } from "./tally-item-meta";
 import type { LineItem, Quotation } from "./types";
 
 const margin = 42;
@@ -14,9 +15,7 @@ const text = "#1d2520";
 const muted = "#5d6b60";
 const line = "#d8dfd7";
 const softLine = "#e8ede7";
-const light = "#f6f8f4";
 const band = "#eef3ee";
-const accent = "#edf6f0";
 
 const tableColumns = [
   { key: "sr", label: "#", x: margin, width: 26, align: "center" as const },
@@ -53,112 +52,98 @@ export async function quotationPdfBuffer(quotation: Quotation) {
 function addPage(doc: PDFKit.PDFDocument, firstPage = false) {
   doc.addPage({ margin, size: "A4" });
   drawHeader(doc, firstPage);
-  doc.y = firstPage ? 132 : 102;
+  doc.y = firstPage ? 96 : 74;
 }
 
 function drawHeader(doc: PDFKit.PDFDocument, firstPage: boolean) {
-  doc.rect(0, 0, pageWidth, firstPage ? 108 : 80).fill(firstPage ? green : "white");
+  doc.rect(0, 0, pageWidth, firstPage ? 84 : 58).fill(firstPage ? green : "white");
 
   if (firstPage) {
-    doc.circle(margin + 18, 40, 18).fill("white");
-    doc.fillColor(green).font("Helvetica-Bold").fontSize(13).text("JP", margin + 8, 32, { width: 20, align: "center" });
-    doc.fillColor("white").font("Helvetica-Bold").fontSize(25).text(brand.businessName, margin + 46, 22);
-    doc.fillColor("white").font("Helvetica").fontSize(9).text("Plywood, laminates, doors, hardware, and project material supply", margin + 46, 49);
-    doc.font("Helvetica").fontSize(8.5).text(`Contact Person: ${brand.contactPerson}`, margin + 46, 68);
-    doc.text(`${brand.phone} | ${brand.email}`, margin + 46, 82);
-    doc.text(`GSTIN: ${brand.gstin}`, margin + 46, 94);
+    doc.circle(margin + 14, 29, 16).fill("white");
+    doc.fillColor(green).font("Helvetica-Bold").fontSize(11.5).text("JP", margin + 5, 22, { width: 18, align: "center" });
+    doc.fillColor("white").font("Helvetica-Bold").fontSize(24).text(brand.businessName, margin + 38, 18);
+    doc.font("Helvetica").fontSize(7.2).text(`Contact Person: ${brand.contactPerson}`, margin + 38, 40);
+    doc.text(`${brand.phone} | ${brand.email}`, margin + 38, 51);
 
-    doc.roundedRect(pageWidth - margin - 146, 24, 146, 54, 4).strokeColor("#ffffff").stroke();
-    doc.fillColor("white").font("Helvetica-Bold").fontSize(16).text("QUOTATION", pageWidth - margin - 138, 34, {
-      width: 130,
-      align: "center",
-    });
-    doc.font("Helvetica").fontSize(8.5).text("Commercial Offer", pageWidth - margin - 138, 56, {
-      width: 130,
+    doc.roundedRect(pageWidth - margin - 120, 18, 120, 42, 4).strokeColor("#ffffff").stroke();
+    doc.fillColor("white").font("Helvetica-Bold").fontSize(14).text("QUOTATION", pageWidth - margin - 112, 28, {
+      width: 104,
       align: "center",
     });
     return;
   }
 
-  doc.fillColor(green).font("Helvetica-Bold").fontSize(13).text(brand.businessName, margin, 22);
-  doc.fillColor(muted).font("Helvetica").fontSize(8).text(`${brand.phone} | ${brand.email} | GSTIN: ${brand.gstin}`, margin, 40);
-  doc.moveTo(margin, 74).lineTo(pageWidth - margin, 74).strokeColor(line).stroke();
+  doc.fillColor(green).font("Helvetica-Bold").fontSize(15).text(brand.businessName, margin, 18);
+  doc.fillColor(muted).font("Helvetica").fontSize(7.2).text(`${brand.phone} | ${brand.email}`, margin, 37);
+  doc.moveTo(margin, 58).lineTo(pageWidth - margin, 58).strokeColor(line).stroke();
 }
 
 function drawIntro(doc: PDFKit.PDFDocument, quotation: Quotation) {
   const top = doc.y;
-  const leftWidth = 244;
-  const middleWidth = 122;
-  const gap = 14;
-  const rightX = margin + leftWidth + gap + middleWidth + gap;
-  const rightWidth = contentWidth - leftWidth - middleWidth - gap * 2;
-  const middleX = margin + leftWidth + gap;
-  const cardHeight = 104;
+  const leftWidth = 316;
+  const rightX = margin + leftWidth + 16;
+  const rightWidth = contentWidth - leftWidth - 16;
 
-  sectionLabel(doc, "Client", margin, top);
-  infoCard(doc, margin, top + 16, leftWidth, cardHeight, "Prepared For");
-  doc.fillColor(text).font("Helvetica-Bold").fontSize(10).text(cleanPdfText(quotation.client_name), margin + 12, top + 31, {
+  doc.fillColor(text).font("Helvetica-Bold").fontSize(11).text("Prepared For", margin, top + 8);
+  simpleCard(doc, margin, top + 26, leftWidth, 102);
+  doc.fillColor(text).font("Helvetica-Bold").fontSize(10).text(cleanPdfText(quotation.client_name), margin + 12, top + 38, {
     width: leftWidth - 24,
   });
-  doc.fillColor(muted).font("Helvetica").fontSize(8.2).text(cleanPdfText(quotation.address), margin + 12, top + 49, {
+  doc.fillColor(muted).font("Helvetica").fontSize(7.2).text(cleanPdfText(quotation.address), margin + 12, top + 56, {
     width: leftWidth - 24,
-    height: 34,
+    height: 30,
   });
-  doc.fillColor(text).font("Helvetica").fontSize(8).text(`GSTIN: ${quotation.gst_number || "-"}`, margin + 12, top + 84, {
-    width: leftWidth - 24,
+  doc.text(`Contact: ${extractContact(quotation.address)}`, margin + 12, top + 87, { width: leftWidth - 24 });
+  doc.text(`Email: ${extractEmail(quotation.address)}`, margin + 12, top + 99, { width: leftWidth - 24 });
+  doc.text(`GSTIN: ${quotation.gst_number || "-"}`, margin + 12, top + 111, { width: leftWidth - 24 });
+  doc.text(`Project: ${cleanPdfText(quotation.project_name) || "-"}`, margin + 12, top + 123, { width: leftWidth - 24 });
+
+  doc.fillColor(text).font("Helvetica-Bold").fontSize(11).text("Quotation Details", rightX, top + 8);
+  simpleCard(doc, rightX, top + 26, rightWidth, 102);
+  infoLine(doc, "Quotation No.", quotation.quotation_no, rightX + 12, top + 42, rightWidth - 24);
+  infoLine(doc, "Date", formatDate(quotation.quote_date), rightX + 12, top + 63, rightWidth - 24);
+  infoLine(doc, "GSTIN", brand.gstin, rightX + 12, top + 84, rightWidth - 24);
+  infoLine(doc, "Status", quotation.status === "approved" ? "Approved" : "Draft", rightX + 12, top + 105, rightWidth - 24);
+
+  const fromY = top + 150;
+  doc.fillColor(text).font("Helvetica-Bold").fontSize(9).text("From", margin, fromY);
+  doc.fillColor(muted).font("Helvetica").fontSize(7).text(brand.address, margin + 30, fromY, {
+    width: contentWidth - 30,
   });
 
-  sectionLabel(doc, "Site", middleX, top);
-  infoCard(doc, middleX, top + 16, middleWidth, cardHeight, quotation.ship_to_enabled ? "Delivery / Site" : "Project");
-  doc.fillColor(text).font("Helvetica-Bold").fontSize(8.8).text(
+  const shipY = fromY + 22;
+  simpleCard(doc, margin, shipY, contentWidth, 50);
+  doc.fillColor(text).font("Helvetica-Bold").fontSize(9).text("Ship To", margin + 12, shipY + 13);
+  doc.fillColor(text).font("Helvetica-Bold").fontSize(7.8).text(
     cleanPdfText(quotation.ship_to_enabled ? quotation.ship_to_name || quotation.client_name : quotation.project_name),
-    middleX + 12,
-    top + 31,
-    { width: middleWidth - 24 },
+    margin + 66,
+    shipY + 12,
+    { width: 240 },
   );
-  doc.fillColor(muted).font("Helvetica").fontSize(7.8).text(
+  doc.fillColor(muted).font("Helvetica").fontSize(6.9).text(
     cleanPdfText(quotation.ship_to_enabled ? quotation.ship_to_address || quotation.address : quotation.project_name),
-    middleX + 12,
-    top + 49,
-    { width: middleWidth - 24, height: 40 },
+    margin + 66,
+    shipY + 24,
+    { width: 280, height: 18 },
   );
-  doc.fillColor(text).font("Helvetica").fontSize(7.8).text(
-    `Ship GSTIN: ${quotation.ship_to_enabled ? quotation.ship_to_gst_number || quotation.gst_number || "-" : "-"}`,
-    middleX + 12,
-    top + 84,
-    { width: middleWidth - 24 },
+  doc.text(
+    `GSTIN: ${quotation.ship_to_enabled ? quotation.ship_to_gst_number || quotation.gst_number || "-" : quotation.gst_number || "-"}`,
+    pageWidth - margin - 118,
+    shipY + 13,
+    { width: 106, align: "right" },
   );
 
-  sectionLabel(doc, "Reference", rightX, top);
-  infoCard(doc, rightX, top + 16, rightWidth, cardHeight, "Quotation Details");
-  detailRow(doc, "Quotation No.", quotation.quotation_no, rightX + 12, top + 31, rightWidth - 24);
-  detailRow(doc, "Date", formatDate(quotation.quote_date), rightX + 12, top + 50, rightWidth - 24);
-  detailRow(doc, "Project", cleanPdfText(quotation.project_name), rightX + 12, top + 69, rightWidth - 24);
-  detailRow(doc, "Prepared By", brand.contactPerson, rightX + 12, top + 86, rightWidth - 24);
-  detailRow(doc, "Validity", "15 days from quotation date", rightX + 12, top + 103, rightWidth - 24);
+  const noteY = shipY + 64;
+  simpleCard(doc, margin, noteY, contentWidth, 36);
+  doc.fillColor(green).font("Helvetica-Bold").fontSize(8.6).text("Commercial Note", margin + 12, noteY + 10);
+  doc.fillColor(text).font("Helvetica").fontSize(7).text(
+    "Please find our carefully prepared offer for your kind approval. The rates are proposed with current market conditions, reliable material availability, and Jaydeep Ply's commitment to timely support.",
+    margin + 110,
+    noteY + 10,
+    { width: contentWidth - 122, height: 16 },
+  );
 
-  const fromY = top + 126;
-  doc.roundedRect(margin, fromY, contentWidth, 58, 4).fillAndStroke(accent, line);
-  doc.fillColor(deepGreen).font("Helvetica-Bold").fontSize(9).text("Commercial Offer", margin + 12, fromY + 10);
-  doc.fillColor(text)
-    .font("Helvetica")
-    .fontSize(8)
-    .text(
-      "We thank you for the opportunity and submit our quotation for your review. The proposal below is arranged for quick approval, execution planning, and coordinated material supply.",
-      margin + 110,
-      fromY + 10,
-      { width: contentWidth - 122, height: 30 },
-    );
-  doc.fillColor(muted).font("Helvetica").fontSize(7.2).text(brand.address, margin + 12, fromY + 36, {
-    width: contentWidth - 24,
-  });
-
-  doc.y = fromY + 68;
-}
-
-function detailRow(doc: PDFKit.PDFDocument, label: string, value: string, x: number, y: number, width: number) {
-  doc.fillColor(muted).font("Helvetica").fontSize(7.2).text(label, x, y, { width: 72, lineBreak: false });
-  doc.fillColor(text).font("Helvetica-Bold").fontSize(7.4).text(value || "-", x + 74, y, { width: width - 74, align: "right", lineBreak: false });
+  doc.y = noteY + 52;
 }
 
 function drawItemsTable(doc: PDFKit.PDFDocument, items: LineItem[]) {
@@ -246,18 +231,18 @@ function getRowHeight(doc: PDFKit.PDFDocument, item: LineItem) {
 }
 
 function drawTotalsAndClosing(doc: PDFKit.PDFDocument, quotation: Quotation) {
-  ensureSpace(doc, 205);
-  doc.y += 16;
+  ensureSpace(doc, 182);
+  doc.y += 14;
   const y = doc.y;
   const termsWidth = 292;
   const totalsX = margin + termsWidth + 20;
   const totalsWidth = contentWidth - termsWidth - 20;
 
-  doc.roundedRect(margin, y, termsWidth, 108, 4).fillAndStroke("#fbfcfa", line);
+  simpleCard(doc, margin, y, termsWidth, 94);
   doc.fillColor(text).font("Helvetica-Bold").fontSize(9).text("Terms & Conditions", margin + 12, y + 12);
   doc.fillColor(text).font("Helvetica").fontSize(7.1).text(buildTermsText(quotation.terms), margin + 12, y + 28, {
     width: termsWidth - 24,
-    height: 72,
+    height: 58,
   });
 
   let rowY = y;
@@ -276,46 +261,41 @@ function drawTotalsAndClosing(doc: PDFKit.PDFDocument, quotation: Quotation) {
   doc.fillColor("white").font("Helvetica-Bold").fontSize(10).text("Grand Total", totalsX + 10, rowY + 10);
   doc.text(pdfMoney(quotation.grand_total), totalsX + 92, rowY + 10, { width: totalsWidth - 104, align: "right" });
 
-  doc.y = Math.max(y + 116, rowY + 46);
+  doc.y = Math.max(y + 104, rowY + 46);
   ensureSpace(doc, 44);
   const wordsY = doc.y;
-  doc.roundedRect(margin, wordsY, contentWidth, 44, 4).fillAndStroke(light, line);
+  simpleCard(doc, margin, wordsY, contentWidth, 40);
   doc.fillColor(text).font("Helvetica-Bold").fontSize(8.5).text("Amount in Words", margin + 12, wordsY + 10);
   doc.fillColor(text)
     .font("Helvetica")
-    .fontSize(8)
+    .fontSize(7.6)
     .text(cleanPdfText(quotation.amount_in_words).replace(/^Rupees/i, "INR"), margin + 12, wordsY + 24, {
       width: contentWidth - 24,
     });
 
-  doc.y = wordsY + 62;
-  ensureSpace(doc, 88);
+  doc.y = wordsY + 54;
+  ensureSpace(doc, 70);
   const closeY = doc.y;
-  doc.roundedRect(margin, closeY, contentWidth, 78, 4).strokeColor(line).stroke();
-  doc.fillColor(deepGreen).font("Helvetica-Bold").fontSize(9).text("Execution Support", margin + 12, closeY + 12);
+  simpleCard(doc, margin, closeY, contentWidth, 60);
+  doc.fillColor(deepGreen).font("Helvetica-Bold").fontSize(9).text("Why Jaydeep Ply", margin + 12, closeY + 12);
   doc.fillColor(text)
     .font("Helvetica")
-    .fontSize(7.6)
+    .fontSize(7.1)
     .text(
-      "On receipt of your approval, we can assist with rate confirmation, material blocking, dispatch coordination, and revised commercial submission if required for your site process.",
+      "We request your confirmation so we can block the required material and maintain smooth delivery planning. Our team will be glad to assist with any clarification, revision, or site-specific requirement.",
       margin + 12,
       closeY + 28,
-      { width: 312 },
+      { width: 310 },
     );
-  doc.roundedRect(pageWidth - margin - 170, closeY + 12, 158, 56, 4).strokeColor(line).stroke();
-  doc.fillColor(text).font("Helvetica").fontSize(8).text("For Jaydeep Ply", pageWidth - margin - 162, closeY + 24, {
+  doc.fillColor(text).font("Helvetica").fontSize(8).text("For Jaydeep Ply", pageWidth - margin - 150, closeY + 18, {
     width: 142,
     align: "center",
   });
-  doc.fillColor(muted).font("Helvetica").fontSize(7.2).text("Authorised Signatory / Stamp", pageWidth - margin - 162, closeY + 42, {
+  doc.fillColor(text).font("Helvetica-Bold").fontSize(8.6).text(brand.contactPerson, pageWidth - margin - 150, closeY + 34, {
     width: 142,
     align: "center",
   });
-  doc.fillColor(text).font("Helvetica-Bold").fontSize(8.4).text(brand.contactPerson, pageWidth - margin - 162, closeY + 54, {
-    width: 142,
-    align: "center",
-  });
-  doc.y = closeY + 84;
+  doc.y = closeY + 72;
 }
 
 function totalRow(doc: PDFKit.PDFDocument, label: string, amount: number, x: number, y: number, width: number) {
@@ -337,8 +317,8 @@ function drawPageNumbers(doc: PDFKit.PDFDocument) {
     doc.moveTo(margin, pageHeight - 68).lineTo(pageWidth - margin, pageHeight - 68).strokeColor(line).stroke();
     doc.fillColor(muted)
       .font("Helvetica")
-      .fontSize(7.2)
-      .text("Jaydeep Ply | Timely material support | Clear billing | Site-focused service", margin, pageHeight - 58, {
+      .fontSize(6.5)
+      .text("Thank you for choosing Jaydeep Ply. Quality materials, clear pricing, and dependable service.", margin, pageHeight - 58, {
         width: contentWidth - 90,
         align: "left",
         lineBreak: false,
@@ -354,15 +334,16 @@ function drawPageNumbers(doc: PDFKit.PDFDocument) {
   }
 }
 
-function sectionLabel(doc: PDFKit.PDFDocument, label: string, x: number, y: number) {
-  doc.fillColor(deepGreen).font("Helvetica-Bold").fontSize(8.2).text(label.toUpperCase(), x, y);
+function simpleCard(doc: PDFKit.PDFDocument, x: number, y: number, width: number, height: number) {
+  doc.roundedRect(x, y, width, height, 4).strokeColor(line).stroke();
 }
 
-function infoCard(doc: PDFKit.PDFDocument, x: number, y: number, width: number, height: number, title: string) {
-  doc.roundedRect(x, y, width, height, 4).fillAndStroke("white", line);
-  doc.rect(x, y, width, 16).fillAndStroke(accent, line);
-  doc.fillColor(deepGreen).font("Helvetica-Bold").fontSize(7.8).text(title, x + 10, y + 5, {
-    width: width - 20,
+function infoLine(doc: PDFKit.PDFDocument, label: string, value: string, x: number, y: number, width: number) {
+  doc.fillColor(muted).font("Helvetica").fontSize(7.1).text(label, x, y, { width: 74, lineBreak: false });
+  doc.fillColor(text).font("Helvetica-Bold").fontSize(7.2).text(value || "-", x + 76, y, {
+    width: width - 76,
+    align: "right",
+    lineBreak: false,
   });
 }
 
@@ -411,7 +392,7 @@ function formatDate(value: string) {
 }
 
 function cleanSpecText(value: string) {
-  return cleanPdfText(value)
+  return cleanPdfText(stripTallyItemMeta(value))
     .replace(/\s*=\s*/g, " = ")
     .replace(/([a-z])Pricing:/i, "$1 | Pricing:")
     .replace(/([a-z])Conversion:/i, "$1 | Conversion:");
@@ -427,5 +408,15 @@ function cleanPdfText(value: string) {
     .replace(/\s+\n/g, "\n")
     .replace(/[ \t]+/g, " ")
     .trim();
+}
+
+function extractContact(value: string) {
+  const match = cleanPdfText(value).match(/(\+?\d[\d\s-]{7,}\d)/);
+  return match ? match[1] : "-";
+}
+
+function extractEmail(value: string) {
+  const match = cleanPdfText(value).match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
+  return match ? match[0] : "-";
 }
 

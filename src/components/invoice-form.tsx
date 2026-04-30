@@ -1,9 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { calculateTotals, round } from "@/lib/calculations";
 import { inr } from "@/lib/money";
+import { readTallyItemMeta, stripTallyItemMeta, writeTallyItemMeta } from "@/lib/tally-item-meta";
 import type { Invoice, LineItem } from "@/lib/types";
 import { Button } from "./button";
 
@@ -36,19 +37,76 @@ export type InvoiceProductOption = {
   category: string | null;
 };
 
+export type InvoiceClientOption = {
+  id: string;
+  name: string;
+  address: string | null;
+  gst_number: string | null;
+};
+
 export function InvoiceForm({
   invoice,
   productOptions = [],
+  clientOptions = [],
+  initialClientId,
 }: {
-  invoice: Invoice;
+  invoice?: Invoice;
   productOptions?: InvoiceProductOption[];
+  clientOptions?: InvoiceClientOption[];
+  initialClientId?: string;
 }) {
   const router = useRouter();
-  const [items, setItems] = useState<LineItem[]>(invoice.invoice_items?.length ? invoice.invoice_items : [{ ...emptyItem }]);
-  const [gstPercent, setGstPercent] = useState(invoice.gst_percent ?? 18);
-  const [discountType, setDiscountType] = useState<"amount" | "percent">(invoice.discount_type ?? "amount");
-  const [discountValue, setDiscountValue] = useState(Number(invoice.discount_value ?? 0));
-  const [alternateRates, setAlternateRates] = useState<Record<number, AlternateRate>>({});
+  const initialRows = useMemo(() => {
+    const source = invoice?.invoice_items?.length ? invoice.invoice_items : [{ ...emptyItem }];
+    const preparedItems: LineItem[] = [];
+    const preparedAlternateRates: Record<number, AlternateRate> = {};
+
+    source.forEach((item, index) => {
+      const meta = readTallyItemMeta(item.specification);
+      preparedItems.push({
+        ...item,
+        specification: stripTallyItemMeta(item.specification),
+      });
+      if (meta) {
+        preparedAlternateRates[index] = {
+          rate: String(meta.rate),
+          per: meta.per,
+          factor: String(meta.factor),
+        };
+      }
+    });
+
+    return { preparedItems, preparedAlternateRates };
+  }, [invoice?.invoice_items]);
+  const [items, setItems] = useState<LineItem[]>(initialRows.preparedItems);
+  const initialClient = invoice?.customer_id || initialClientId
+    ? clientOptions.find((client) => client.id === (invoice?.customer_id ?? initialClientId))
+    : clientOptions.find((client) => normalize(client.name) === normalize(invoice?.client_name ?? ""));
+  const [selectedClientId, setSelectedClientId] = useState(initialClient?.id ?? "");
+  const [invoiceNo, setInvoiceNo] = useState(invoice?.invoice_no ?? "");
+  const [clientName, setClientName] = useState(initialClient?.name ?? invoice?.client_name ?? "");
+  const [clientAddress, setClientAddress] = useState(initialClient?.address ?? invoice?.address ?? "");
+  const [clientGstNumber, setClientGstNumber] = useState(initialClient?.gst_number ?? invoice?.gst_number ?? "");
+  const [showShipTo, setShowShipTo] = useState(Boolean(invoice?.ship_to_enabled));
+  const [shipToName, setShipToName] = useState(invoice?.ship_to_name ?? initialClient?.name ?? invoice?.client_name ?? "");
+  const [shipToAddress, setShipToAddress] = useState(invoice?.ship_to_address ?? initialClient?.address ?? invoice?.address ?? "");
+  const [shipToGstNumber, setShipToGstNumber] = useState(invoice?.ship_to_gst_number ?? initialClient?.gst_number ?? invoice?.gst_number ?? "");
+  const [gstPercent, setGstPercent] = useState(invoice?.gst_percent ?? 18);
+  const [discountType, setDiscountType] = useState<"amount" | "percent">(invoice?.discount_type ?? "amount");
+  const [discountValue, setDiscountValue] = useState(Number(invoice?.discount_value ?? 0));
+  const [dispatchDocNo, setDispatchDocNo] = useState(invoice?.dispatch_doc_no ?? "");
+  const [dispatchDate, setDispatchDate] = useState(invoice?.dispatch_date ?? "");
+  const [dispatchedThrough, setDispatchedThrough] = useState(invoice?.dispatched_through ?? "");
+  const [destination, setDestination] = useState(invoice?.destination ?? "");
+  const [carrierName, setCarrierName] = useState(invoice?.carrier_name ?? "");
+  const [billLadingNo, setBillLadingNo] = useState(invoice?.bill_lading_no ?? "");
+  const [vehicleNo, setVehicleNo] = useState(invoice?.vehicle_no ?? "");
+  const [orderNo, setOrderNo] = useState(invoice?.order_no ?? "");
+  const [orderDate, setOrderDate] = useState(invoice?.order_date ?? "");
+  const [paymentTerms, setPaymentTerms] = useState(invoice?.payment_terms ?? "");
+  const [otherReferences, setOtherReferences] = useState(invoice?.other_references ?? "");
+  const [termsOfDelivery, setTermsOfDelivery] = useState(invoice?.terms_of_delivery ?? "");
+  const [alternateRates, setAlternateRates] = useState<Record<number, AlternateRate>>(initialRows.preparedAlternateRates);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const totals = useMemo(
@@ -79,6 +137,39 @@ export function InvoiceForm({
     }));
   }
 
+  function applyClient(client: InvoiceClientOption) {
+    setSelectedClientId(client.id);
+    setClientName(client.name);
+    setClientAddress(client.address || "");
+    setClientGstNumber(client.gst_number || "");
+    if (showShipTo) {
+      setShipToName(client.name);
+      setShipToAddress(client.address || "");
+      setShipToGstNumber(client.gst_number || "");
+    }
+  }
+
+  function findClient(value: string, mode: "exact" | "loose" = "exact") {
+    const normalized = normalize(value);
+    if (!normalized) return null;
+    const exact = clientOptions.find((option) => normalize(option.name) === normalized);
+    if (exact || mode === "exact") return exact ?? null;
+    return clientOptions.find((option) => normalize(option.name).includes(normalized)) ?? null;
+  }
+
+  function updateClientName(value: string) {
+    setClientName(value);
+    setSelectedClientId("");
+    const client = findClient(value, "exact");
+    if (!client) return;
+    applyClient(client);
+  }
+
+  function syncClientFromName(value: string) {
+    const client = findClient(value, "loose");
+    if (client) applyClient(client);
+  }
+
   function alternateRateFor(index: number, source = alternateRates): AlternateRate {
     const item = items[index];
     return source[index] ?? { rate: String(item?.rate ?? 0), per: item?.unit ?? "Nos", factor: "1" };
@@ -104,14 +195,18 @@ export function InvoiceForm({
     setError("");
     try {
       const formData = new FormData(event.currentTarget);
-      formData.set("items", JSON.stringify(totals.items));
-      const response = await fetch(`/api/invoices/${invoice.id}`, {
-        method: "PUT",
+      const persistedItems = totals.items.map((item, index) => ({
+        ...item,
+        specification: writeTallyItemMeta(item.specification, tallyMetaFor(index, item)),
+      }));
+      formData.set("items", JSON.stringify(persistedItems));
+      const response = await fetch(invoice ? `/api/invoices/${invoice.id}` : "/api/invoices", {
+        method: invoice ? "PUT" : "POST",
         body: formData,
       });
       const payload = await response.json().catch(() => ({}));
       if (!response.ok || !payload.ok) throw new Error(payload.error || "Could not save invoice.");
-      router.push(`/invoices/${invoice.id}`);
+      router.push(`/invoices/${payload.id ?? invoice?.id}`);
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not save invoice.");
@@ -120,32 +215,153 @@ export function InvoiceForm({
     }
   }
 
+  function tallyMetaFor(index: number, item: LineItem) {
+    const alternateRate = alternateRateFor(index);
+    const alternateValue = Number(alternateRate.rate);
+    const factor = Number(alternateRate.factor);
+    const alternateUnit = String(alternateRate.per || "").trim();
+    if (!alternateUnit || normalize(alternateUnit) === normalize(item.unit || "")) return null;
+    if (!Number.isFinite(alternateValue) || alternateValue <= 0 || !Number.isFinite(factor) || factor <= 0) return null;
+    return {
+      rate: round(alternateValue),
+      per: alternateUnit,
+      factor: round(factor),
+    };
+  }
+
+  useEffect(() => {
+    const matchedClient =
+      (selectedClientId ? clientOptions.find((client) => client.id === selectedClientId) : null) ??
+      findClient(clientName, "exact");
+    if (!matchedClient) return;
+
+    setSelectedClientId(matchedClient.id);
+    setClientAddress(matchedClient.address || "");
+    setClientGstNumber(matchedClient.gst_number || "");
+
+    if (showShipTo && !shipToAddress.trim() && !shipToGstNumber.trim()) {
+      setShipToName((current) => current || matchedClient.name);
+      setShipToAddress(matchedClient.address || "");
+      setShipToGstNumber(matchedClient.gst_number || "");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedClientId, clientOptions]);
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <input type="hidden" name="invoice_id" value={invoice.id} />
+      {invoice ? <input type="hidden" name="invoice_id" value={invoice.id} /> : null}
       <input type="hidden" name="items" value={JSON.stringify(totals.items)} />
 
       <section className="grid gap-4 rounded-md border border-[#d8dfd7] bg-white p-4 sm:grid-cols-2">
-        <Field label="Party ledger / client name" name="client_name" defaultValue={invoice.client_name} required />
-        <Field label="Project / reference" name="project_name" defaultValue={invoice.project_name} required />
-        <Field label="GST number" name="gst_number" defaultValue={invoice.gst_number} />
-        <Field label="Invoice date" name="invoice_date" type="date" defaultValue={invoice.invoice_date} required />
-        <Field label="Due date" name="due_date" type="date" defaultValue={invoice.due_date ?? ""} />
+        <Field label="Invoice No." name="invoice_no" value={invoiceNo} onChange={(event) => setInvoiceNo(event.target.value)} placeholder="Leave blank for auto numbering" />
+        <div>
+          <Field
+            label="Party ledger / client name"
+            name="client_name"
+            list="invoice-clients"
+            autoComplete="off"
+            value={clientName}
+            onChange={(event) => updateClientName(event.target.value)}
+            onBlur={(event) => syncClientFromName(event.target.value)}
+            required
+          />
+          <select
+            className="mt-2 w-full rounded-md border border-[#cdd6cf] bg-[#fbfcfa] px-3 py-2 text-sm outline-none focus:border-[#1f6f50]"
+            value={selectedClientId}
+            onChange={(event) => {
+              const client = clientOptions.find((option) => option.id === event.target.value);
+              if (client) applyClient(client);
+              else setSelectedClientId("");
+            }}
+          >
+            <option value="">Select synced client</option>
+            {clientOptions.map((client) => (
+              <option key={client.id} value={client.id}>
+                {client.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <Field label="Project / reference" name="project_name" defaultValue={invoice?.project_name ?? ""} required />
+        <Field label="GST number" name="gst_number" value={clientGstNumber} onChange={(event) => setClientGstNumber(event.target.value)} />
+        <Field label="Invoice date" name="invoice_date" type="date" defaultValue={invoice?.invoice_date ?? new Date().toISOString().slice(0, 10)} required />
+        <Field label="Due date" name="due_date" type="date" defaultValue={invoice?.due_date ?? ""} />
         <div className="rounded-md border border-[#d8dfd7] bg-[#f8faf7] p-3 text-sm">
           <p className="font-semibold">Tally sync status</p>
-          <p className="mt-1 text-[#5d6b60]">{invoice.tally_sync_status ?? "not_synced"}</p>
-          <p className="mt-1 text-xs text-[#8a5b00]">Saving changes will mark this invoice as not synced.</p>
+          <p className="mt-1 text-[#5d6b60]">{invoice?.tally_sync_status ?? "not_synced"}</p>
+          <p className="mt-1 text-xs text-[#8a5b00]">{invoice ? "Saving changes will mark this invoice as not synced." : "New invoices start as not synced until you push them to Tally."}</p>
         </div>
         <label className="sm:col-span-2">
           <span className="text-sm font-semibold">Billing address</span>
           <textarea
             name="address"
-            defaultValue={invoice.address}
+            value={clientAddress}
+            onChange={(event) => setClientAddress(event.target.value)}
             required
             rows={3}
             className="mt-1 w-full rounded-md border border-[#cdd6cf] px-3 py-2 outline-none focus:border-[#1f6f50]"
           />
         </label>
+        <datalist id="invoice-clients">
+          {clientOptions.map((client) => (
+            <option key={client.id} value={client.name}>
+              {client.gst_number || client.address || "Synced client"}
+            </option>
+          ))}
+        </datalist>
+        <label className="flex items-center gap-2 rounded-md border border-[#d8dfd7] bg-[#f8faf7] px-3 py-2 sm:col-span-2">
+          <input
+            type="checkbox"
+            name="ship_to_enabled"
+            checked={showShipTo}
+            onChange={(event) => {
+              const next = event.target.checked;
+              setShowShipTo(next);
+              if (next) {
+                setShipToName((current) => current || clientName);
+                setShipToAddress((current) => current || clientAddress);
+                setShipToGstNumber((current) => current || clientGstNumber);
+              }
+            }}
+            className="h-4 w-4"
+          />
+          <span className="text-sm font-semibold">Consignee / Ship To is different from Buyer / Bill To</span>
+        </label>
+        {showShipTo ? (
+          <div className="grid gap-4 rounded-md border border-[#d8dfd7] bg-[#fbfcfa] p-4 sm:col-span-2 sm:grid-cols-2">
+            <Field label="Ship To name" name="ship_to_name" value={shipToName} onChange={(event) => setShipToName(event.target.value)} />
+            <Field label="Ship To GST number" name="ship_to_gst_number" value={shipToGstNumber} onChange={(event) => setShipToGstNumber(event.target.value)} />
+            <label className="sm:col-span-2">
+              <span className="text-sm font-semibold">Ship To address</span>
+              <textarea
+                name="ship_to_address"
+                value={shipToAddress}
+                onChange={(event) => setShipToAddress(event.target.value)}
+                rows={3}
+                className="mt-1 w-full rounded-md border border-[#cdd6cf] px-3 py-2 outline-none focus:border-[#1f6f50]"
+              />
+            </label>
+          </div>
+        ) : null}
+      </section>
+
+      <section className="grid gap-4 rounded-md border border-[#d8dfd7] bg-white p-4 sm:grid-cols-2">
+        <div className="sm:col-span-2">
+          <h2 className="text-lg font-bold">Dispatch and Order Details</h2>
+          <p className="text-sm text-[#5d6b60]">Fill these the same way you do in Tally when dispatch, carrier, order, or payment terms are relevant.</p>
+        </div>
+        <Field label="Dispatch Doc No." name="dispatch_doc_no" value={dispatchDocNo} onChange={(event) => setDispatchDocNo(event.target.value)} />
+        <Field label="Dispatch date" name="dispatch_date" type="date" value={dispatchDate} onChange={(event) => setDispatchDate(event.target.value)} />
+        <Field label="Dispatched through" name="dispatched_through" value={dispatchedThrough} onChange={(event) => setDispatchedThrough(event.target.value)} />
+        <Field label="Destination" name="destination" value={destination} onChange={(event) => setDestination(event.target.value)} />
+        <Field label="Carrier / agent" name="carrier_name" value={carrierName} onChange={(event) => setCarrierName(event.target.value)} />
+        <Field label="Bill of Lading / LR-RR No." name="bill_lading_no" value={billLadingNo} onChange={(event) => setBillLadingNo(event.target.value)} />
+        <Field label="Motor vehicle No." name="vehicle_no" value={vehicleNo} onChange={(event) => setVehicleNo(event.target.value)} />
+        <Field label="Order No." name="order_no" value={orderNo} onChange={(event) => setOrderNo(event.target.value)} />
+        <Field label="Order date" name="order_date" type="date" value={orderDate} onChange={(event) => setOrderDate(event.target.value)} />
+        <Field label="Mode / Terms of payment" name="payment_terms" value={paymentTerms} onChange={(event) => setPaymentTerms(event.target.value)} />
+        <Field label="Other references" name="other_references" value={otherReferences} onChange={(event) => setOtherReferences(event.target.value)} />
+        <Field label="Terms of delivery" name="terms_of_delivery" value={termsOfDelivery} onChange={(event) => setTermsOfDelivery(event.target.value)} />
       </section>
 
       <section className="overflow-hidden rounded-md border border-[#d8dfd7] bg-white">
@@ -205,6 +421,7 @@ export function InvoiceForm({
                       <input
                         className="w-24 rounded-md border border-[#cdd6cf] px-2 py-2"
                         value={item.unit}
+                        placeholder="Nos or Nos = sqft"
                         onChange={(event) => updateItem(index, { unit: event.target.value })}
                         required
                       />
@@ -245,6 +462,7 @@ export function InvoiceForm({
                           </label>
                         ) : null}
                         <p className="mt-1 text-[11px] text-[#5d6b61]">Billing rate: {inr(item.rate)} / {item.unit || "unit"}</p>
+                        <p className="text-[11px] text-[#7b877d]">Use `Nos = sqft` style if you want the unit format to read like quotation rows.</p>
                       </div>
                     </td>
                     <td className="px-3 py-2 font-semibold">{inr(item.amount)}</td>
@@ -279,7 +497,7 @@ export function InvoiceForm({
           <textarea
             className="mt-1 min-h-40 w-full rounded-md border border-[#cdd6cf] px-3 py-2"
             name="terms"
-            defaultValue={invoice.terms ?? defaultTerms}
+            defaultValue={invoice?.terms ?? defaultTerms}
           />
         </label>
         <div className="space-y-3">
@@ -325,7 +543,7 @@ export function InvoiceForm({
       <div className="flex justify-end">
         <div className="flex flex-col items-end gap-2">
           {error ? <p className="max-w-xl text-sm text-[#b42318]">{error}</p> : null}
-          <Button type="submit" disabled={saving}>{saving ? "Saving..." : "Save invoice"}</Button>
+          <Button type="submit" disabled={saving}>{saving ? "Saving..." : invoice ? "Save invoice" : "Create invoice"}</Button>
         </div>
       </div>
     </form>

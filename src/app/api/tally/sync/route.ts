@@ -409,8 +409,17 @@ async function syncLedgers(supabase: Awaited<ReturnType<typeof createClient>>, r
 function extractLedgerAddress(ledger: Record<string, unknown>) {
   const lines = [
     ...collectTextByKey(ledger, "ADDRESS"),
+    ...collectTextByKey(ledger, "ADDRESS1"),
+    ...collectTextByKey(ledger, "ADDRESS2"),
+    ...collectTextByKey(ledger, "ADDRESS3"),
+    ...collectTextByKey(ledger, "ADDRESS4"),
+    ...collectTextByKey(ledger, "ADDRESS5"),
+    ...collectTextByKey(ledger, "MAILINGNAME"),
     nodeText(ledger.LEDGERADDRESS),
     nodeText(ledger.MAILINGADDRESS),
+    nodeText(ledger.MAILINGNAME),
+    nodeText(ledger.STATENAME),
+    nodeText(ledger.COUNTRYNAME),
     nodeText(ledger.PINCODE) ? `PIN: ${nodeText(ledger.PINCODE)}` : "",
   ]
     .map((line) => line.replace(/\s+/g, " ").trim())

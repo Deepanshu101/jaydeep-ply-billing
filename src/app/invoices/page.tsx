@@ -12,11 +12,16 @@ export default async function InvoicesPage() {
 
   return (
     <AppShell>
-      <h1 className="text-3xl font-bold">Invoices</h1>
-      <p className="text-[#5d6b60]">Export invoice entries for TallyPrime XML.</p>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-3xl font-bold">Invoices</h1>
+          <p className="text-[#5d6b60]">Create direct invoices or export invoice entries for TallyPrime XML.</p>
+        </div>
+        <ButtonLink href="/invoices/new">New invoice</ButtonLink>
+      </div>
       <div className="mt-6 overflow-hidden rounded-md border border-[#d8dfd7] bg-white">
         {invoices.length === 0 ? (
-          <EmptyState title="No invoices yet" actionHref="/quotations" actionLabel="Convert approved quotation" />
+          <EmptyState title="No invoices yet" actionHref="/invoices/new" actionLabel="Create direct invoice" />
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-[760px] w-full text-sm">

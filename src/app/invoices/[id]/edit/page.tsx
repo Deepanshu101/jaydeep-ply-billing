@@ -1,16 +1,18 @@
 import { notFound } from "next/navigation";
 import { AppShell } from "@/components/app-shell";
 import { ButtonLink } from "@/components/button";
-import { InvoiceForm, type InvoiceProductOption } from "@/components/invoice-form";
+import { InvoiceForm, type InvoiceClientOption, type InvoiceProductOption } from "@/components/invoice-form";
+import { loadClientOptionsWithFallback } from "@/lib/client-options";
 import { createClient } from "@/lib/supabase/server";
 import type { Invoice } from "@/lib/types";
 
 export default async function EditInvoicePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const supabase = await createClient();
-  const [{ data, error }, productOptions] = await Promise.all([
+  const [{ data, error }, productOptions, clientOptions] = await Promise.all([
     supabase.from("invoices").select("*, invoice_items(*)").eq("id", id).single(),
     loadProductOptions(),
+    loadClientOptions(),
   ]);
   if (error) throw new Error(`Could not load invoice: ${error.message}`);
   if (!data) notFound();
@@ -28,7 +30,7 @@ export default async function EditInvoicePage({ params }: { params: Promise<{ id
           Back to invoice
         </ButtonLink>
       </div>
-      <InvoiceForm invoice={invoice} productOptions={productOptions} />
+      <InvoiceForm invoice={invoice} productOptions={productOptions} clientOptions={clientOptions} />
     </AppShell>
   );
 }
@@ -64,4 +66,14 @@ async function loadProductOptions() {
         category: product.category,
       }) satisfies InvoiceProductOption,
   );
+}
+
+async function loadClientOptions() {
+  const customers = await loadClientOptionsWithFallback();
+  return (customers as InvoiceClientOption[]).map((customer) => ({
+    id: customer.id,
+    name: customer.name,
+    address: customer.address,
+    gst_number: customer.gst_number,
+  }));
 }

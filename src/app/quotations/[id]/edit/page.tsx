@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { AppShell } from "@/components/app-shell";
 import { QuotationForm, type ClientOption, type ProductOption } from "@/components/quotation-form";
 import { QuotationShareActions } from "@/components/quotation-share-actions";
+import { loadClientOptionsWithFallback } from "@/lib/client-options";
 import { createClient } from "@/lib/supabase/server";
 import type { Quotation } from "@/lib/types";
 
@@ -40,10 +41,8 @@ export default async function EditQuotationPage({ params }: { params: Promise<{ 
 }
 
 async function loadClientOptions() {
-  const supabase = await createClient();
-  const { data: customers } = await supabase.from("customers").select("id, name, address, gst_number").order("name");
-
-  return ((customers ?? []) as ClientOption[]).map((customer) => ({
+  const customers = await loadClientOptionsWithFallback();
+  return (customers as ClientOption[]).map((customer) => ({
     id: customer.id,
     name: customer.name,
     address: customer.address,

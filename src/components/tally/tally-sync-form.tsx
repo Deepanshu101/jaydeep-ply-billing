@@ -12,7 +12,7 @@ export function TallySyncForm({
 }) {
   const [fromDate, setFromDate] = useState(defaultFrom);
   const [toDate, setToDate] = useState(defaultTo);
-  const [loadingMode, setLoadingMode] = useState<"masters" | "rates" | null>(null);
+  const [loadingMode, setLoadingMode] = useState<"masters" | "rates" | "full" | null>(null);
   const [message, setMessage] = useState("");
   const [debug, setDebug] = useState<
     {
@@ -26,29 +26,48 @@ export function TallySyncForm({
     }[]
   >([]);
 
-  async function sync(syncMode: "masters" | "rates") {
+  async function runSync(syncMode: "masters" | "rates") {
+    setDebug([]);
+    const response = await fetch("/api/tally/sync", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ from_date: fromDate, to_date: toDate, sync_mode: syncMode }),
+    });
+    const payload = await response.json();
+    setDebug(payload.summary?.debug ?? []);
+    if (!response.ok) throw new Error(payload.error || "Tally sync failed.");
+    return payload;
+  }
+
+  async function sync(syncMode: "masters" | "rates" | "full") {
     setLoadingMode(syncMode);
     setMessage(
       syncMode === "rates"
         ? "Contacting TallyPrime for JP_SALES_EXPORT_REPORT. This requires the custom TDL report to be installed in Tally."
-        : "Contacting TallyPrime for client and product masters. This does not require custom TDL.",
+        : syncMode === "full"
+          ? "Running full Tally sync: first client/product masters, then sales rate history."
+          : "Contacting TallyPrime for client and product masters. This does not require custom TDL.",
     );
     setDebug([]);
     try {
-      const response = await fetch("/api/tally/sync", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ from_date: fromDate, to_date: toDate, sync_mode: syncMode }),
-      });
-      const payload = await response.json();
-      setDebug(payload.summary?.debug ?? []);
-      if (!response.ok) throw new Error(payload.error || "Tally sync failed.");
-      const warnings = payload.summary.warnings?.length ? ` Warning: ${payload.summary.warnings.join(" ")}` : "";
-      setMessage(
-        syncMode === "rates"
-          ? `Imported ${payload.summary.rates} selling-rate rows.${warnings}`
-          : `Imported ${payload.summary.clients} clients and ${payload.summary.products} products.${warnings}`,
-      );
+      if (syncMode === "full") {
+        const mastersPayload = await runSync("masters");
+        const mastersWarnings = mastersPayload.summary.warnings?.length ? ` Warning: ${mastersPayload.summary.warnings.join(" ")}` : "";
+        setMessage(`Masters synced. Imported ${mastersPayload.summary.clients} clients and ${mastersPayload.summary.products} products.${mastersWarnings} Starting sales rate history...`);
+        const ratesPayload = await runSync("rates");
+        const rateWarnings = ratesPayload.summary.warnings?.length ? ` Warning: ${ratesPayload.summary.warnings.join(" ")}` : "";
+        setMessage(
+          `Full sync completed. Clients ${mastersPayload.summary.clients}, Products ${mastersPayload.summary.products}, Rates ${ratesPayload.summary.rates}.${rateWarnings}`,
+        );
+      } else {
+        const payload = await runSync(syncMode);
+        const warnings = payload.summary.warnings?.length ? ` Warning: ${payload.summary.warnings.join(" ")}` : "";
+        setMessage(
+          syncMode === "rates"
+            ? `Imported ${payload.summary.rates} selling-rate rows.${warnings}`
+            : `Imported ${payload.summary.clients} clients and ${payload.summary.products} products.${warnings}`,
+        );
+      }
       window.location.reload();
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Tally sync failed.");
@@ -73,10 +92,13 @@ export function TallySyncForm({
           <input className="mt-1 w-full rounded-md border border-[#cdd6cf] px-3 py-2" type="date" value={toDate} onChange={(event) => setToDate(event.target.value)} />
         </label>
         <div className="flex flex-col justify-end gap-2 sm:flex-row">
+          <Button type="button" onClick={() => sync("full")} disabled={Boolean(loadingMode)}>
+            {loadingMode === "full" ? "Syncing all..." : "Sync all"}
+          </Button>
           <Button type="button" variant="secondary" onClick={() => sync("masters")} disabled={Boolean(loadingMode)}>
             {loadingMode === "masters" ? "Syncing..." : "Sync clients/products"}
           </Button>
-          <Button type="button" onClick={() => sync("rates")} disabled={Boolean(loadingMode)}>
+          <Button type="button" variant="secondary" onClick={() => sync("rates")} disabled={Boolean(loadingMode)}>
             {loadingMode === "rates" ? "Syncing..." : "Sync sales rates"}
           </Button>
         </div>

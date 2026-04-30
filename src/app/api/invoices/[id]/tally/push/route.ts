@@ -30,7 +30,7 @@ export async function POST(_request: Request, { params }: { params: Promise<{ id
   }
 
   const invoice = data as Invoice;
-  invoice.invoice_items = await applySyncedTallyUnits(supabase, invoice.invoice_items ?? []);
+  invoice.invoice_items = await applySyncedTallyItems(supabase, invoice.invoice_items ?? []);
   const extendedOptions = options as TallyInvoiceOptions & { preflightOnly?: boolean };
   const preflightOnly = Boolean(extendedOptions.preflightOnly);
   const readiness = await checkTallyReadiness(invoice, options);
@@ -154,6 +154,24 @@ async function pushInvoiceWithCompatibleXml(invoice: Invoice, options: TallyInvo
     ? [{ name: "accounting invoice", options }]
     : [
         {
+          name: "stock invoice - official sample envelope with batch",
+          options: {
+            ...options,
+            inventoryQtySign: "positive" as const,
+            stockXmlMode: "invoice-batch" as const,
+            voucherEnvelopeMode: "sample-data" as const,
+          },
+        },
+        {
+          name: "stock invoice - official sample envelope without batch",
+          options: {
+            ...options,
+            inventoryQtySign: "positive" as const,
+            stockXmlMode: "invoice-no-batch" as const,
+            voucherEnvelopeMode: "sample-data" as const,
+          },
+        },
+        {
           name: "stock invoice - invoice view with godown batch",
           options: { ...options, inventoryQtySign: "negative" as const, stockXmlMode: "invoice-batch" as const },
         },
@@ -233,22 +251,26 @@ async function pushInvoiceWithCompatibleXml(invoice: Invoice, options: TallyInvo
   };
 }
 
-async function applySyncedTallyUnits(
+async function applySyncedTallyItems(
   supabase: Awaited<ReturnType<typeof createClient>>,
   items: LineItem[],
 ) {
   if (!items.length) return items;
-  const { data } = await supabase.from("products").select("name, unit").in("name", items.map((item) => item.description));
-  const units = new Map((data ?? []).map((product) => [normalizeName(String(product.name)), String(product.unit || "")]));
-
+  const catalog = await loadProductCatalog(supabase);
   return items.map((item) => {
-    const syncedUnit = units.get(normalizeName(item.description));
-    return syncedUnit ? { ...item, unit: syncedUnit } : item;
+    const matched = matchCatalogItem(item.description, catalog);
+    if (!matched) return item;
+    return {
+      ...item,
+      description: matched.name,
+      unit: matched.unit || item.unit,
+    };
   });
 }
 
 async function checkTallyReadiness(invoice: Invoice, options: TallyInvoiceOptions) {
   const accountingMode = Boolean(options.accountingMode);
+  const gstThroughSalesLedger = Boolean(options.gstThroughSalesLedger);
   const [ledgerNames, stockNames] = await Promise.all([fetchTallyLedgerNames(), accountingMode ? Promise.resolve(new Set<string>()) : fetchTallyStockItemNames()]);
   const missingLedgers: string[] = [];
   const salesLedgerName = options.salesLedgerName || process.env.TALLY_SALES_LEDGER || "Sales";
@@ -260,9 +282,9 @@ async function checkTallyReadiness(invoice: Invoice, options: TallyInvoiceOption
   const taxAmount = Number(invoice.cgst || 0) + Number(invoice.sgst || 0);
   const requiredLedgers = [
     salesLedgerName,
-    options.isInterstate && taxAmount > 0 ? igstLedgerName : "",
-    !options.isInterstate && Number(invoice.cgst || 0) > 0 ? cgstLedgerName : "",
-    !options.isInterstate && Number(invoice.sgst || 0) > 0 ? sgstLedgerName : "",
+    !gstThroughSalesLedger && options.isInterstate && taxAmount > 0 ? igstLedgerName : "",
+    !gstThroughSalesLedger && !options.isInterstate && Number(invoice.cgst || 0) > 0 ? cgstLedgerName : "",
+    !gstThroughSalesLedger && !options.isInterstate && Number(invoice.sgst || 0) > 0 ? sgstLedgerName : "",
     Number(invoice.discount_amount || 0) > 0 && discountLedgerName ? discountLedgerName : "",
     roundOffLedgerName,
   ].filter(Boolean);
@@ -283,6 +305,7 @@ async function checkTallyReadiness(invoice: Invoice, options: TallyInvoiceOption
     checked: {
       partyLedger: invoice.client_name,
       salesLedger: salesLedgerName,
+      gstThroughSalesLedger,
       taxLedgers: requiredLedgers.filter((ledger) => ledger !== salesLedgerName),
       stockItemCount: invoice.invoice_items?.length ?? 0,
     },
@@ -358,6 +381,54 @@ function uniqueMissingItems(items: LineItem[], existing: Set<string>) {
   return [...missing.values()];
 }
 
+async function loadProductCatalog(supabase: Awaited<ReturnType<typeof createClient>>) {
+  const [{ data: products }, { data: aliases }] = await Promise.all([
+    supabase.from("products").select("id, name, unit").eq("is_active", true),
+    supabase.from("product_aliases").select("product_id, alias"),
+  ]);
+
+  const productMap = new Map(
+    ((products ?? []) as { id: string; name: string; unit: string | null }[]).map((product) => [product.id, product]),
+  );
+  const index = new Map<string, { id: string; name: string; unit: string }>();
+
+  for (const product of productMap.values()) {
+    index.set(normalizeName(product.name), {
+      id: product.id,
+      name: product.name,
+      unit: String(product.unit || "Nos"),
+    });
+  }
+
+  for (const alias of (aliases ?? []) as { product_id: string; alias: string }[]) {
+    const product = productMap.get(alias.product_id);
+    if (!product || !alias.alias) continue;
+    index.set(normalizeName(alias.alias), {
+      id: product.id,
+      name: product.name,
+      unit: String(product.unit || "Nos"),
+    });
+  }
+
+  return index;
+}
+
+function matchCatalogItem(
+  rawName: string,
+  catalog: Map<string, { id: string; name: string; unit: string }>,
+) {
+  const normalized = normalizeName(rawName);
+  if (!normalized) return null;
+  const exact = catalog.get(normalized);
+  if (exact) return exact;
+
+  for (const [key, product] of catalog.entries()) {
+    if (key.includes(normalized) || normalized.includes(key)) return product;
+  }
+
+  return null;
+}
+
 function tallyUnit(value: string) {
   const unit = String(value || "Nos")
     .replace(/\s*=\s*/g, "=")
@@ -375,7 +446,18 @@ function getName(node: Record<string, unknown>) {
 }
 
 function normalizeName(value: string) {
-  return value.toLowerCase().replace(/\s+/g, " ").trim();
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[’'`]/g, "")
+    .replace(/[“”"]/g, "")
+    .replace(/[×x]/g, " x ")
+    .replace(/&/g, " and ")
+    .replace(/\bnos?\b/g, " nos ")
+    .replace(/\bpcs?\b/g, " nos ")
+    .replace(/\bsq\.?\s*ft\b|\bsft\b/g, " sqft ")
+    .replace(/[^a-z0-9]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function isSuccessfulTallyImport(response: string) {

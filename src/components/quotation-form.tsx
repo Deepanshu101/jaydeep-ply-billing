@@ -92,6 +92,23 @@ export function QuotationForm({
   const [error, setError] = useState("");
   const totals = useMemo(() => calculateTotals(items, gstPercent, discountValue, discountType), [items, gstPercent, discountValue, discountType]);
 
+  useEffect(() => {
+    setItems(initialRows.preparedItems);
+    setAlternateRates(initialRows.preparedAlternateRates);
+    setItemPricing({});
+    setSelectedClientId(initialClient?.id ?? "");
+    setClientName(quotation?.client_name ?? initialClient?.name ?? "");
+    setClientAddress(quotation?.address ?? initialClient?.address ?? "");
+    setClientGstNumber(quotation?.gst_number ?? initialClient?.gst_number ?? "");
+    setGstPercent(quotation?.gst_percent ?? 18);
+    setDiscountType(quotation?.discount_type ?? "amount");
+    setDiscountValue(Number(quotation?.discount_value ?? 0));
+    setShowShipTo(Boolean(quotation?.ship_to_enabled));
+    const nextMargin = Number(quotation?.expected_margin_percent ?? pricingPresets.project);
+    setMarginPercent(nextMargin);
+    setPricingMode("project");
+  }, [initialRows, initialClient, quotation]);
+
   function updateItem(index: number, patch: Partial<LineItem>) {
     setItems((current) => current.map((item, itemIndex) => (itemIndex === index ? { ...item, ...patch } : item)));
   }

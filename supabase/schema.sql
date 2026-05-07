@@ -585,3 +585,5 @@ create policy "authenticated product rate history" on public.product_rate_histor
 revoke execute on function public.next_document_number(text) from public;
 revoke execute on function public.next_document_number(text) from anon;
 revoke execute on function public.next_document_number(text) from authenticated;
+grant execute on function public.next_document_number(text) to authenticated;
+grant execute on function public.next_document_number(text) to service_role;

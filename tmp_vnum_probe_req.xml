@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ENVELOPE>
+  <HEADER>
+    <VERSION>1</VERSION>
+    <TALLYREQUEST>Export</TALLYREQUEST>
+    <TYPE>Collection</TYPE>
+    <ID>JP Voucher Number Probe</ID>
+  </HEADER>
+  <BODY>
+    <DESC>
+      <STATICVARIABLES>
+        <SVCURRENTCOMPANY>Jaydeep Ply (2021-26)</SVCURRENTCOMPANY>
+        <SVEXPORTFORMAT>$$SysName:XML</SVEXPORTFORMAT>
+        <SVFROMDATE TYPE="Date">30-Apr-2026</SVFROMDATE>
+        <SVTODATE TYPE="Date">30-Apr-2026</SVTODATE>
+      </STATICVARIABLES>
+      <TDL>
+        <TDLMESSAGE>
+          <COLLECTION NAME="JP Voucher Number Probe" ISINITIALIZE="Yes">
+            <TYPE>Voucher</TYPE>
+            <FILTERS>JPProbeDate,JPProbeNumber</FILTERS>
+            <FETCH>Date,VoucherNumber,VoucherTypeName,PartyLedgerName,PartyName,AllInventoryEntries.*,LedgerEntries.*,AllLedgerEntries.*</FETCH>
+          </COLLECTION>
+          <SYSTEM TYPE="Formulae" NAME="JPProbeDate">$Date &gt;= ##SVFromDate AND $Date &lt;= ##SVToDate</SYSTEM>
+          <SYSTEM TYPE="Formulae" NAME="JPProbeNumber">$$String:$VoucherNumber = "16782"</SYSTEM>
+        </TDLMESSAGE>
+      </TDL>
+    </DESC>
+  </BODY>
+</ENVELOPE>

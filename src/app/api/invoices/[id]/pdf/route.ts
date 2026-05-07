@@ -15,7 +15,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
   return new NextResponse(new Uint8Array(buffer), {
     headers: {
       "content-type": "application/pdf",
-      "content-disposition": `inline; filename="${String(data.invoice_no).replaceAll("/", "-")}.pdf"`,
+      "content-disposition": `attachment; filename="${String(data.invoice_no).replaceAll("/", "-")}.pdf"`,
     },
   });
 }

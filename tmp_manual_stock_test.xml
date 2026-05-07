@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ENVELOPE>
+  <HEADER>
+    <TALLYREQUEST>Import Data</TALLYREQUEST>
+  </HEADER>
+  <BODY>
+    <IMPORTDATA>
+      <REQUESTDESC>
+        <REPORTNAME>Vouchers</REPORTNAME>
+      </REQUESTDESC>
+      <REQUESTDATA>
+        <TALLYMESSAGE xmlns:UDF="TallyUDF">
+          <VOUCHER VCHTYPE="Sales GST" ACTION="Create" OBJVIEW="Invoice Voucher View">
+            <DATE>20260430</DATE>
+            <EFFECTIVEDATE>20260430</EFFECTIVEDATE>
+            <VOUCHERTYPENAME>Sales GST</VOUCHERTYPENAME>
+            <VOUCHERNUMBER>16782-X1</VOUCHERNUMBER>
+            <REFERENCE>Nigdi</REFERENCE>
+            <PARTYLEDGERNAME>Rokoko Interior Designers Pvt Ltd</PARTYLEDGERNAME>
+            <PARTYNAME>Rokoko Interior Designers Pvt Ltd</PARTYNAME>
+            <BASICBASEPARTYNAME>Rokoko Interior Designers Pvt Ltd</BASICBASEPARTYNAME>
+            <COUNTRYOFRESIDENCE>India</COUNTRYOFRESIDENCE>
+            <STATENAME>Maharashtra</STATENAME>
+            <PLACEOFSUPPLY>Maharashtra</PLACEOFSUPPLY>
+            <GSTREGISTRATIONTYPE>Regular</GSTREGISTRATIONTYPE>
+            <PERSISTEDVIEW>Invoice Voucher View</PERSISTEDVIEW>
+            <VCHENTRYMODE>Item Invoice</VCHENTRYMODE>
+            <ISINVOICE>Yes</ISINVOICE>
+            <ISDELETED>No</ISDELETED>
+            <ISOPTIONAL>No</ISOPTIONAL>
+            <DIFFACTUALQTY>No</DIFFACTUALQTY>
+            <ASORIGINAL>No</ASORIGINAL>
+            <NARRATION>Invoice for Nigdi</NARRATION>
+            <BASICBUYERNAME>Rokoko Interior Designers Pvt Ltd</BASICBUYERNAME>
+            <BASICBUYERSSALESTAXNO>27AAHCR8718G1Z1</BASICBUYERSSALESTAXNO>
+            <PARTYGSTIN>27AAHCR8718G1Z1</PARTYGSTIN>
+            <ADDRESS.LIST TYPE="String"><ADDRESS>C 77 Gajalaxmi Society</ADDRESS><ADDRESS>Sahakar Nagar</ADDRESS><ADDRESS>Pune</ADDRESS></ADDRESS.LIST>
+            <BASICBUYERADDRESS.LIST TYPE="String"><ADDRESS>C 77 Gajalaxmi Society</ADDRESS><ADDRESS>Sahakar Nagar</ADDRESS><ADDRESS>Pune</ADDRESS></BASICBUYERADDRESS.LIST>
+
+            <ALLINVENTORYENTRIES.LIST>
+              <STOCKITEMNAME>Drawer Lock</STOCKITEMNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+              <RATE>175.00/nos</RATE>
+              <AMOUNT>1575.00</AMOUNT>
+              <ACTUALQTY>9.00 nos</ACTUALQTY>
+              <BILLEDQTY>9.00 nos</BILLEDQTY>
+              <BASICUSERDESCRIPTION.LIST><BASICUSERDESCRIPTION>Europa</BASICUSERDESCRIPTION></BASICUSERDESCRIPTION.LIST>
+              <ACCOUNTINGALLOCATIONS.LIST>
+                <LEDGERNAME>Sales Local Taxable - GST 18%</LEDGERNAME>
+                <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+                <LEDGERFROMITEM>No</LEDGERFROMITEM>
+                <ISPARTYLEDGER>No</ISPARTYLEDGER>
+                <AMOUNT>1575.00</AMOUNT>
+              </ACCOUNTINGALLOCATIONS.LIST>
+              <BATCHALLOCATIONS.LIST>
+                <GODOWNNAME>Main Location</GODOWNNAME>
+                <BATCHNAME>Primary Batch</BATCHNAME>
+                <DESTINATIONGODOWNNAME></DESTINATIONGODOWNNAME>
+                <ORDERNO>Not Applicable</ORDERNO>
+                <TRACKINGNUMBER>Nigdi</TRACKINGNUMBER>
+                <AMOUNT>1575.00</AMOUNT>
+                <ACTUALQTY>9.00 nos</ACTUALQTY>
+                <BILLEDQTY>9.00 nos</BILLEDQTY>
+                <BATCHRATE>175.00/nos</BATCHRATE>
+              </BATCHALLOCATIONS.LIST>
+            </ALLINVENTORYENTRIES.LIST>
+
+            <ALLINVENTORYENTRIES.LIST>
+              <STOCKITEMNAME>Abrotape (Roll)</STOCKITEMNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+              <RATE>130.00/Roll</RATE>
+              <AMOUNT>260.00</AMOUNT>
+              <ACTUALQTY>2.00 Roll</ACTUALQTY>
+              <BILLEDQTY>2.00 Roll</BILLEDQTY>
+              <ACCOUNTINGALLOCATIONS.LIST>
+                <LEDGERNAME>Sales Local Taxable - GST 18%</LEDGERNAME>
+                <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+                <LEDGERFROMITEM>No</LEDGERFROMITEM>
+                <ISPARTYLEDGER>No</ISPARTYLEDGER>
+                <AMOUNT>260.00</AMOUNT>
+              </ACCOUNTINGALLOCATIONS.LIST>
+              <BATCHALLOCATIONS.LIST>
+                <GODOWNNAME>Main Location</GODOWNNAME>
+                <BATCHNAME>Primary Batch</BATCHNAME>
+                <DESTINATIONGODOWNNAME></DESTINATIONGODOWNNAME>
+                <ORDERNO>Not Applicable</ORDERNO>
+                <TRACKINGNUMBER>Nigdi</TRACKINGNUMBER>
+                <AMOUNT>260.00</AMOUNT>
+                <ACTUALQTY>2.00 Roll</ACTUALQTY>
+                <BILLEDQTY>2.00 Roll</BILLEDQTY>
+                <BATCHRATE>130.00/Roll</BATCHRATE>
+              </BATCHALLOCATIONS.LIST>
+            </ALLINVENTORYENTRIES.LIST>
+
+            <ALLINVENTORYENTRIES.LIST>
+              <STOCKITEMNAME>Fevicol Nail Free Ultra</STOCKITEMNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+              <RATE>350.00/nos</RATE>
+              <AMOUNT>700.00</AMOUNT>
+              <ACTUALQTY>2.00 nos</ACTUALQTY>
+              <BILLEDQTY>2.00 nos</BILLEDQTY>
+              <ACCOUNTINGALLOCATIONS.LIST>
+                <LEDGERNAME>Sales Local Taxable - GST 18%</LEDGERNAME>
+                <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+                <LEDGERFROMITEM>No</LEDGERFROMITEM>
+                <ISPARTYLEDGER>No</ISPARTYLEDGER>
+                <AMOUNT>700.00</AMOUNT>
+              </ACCOUNTINGALLOCATIONS.LIST>
+              <BATCHALLOCATIONS.LIST>
+                <GODOWNNAME>Main Location</GODOWNNAME>
+                <BATCHNAME>Primary Batch</BATCHNAME>
+                <DESTINATIONGODOWNNAME></DESTINATIONGODOWNNAME>
+                <ORDERNO>Not Applicable</ORDERNO>
+                <TRACKINGNUMBER>Nigdi</TRACKINGNUMBER>
+                <AMOUNT>700.00</AMOUNT>
+                <ACTUALQTY>2.00 nos</ACTUALQTY>
+                <BILLEDQTY>2.00 nos</BILLEDQTY>
+                <BATCHRATE>350.00/nos</BATCHRATE>
+              </BATCHALLOCATIONS.LIST>
+            </ALLINVENTORYENTRIES.LIST>
+
+            <ALLINVENTORYENTRIES.LIST>
+              <STOCKITEMNAME>Fevicol Ezzespray (Nos)</STOCKITEMNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+              <RATE>550.00/nos</RATE>
+              <AMOUNT>550.00</AMOUNT>
+              <ACTUALQTY>1.00 nos</ACTUALQTY>
+              <BILLEDQTY>1.00 nos</BILLEDQTY>
+              <ACCOUNTINGALLOCATIONS.LIST>
+                <LEDGERNAME>Sales Local Taxable - GST 18%</LEDGERNAME>
+                <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+                <LEDGERFROMITEM>No</LEDGERFROMITEM>
+                <ISPARTYLEDGER>No</ISPARTYLEDGER>
+                <AMOUNT>550.00</AMOUNT>
+              </ACCOUNTINGALLOCATIONS.LIST>
+              <BATCHALLOCATIONS.LIST>
+                <GODOWNNAME>Main Location</GODOWNNAME>
+                <BATCHNAME>Primary Batch</BATCHNAME>
+                <DESTINATIONGODOWNNAME></DESTINATIONGODOWNNAME>
+                <ORDERNO>Not Applicable</ORDERNO>
+                <TRACKINGNUMBER>Nigdi</TRACKINGNUMBER>
+                <AMOUNT>550.00</AMOUNT>
+                <ACTUALQTY>1.00 nos</ACTUALQTY>
+                <BILLEDQTY>1.00 nos</BILLEDQTY>
+                <BATCHRATE>550.00/nos</BATCHRATE>
+              </BATCHALLOCATIONS.LIST>
+            </ALLINVENTORYENTRIES.LIST>
+
+            <ALLLEDGERENTRIES.LIST>
+              <LEDGERNAME>Rokoko Interior Designers Pvt Ltd</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+              <ISPARTYLEDGER>Yes</ISPARTYLEDGER>
+              <ISLASTDEEMEDPOSITIVE>Yes</ISLASTDEEMEDPOSITIVE>
+              <AMOUNT>-3640.30</AMOUNT>
+              <BILLALLOCATIONS.LIST>
+                <NAME>16782-X1</NAME>
+                <BILLTYPE>New Ref</BILLTYPE>
+                <AMOUNT>-3640.30</AMOUNT>
+              </BILLALLOCATIONS.LIST>
+            </ALLLEDGERENTRIES.LIST>
+            <ALLLEDGERENTRIES.LIST>
+              <LEDGERNAME>CGST</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <ISPARTYLEDGER>No</ISPARTYLEDGER>
+              <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+              <AMOUNT>277.65</AMOUNT>
+            </ALLLEDGERENTRIES.LIST>
+            <ALLLEDGERENTRIES.LIST>
+              <LEDGERNAME>SGST</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <ISPARTYLEDGER>No</ISPARTYLEDGER>
+              <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+              <AMOUNT>277.65</AMOUNT>
+            </ALLLEDGERENTRIES.LIST>
+          </VOUCHER>
+        </TALLYMESSAGE>
+      </REQUESTDATA>
+    </IMPORTDATA>
+  </BODY>
+</ENVELOPE>

@@ -2,12 +2,15 @@ import { NextResponse } from "next/server";
 import {
   collectNodes,
   invoiceToTallyXml,
+  invoiceToTallyXmlFromTemplate,
   ledgersToTallyXml,
   nodeText,
   parseTallyXml,
   postToTally,
   stockItemsToTallyXml,
   tallyExportXml,
+  tallyListOfAccountsXml,
+  tallySalesVoucherTemplateProbeXml,
   TallyRequestError,
   type TallyInvoiceOptions,
 } from "@/lib/tally";
@@ -34,6 +37,12 @@ export async function POST(_request: Request, { params }: { params: Promise<{ id
   const extendedOptions = options as TallyInvoiceOptions & { preflightOnly?: boolean };
   const preflightOnly = Boolean(extendedOptions.preflightOnly);
   const readiness = await checkTallyReadiness(invoice, options);
+  const effectiveOptionsBase = {
+    ...options,
+    godownName: readiness.checked?.resolvedGodownName || options.godownName,
+  };
+  const availableLedgerNames = await fetchTallyLedgerList();
+  const effectiveOptions = resolveTaxOptions(invoice, effectiveOptionsBase, availableLedgerNames);
 
   if (preflightOnly) {
     return NextResponse.json({
@@ -87,6 +96,17 @@ export async function POST(_request: Request, { params }: { params: Promise<{ id
     );
   }
 
+  if (readiness.godownIssue) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: readiness.godownIssue,
+        readiness,
+      },
+      { status: 400 },
+    );
+  }
+
   if ((invoice.discount_amount ?? 0) > 0 && !options.accountingMode && !options.discountLedgerName?.trim()) {
     return NextResponse.json(
       {
@@ -97,7 +117,7 @@ export async function POST(_request: Request, { params }: { params: Promise<{ id
       { status: 400 },
     );
   }
-  const stockCheck = options.accountingMode ? { ok: true, missingStockItems: [] as string[] } : await ensureInvoiceStockItems(invoice, options);
+  const stockCheck = options.accountingMode ? { ok: true, missingStockItems: [] as string[] } : await ensureInvoiceStockItems(invoice, effectiveOptions);
   if (!stockCheck.ok) {
     return NextResponse.json(
       {
@@ -110,7 +130,12 @@ export async function POST(_request: Request, { params }: { params: Promise<{ id
   }
 
   try {
-    const pushResult = await pushInvoiceWithCompatibleXml(invoice, options, data.invoice_no);
+    const pushResult = await pushInvoiceWithCompatibleXml(
+      invoice,
+      effectiveOptions,
+      data.invoice_no,
+      new Set(availableLedgerNames.map((name) => normalizeName(name))),
+    );
 
     await supabase
       .from("invoices")
@@ -135,7 +160,7 @@ export async function POST(_request: Request, { params }: { params: Promise<{ id
   } catch (error) {
     const message = error instanceof Error ? error.message : "Tally push failed.";
     const responseBody = error instanceof TallyRequestError ? error.responseBody : "";
-    const fallbackXml = invoiceToTallyXml(invoice, options);
+    const fallbackXml = invoiceToTallyXml(invoice, effectiveOptions);
     await supabase
       .from("invoices")
       .update({
@@ -149,10 +174,103 @@ export async function POST(_request: Request, { params }: { params: Promise<{ id
   }
 }
 
-async function pushInvoiceWithCompatibleXml(invoice: Invoice, options: TallyInvoiceOptions, invoiceNo: string) {
+async function pushInvoiceWithCompatibleXml(
+  invoice: Invoice,
+  options: TallyInvoiceOptions,
+  invoiceNo: string,
+  availableLedgerNames: Set<string>,
+) {
+  const attemptedVariants: { name: string; ok: boolean; message: string; counters?: Record<string, number> }[] = [];
+  let lastXml = "";
+  let lastResponse = "";
+  let lastResult = parseTallyImportResult("");
+
+  if (!options.accountingMode) {
+    try {
+      let templateExport = "";
+      try {
+        templateExport = await postToTally(
+          tallySalesVoucherTemplateProbeXml(options.voucherTypeName || "Sales GST", invoice.invoice_date),
+          "sales voucher template fetch (same date)",
+        );
+        invoiceToTallyXmlFromTemplate(templateExport, invoice, options);
+      } catch {
+        templateExport = await postToTally(
+          tallySalesVoucherTemplateProbeXml(
+            options.voucherTypeName || "Sales GST",
+            fiscalYearStart(invoice.invoice_date),
+            invoice.invoice_date,
+          ),
+          "sales voucher template fetch (fiscal range)",
+        );
+      }
+      const templateXml = invoiceToTallyXmlFromTemplate(templateExport, invoice, options);
+      const templateResponse = await postToTally(templateXml, `invoice push ${invoiceNo} stock invoice - live template clone`);
+      const templateResult = parseTallyImportResult(templateResponse);
+      attemptedVariants.push({
+        name: "stock invoice - live template clone",
+        ok: templateResult.ok,
+        message: templateResult.message,
+        counters: templateResult.counters,
+      });
+      lastXml = templateXml;
+      lastResponse = templateResponse;
+      lastResult = templateResult;
+      if (templateResult.ok) {
+        return {
+          requestXml: templateXml,
+          response: templateResponse,
+          tallyResult: templateResult,
+          attemptedVariants,
+          successfulVariant: "stock invoice - live template clone",
+          fallbackUsed: false,
+        };
+      }
+    } catch (error) {
+      attemptedVariants.push({
+        name: "stock invoice - live template clone",
+        ok: false,
+        message: error instanceof Error ? error.message : "Template-based stock invoice push failed.",
+      });
+    }
+  }
+
+  const hasStandardTaxLedgers =
+    availableLedgerNames.has(normalizeName("CGST")) && availableLedgerNames.has(normalizeName("SGST"));
+  const taxLedgerVariant =
+    Number(invoice.cgst || 0) > 0 || Number(invoice.sgst || 0) > 0
+      ? {
+          gstThroughSalesLedger: false,
+          cgstLedgerName: hasStandardTaxLedgers ? "CGST" : options.cgstLedgerName,
+          sgstLedgerName: hasStandardTaxLedgers ? "SGST" : options.sgstLedgerName,
+        }
+      : null;
+
   const variants = options.accountingMode
     ? [{ name: "accounting invoice", options }]
     : [
+        ...(taxLedgerVariant
+          ? [
+              {
+                name: "stock invoice - invoice view with separate CGST/SGST ledgers",
+                options: {
+                  ...options,
+                  ...taxLedgerVariant,
+                  inventoryQtySign: "negative" as const,
+                  stockXmlMode: "invoice-batch" as const,
+                },
+              },
+              {
+                name: "stock invoice - invoice view no batch with separate CGST/SGST ledgers",
+                options: {
+                  ...options,
+                  ...taxLedgerVariant,
+                  inventoryQtySign: "negative" as const,
+                  stockXmlMode: "invoice-no-batch" as const,
+                },
+              },
+            ]
+          : []),
         {
           name: "stock invoice - official sample envelope with batch",
           options: {
@@ -211,11 +329,6 @@ async function pushInvoiceWithCompatibleXml(invoice: Invoice, options: TallyInvo
         },
       ];
 
-  const attemptedVariants: { name: string; ok: boolean; message: string; counters?: Record<string, number> }[] = [];
-  let lastXml = "";
-  let lastResponse = "";
-  let lastResult = parseTallyImportResult("");
-
   for (const variant of variants) {
     const requestXml = invoiceToTallyXml(invoice, variant.options);
     const response = await postToTally(requestXml, `invoice push ${invoiceNo} ${variant.name}`);
@@ -271,7 +384,12 @@ async function applySyncedTallyItems(
 async function checkTallyReadiness(invoice: Invoice, options: TallyInvoiceOptions) {
   const accountingMode = Boolean(options.accountingMode);
   const gstThroughSalesLedger = Boolean(options.gstThroughSalesLedger);
-  const [ledgerNames, stockNames] = await Promise.all([fetchTallyLedgerNames(), accountingMode ? Promise.resolve(new Set<string>()) : fetchTallyStockItemNames()]);
+  const [ledgerNames, stockNames, voucherTypes, godowns] = await Promise.all([
+    fetchTallyLedgerNames(),
+    accountingMode ? Promise.resolve(new Set<string>()) : fetchTallyStockItemNames(),
+    accountingMode ? Promise.resolve([] as TallyVoucherTypeInfo[]) : fetchTallyVoucherTypes(),
+    accountingMode ? Promise.resolve([] as TallyGodownInfo[]) : fetchTallyGodowns(),
+  ]);
   const missingLedgers: string[] = [];
   const salesLedgerName = options.salesLedgerName || process.env.TALLY_SALES_LEDGER || "Sales";
   const cgstLedgerName = options.cgstLedgerName || process.env.TALLY_CGST_LEDGER || "Output CGST";
@@ -295,32 +413,102 @@ async function checkTallyReadiness(invoice: Invoice, options: TallyInvoiceOption
 
   const missingPartyLedger = !ledgerNames.has(normalizeName(invoice.client_name));
   const missingStockItems = accountingMode ? [] : uniqueMissingItems(invoice.invoice_items ?? [], stockNames).map((item) => item.name);
+  const resolvedGodownName =
+    accountingMode ? "" : cleanOption(options.godownName) || (godowns.length === 1 ? godowns[0].name : "");
+  const selectedVoucherTypeName = cleanOption(options.voucherTypeName) || process.env.TALLY_SALES_VOUCHER_TYPE || "Sales";
+  const selectedVoucherType = accountingMode ? null : voucherTypes.find((voucherType) => normalizeName(voucherType.name) === normalizeName(selectedVoucherTypeName));
+  const voucherTypeIssue = accountingMode
+    ? ""
+    : !selectedVoucherType
+      ? `Voucher type '${selectedVoucherTypeName}' was not found in Tally. Pick the exact Tally voucher type before pushing stock invoice.`
+      : !selectedVoucherType.isActive
+        ? `Voucher type '${selectedVoucherType.name}' is inactive in Tally. Activate it or choose an active stock-enabled voucher type.`
+        : !selectedVoucherType.affectsStock
+          ? `Voucher type '${selectedVoucherType.name}' is reported by Tally as not affecting stock, but live exported sales vouchers in this company still show inventory rows. We'll warn, not block, and keep comparing against the exported voucher shape.`
+          : "";
+  const godownIssue =
+    accountingMode || !cleanOption(options.godownName)
+      ? ""
+      : !godowns.some((godown) => normalizeName(godown.name) === normalizeName(options.godownName || ""))
+        ? `Godown / location '${options.godownName}' was not found in Tally. Use one of the exact Tally godown names before pushing stock invoice.`
+        : "";
 
   return {
-    ok: !missingPartyLedger && !missingLedgers.length && !missingStockItems.length,
+    ok: !missingPartyLedger && !missingLedgers.length && !missingStockItems.length && !godownIssue,
     mode: accountingMode ? "accounting" : "inventory",
     missingPartyLedger,
     missingLedgers,
     missingStockItems,
+    voucherTypeIssue,
+    godownIssue,
     checked: {
       partyLedger: invoice.client_name,
       salesLedger: salesLedgerName,
       gstThroughSalesLedger,
       taxLedgers: requiredLedgers.filter((ledger) => ledger !== salesLedgerName),
       stockItemCount: invoice.invoice_items?.length ?? 0,
+      resolvedGodownName,
+      availableGodowns: godowns.map((godown) => godown.name),
+      stockEnabledVoucherTypes: voucherTypes.filter((voucherType) => voucherType.affectsStock && voucherType.isActive).map((voucherType) => voucherType.name),
     },
   };
 }
 
 async function fetchTallyLedgerNames() {
+  const names = await fetchTallyLedgerList();
+  return new Set(names.map((name) => normalizeName(name)));
+}
+
+async function fetchTallyLedgerList() {
   const response = await postToTally(tallyExportXml("client ledger fetch"), "ledger precheck");
   const root = parseTallyXml(response);
   const names = new Set<string>();
   for (const item of collectNodes(root, "LEDGER")) {
     const name = getName(item);
-    if (name) names.add(normalizeName(name));
+    if (name) names.add(String(name).trim());
   }
-  return names;
+  return [...names];
+}
+
+function resolveTaxOptions(invoice: Invoice, options: TallyInvoiceOptions, availableLedgerNames: string[]): TallyInvoiceOptions {
+  const needsTaxLedgers =
+    !options.accountingMode &&
+    !options.isInterstate &&
+    (Number(invoice.cgst || 0) > 0 || Number(invoice.sgst || 0) > 0);
+
+  if (!needsTaxLedgers) return options;
+
+  const requestedCgst = cleanOption(options.cgstLedgerName) || process.env.TALLY_CGST_LEDGER || "Output CGST";
+  const requestedSgst = cleanOption(options.sgstLedgerName) || process.env.TALLY_SGST_LEDGER || "Output SGST";
+  const resolvedCgst = resolveLedgerName(requestedCgst, availableLedgerNames, [
+    /^cgst$/i,
+    /\bcgst\b/i,
+  ]);
+  const resolvedSgst = resolveLedgerName(requestedSgst, availableLedgerNames, [
+    /^sgst$/i,
+    /\bsgst\b/i,
+    /\butgst\b/i,
+  ]);
+
+  return {
+    ...options,
+    gstThroughSalesLedger: false,
+    cgstLedgerName: resolvedCgst || requestedCgst,
+    sgstLedgerName: resolvedSgst || requestedSgst,
+  };
+}
+
+function resolveLedgerName(requestedName: string, availableLedgerNames: string[], patterns: RegExp[]) {
+  const requestedNormalized = normalizeName(requestedName);
+  const exact = availableLedgerNames.find((name) => normalizeName(name) === requestedNormalized);
+  if (exact) return exact;
+
+  for (const pattern of patterns) {
+    const match = availableLedgerNames.find((name) => pattern.test(name));
+    if (match) return match;
+  }
+
+  return "";
 }
 
 async function ensureInvoiceStockItems(invoice: Invoice, options: TallyInvoiceOptions) {
@@ -370,6 +558,42 @@ async function fetchTallyStockItemNames() {
   return names;
 }
 
+type TallyVoucherTypeInfo = {
+  name: string;
+  parent: string;
+  affectsStock: boolean;
+  isActive: boolean;
+};
+
+type TallyGodownInfo = {
+  name: string;
+};
+
+async function fetchTallyVoucherTypes() {
+  const response = await postToTally(tallyListOfAccountsXml("Voucher Types"), "voucher type precheck");
+  const root = parseTallyXml(response);
+
+  return collectNodes(root, "VOUCHERTYPE")
+    .map((voucherType) => ({
+      name: getName(voucherType),
+      parent: nodeText(voucherType.PARENT),
+      affectsStock: nodeText(voucherType.AFFECTSSTOCK).toLowerCase() === "yes",
+      isActive: nodeText(voucherType.ISACTIVE).toLowerCase() !== "no",
+    }))
+    .filter((voucherType) => voucherType.name);
+}
+
+async function fetchTallyGodowns() {
+  const response = await postToTally(tallyListOfAccountsXml("Godowns"), "godown precheck");
+  const root = parseTallyXml(response);
+
+  return collectNodes(root, "GODOWN")
+    .map((godown) => ({
+      name: getName(godown),
+    }))
+    .filter((godown) => godown.name);
+}
+
 function uniqueMissingItems(items: LineItem[], existing: Set<string>) {
   const missing = new Map<string, { name: string; unit: string }>();
   for (const item of items) {
@@ -379,6 +603,10 @@ function uniqueMissingItems(items: LineItem[], existing: Set<string>) {
     if (!missing.has(key)) missing.set(key, { name, unit: tallyUnit(item.unit || "Nos") });
   }
   return [...missing.values()];
+}
+
+function cleanOption(value: string | undefined) {
+  return String(value || "").trim();
 }
 
 async function loadProductCatalog(supabase: Awaited<ReturnType<typeof createClient>>) {
@@ -458,6 +686,14 @@ function normalizeName(value: string) {
     .replace(/[^a-z0-9]+/g, " ")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function fiscalYearStart(date: string) {
+  const [yearText, monthText] = date.split("-");
+  const year = Number(yearText);
+  const month = Number(monthText);
+  const startYear = month >= 4 ? year : year - 1;
+  return `${startYear}-04-01`;
 }
 
 function isSuccessfulTallyImport(response: string) {

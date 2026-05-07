@@ -1,0 +1,3761 @@
+<?xml version="1.0"?>
+<ENVELOPE>
+  <HEADER>
+    <TALLYREQUEST>Import Data</TALLYREQUEST>
+  </HEADER>
+  <BODY>
+    <IMPORTDATA>
+      <REQUESTDESC>
+        <REPORTNAME>Vouchers</REPORTNAME>
+      </REQUESTDESC>
+      <REQUESTDATA>
+        <TALLYMESSAGE xmlns:UDF="TallyUDF">
+          <VOUCHER REMOTEID="fee08ce0-f94c-11d9-9523-00111181e7bb-00008ecc" VCHKEY="fee08ce0-f94c-11d9-9523-00111181e7bb-0000b420:00000008" VCHTYPE="Sales GST" OBJVIEW="Invoice Voucher View" ACTION="Create">
+            <DATE TYPE="Date">20260430</DATE>
+            <REQUESTORRULE/>
+            <VOUCHERTYPENAME>Sales GST</VOUCHERTYPENAME>
+            <PARTYNAME TYPE="String">Rokoko Interior Designers Pvt Ltd</PARTYNAME>
+            <PARTYLEDGERNAME TYPE="String">Rokoko Interior Designers Pvt Ltd</PARTYLEDGERNAME>
+            <VOUCHERNUMBER>16782T</VOUCHERNUMBER>
+            <REFERENCE TYPE="String">Verbally</REFERENCE>
+            <SERIALMASTER TYPE="String"/>
+            <ARESERIALMASTER TYPE="String"/>
+            <NUMBERINGSTYLE>Manual</NUMBERINGSTYLE>
+            <PERSISTEDVIEW>Invoice Voucher View</PERSISTEDVIEW>
+            <ISDELETED>No</ISDELETED>
+            <ASORIGINAL>No</ASORIGINAL>
+            <ISDEEMEDPOSITIVE TYPE="Logical"/>
+            <EFFECTIVEDATE TYPE="Date">20260430</EFFECTIVEDATE>
+            <ISINVOICE>Yes</ISINVOICE>
+            <ASPAYSLIP>No</ASPAYSLIP>
+            <ISDELETEDVCHRETAINED>No</ISDELETEDVCHRETAINED>
+            <ISNEGISPOSSET TYPE="Logical"/>
+            <REUSEHOLEID TYPE="Number"/>
+            <VOUCHERNUMBERSERIES TYPE="String"/>
+            <ALLINVENTORYENTRIES.LIST>
+              <BASICUSERDESCRIPTION.LIST TYPE="String">
+                <BASICUSERDESCRIPTION>Europa</BASICUSERDESCRIPTION>
+              </BASICUSERDESCRIPTION.LIST>
+              <ORIGINVOICEDATE/>
+              <ORIGSALESINVDATE/>
+              <DESCRIPTION/>
+              <STOCKITEMNAME>Drawer Lock</STOCKITEMNAME>
+              <STATNATURENAME/>
+              <EXCISECLASSIFICATIONNAME/>
+              <ISZRBASICSERVICE/>
+              <STRDGSTDERIVEDLOCATIONTYPE/>
+              <STRDGSTDERIVEDTAXABILITY/>
+              <STRDGSTDERIVEDNATURETYPE/>
+              <STRDGSTDERIVEDSUPPLYTYPE/>
+              <GSTOVRDNCLASSIFICATION/>
+              <GSTOVRDNNATURE/>
+              <GSTOVRDNINELIGIBLEITC/>
+              <GSTOVRDNISREVCHARGEAPPL> Not Applicable</GSTOVRDNISREVCHARGEAPPL>
+              <GSTOVRDNTAXABILITY>Taxable</GSTOVRDNTAXABILITY>
+              <GSTSOURCETYPE>Stock Item</GSTSOURCETYPE>
+              <GSTITEMSOURCE>Plywood  2.44 x 1.22  19 mm</GSTITEMSOURCE>
+              <GSTLEDGERSOURCE/>
+              <GSTGROUPSOURCE/>
+              <GSTSTOCKGROUPSOURCE/>
+              <HSNSOURCETYPE>Stock Item</HSNSOURCETYPE>
+              <HSNITEMSOURCE>Plywood  2.44 x 1.22  19 mm</HSNITEMSOURCE>
+              <HSNLEDGERSOURCE/>
+              <HSNGROUPSOURCE/>
+              <HSNSTOCKGROUPSOURCE/>
+              <GSTOVRDNSTOREDNATURE> System Inferred</GSTOVRDNSTOREDNATURE>
+              <GSTOVRDNTYPEOFSUPPLY>Goods</GSTOVRDNTYPEOFSUPPLY>
+              <GSTRATEINFERAPPLICABILITY>As per Masters/Company</GSTRATEINFERAPPLICABILITY>
+              <GSTOVRDNNATUREOFGOODS/>
+              <GSTHSNNAME>44123190</GSTHSNNAME>
+              <GSTHSNDESCRIPTION/>
+              <GSTHSNINFERAPPLICABILITY>As per Masters/Company</GSTHSNINFERAPPLICABILITY>
+              <HSNOVRDNCLASSIFICATION/>
+              <STRDGSTFINALNATUREOFENTRY/>
+              <GSTDEPGSTCLASSIFICATION/>
+              <GSTDEPHSNCLASSIFICATION/>
+              <EXCISETARIFF/>
+              <EXCISEEXEMPTION/>
+              <TRADERCNSALESNUMBER/>
+              <BASICPACKAGEMARKS/>
+              <BASICNUMPACKAGES/>
+              <SDTAXCLASSIFICATIONNAME/>
+              <NATUREOFCOMPONENT/>
+              <COMPONENTLISTTYPE/>
+              <DISPLAYNATUREOFCOMPONENT/>
+              <BOMNAME/>
+              <ORIGINVOICENUMBER/>
+              <ORIGINVOICEBOOKNAME/>
+              <ORIGSALESINVNO/>
+              <EXCISERETURNINVOICENO/>
+              <REASONOFREJECTION/>
+              <EXCISECREDITPARTY/>
+              <EXCISECREDITSTKITEM/>
+              <EXCISECREDITCATEGORY/>
+              <TRADERSUPPLIERINVOICENO/>
+              <EXCISESALESINVOICENO/>
+              <GSTITEMUQC/>
+              <GSTITEMUQCUOM/>
+              <ADDLAMOUNT/>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <ISGSTASSESSABLEVALUEOVERRIDDEN/>
+              <STRDISGSTAPPLICABLE/>
+              <CONTENTNEGISPOS/>
+              <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+              <ISAUTONEGATE>No</ISAUTONEGATE>
+              <ISCUSTOMSCLEARANCE/>
+              <ISTRACKCOMPONENT/>
+              <ISTRACKPRODUCTION/>
+              <ISPRIMARYITEM/>
+              <ISSCRAP>No</ISSCRAP>
+              <RATE>175.00/nos</RATE>
+              <DISCOUNT>0</DISCOUNT>
+              <VATTAXRATE>0</VATTAXRATE>
+              <ORIGINVGOODSQTY>0</ORIGINVGOODSQTY>
+              <EXCISEMRPABATEMENT>0</EXCISEMRPABATEMENT>
+              <ADDLCOSTPERC>0</ADDLCOSTPERC>
+              <REVISEDRATEOFDUTY>0</REVISEDRATEOFDUTY>
+              <ORIGRATEOFDUTY>0</ORIGRATEOFDUTY>
+              <ORIGMRPABATEMENT>0</ORIGMRPABATEMENT>
+              <EXCISERETURNDUTYRATE>0</EXCISERETURNDUTYRATE>
+              <GVATEXCISERATE>0</GVATEXCISERATE>
+              <AMOUNT>1575.00</AMOUNT>
+              <EXCISEASSESSABLEVALUE/>
+              <CESSASSVALONCLASS/>
+              <EIDISCOUNTAMT/>
+              <VATASSESSABLEVALUE/>
+              <VATWCDEDUCTAMT/>
+              <WCTOTALDEDUCTIONAMT/>
+              <ORIGINVGOODSVALUE/>
+              <GSTOVRDNASSESSABLEVALUE/>
+              <GSTASSBLVALUE/>
+              <STRDCOMPUTEDASSESSABLEVALUE/>
+              <STRDCOMPUTEDIGST/>
+              <STRDCOMPUTEDCGST/>
+              <STRDCOMPUTEDSGST/>
+              <STRDCOMPUTEDCESS/>
+              <STRDCOMPUTEDCESSONQTY/>
+              <ORIGINVGOODSTAXVALUE/>
+              <VATASSBLVALUE/>
+              <VATACCEPTEDTAXAMT/>
+              <VATACCEPTEDADDLTAXAMT/>
+              <STRDAPPRSTATECESSGST/>
+              <STRDAPPROPRIATEDDISCOUNT/>
+              <STRDEXCISETAX/>
+              <VATINPUTTAXCREDIT/>
+              <VATELIGIBLECREDIT/>
+              <GVATEXCISEAMT/>
+              <ACTUALQTY> 9.00 nos</ACTUALQTY>
+              <BILLEDQTY> 9.00 nos</BILLEDQTY>
+              <ORIGACTUALQTY/>
+              <ORIGBILLEDQTY/>
+              <EXCISERETURNINVOICEQTY/>
+              <USABLEQTY/>
+              <EXCISECREDITPENDINGQTY/>
+              <MRPRATE/>
+              <EXCISEMRPRATE/>
+              <ORIGRATE/>
+              <REVISEDRATE/>
+              <ESCALATIONRATE/>
+              <ORIGMRPRATE/>
+              <ORIGRATEOFQTY/>
+              <REVISEDRATEOFQTY/>
+              <INCLVATRATE/>
+              <BATCHALLOCATIONS.LIST>
+                <MFDON/>
+                <ORDERYEAREND/>
+                <TRACKINGYEAREND/>
+                <ORDERPRECLOSUREDATE/>
+                <NARRATION/>
+                <GODOWNNAME>Main Location</GODOWNNAME>
+                <BATCHNAME>Primary Batch</BATCHNAME>
+                <DESTINATIONGODOWNNAME/>
+                <INDENTNO> Not Applicable</INDENTNO>
+                <ORDERTYPE/>
+                <PARENTITEM/>
+                <ORDERCLOSUREREASON/>
+                <ORDERNO> Not Applicable</ORDERNO>
+                <TRACKINGNUMBER>Verbally</TRACKINGNUMBER>
+                <DYNAMICCSTNO/>
+                <DYNAMICCSTPARENTITEM/>
+                <SUMDYNAMICCSTNO/>
+                <SUMBATCHNAME/>
+                <SUMTRACKINGNUMBER/>
+                <SUMORDERNO/>
+                <SUMINDENTNO/>
+                <ADDLAMOUNT/>
+                <DYNAMICCSTISCLEARED>No</DYNAMICCSTISCLEARED>
+                <TRACKID TYPE="Number"/>
+                <BATCHID TYPE="Number"/>
+                <BATCHDISCOUNT TYPE="Number"/>
+                <AMOUNT>1575.00</AMOUNT>
+                <ADDLEXPENSEAMOUNT/>
+                <BATCHDIFFVAL/>
+                <ACTUALQTY> 9.00 nos</ACTUALQTY>
+                <BILLEDQTY> 9.00 nos</BILLEDQTY>
+                <ORDERPRECLOSUREQTY/>
+                <ORIGACTUALQTY/>
+                <ORIGBILLEDQTY/>
+                <BATCHPHYSDIFF/>
+                <ORIGRATE/>
+                <REVISEDRATE/>
+                <ESCALATIONRATE/>
+                <INCLVATRATE/>
+                <BATCHRATE TYPE="Rate">175.00/nos</BATCHRATE>
+                <EXPIRYPERIOD/>
+                <INDENTDUEDATE/>
+                <ORDERDUEDATE/>
+                <ADDITIONALDETAILS.LIST>       </ADDITIONALDETAILS.LIST>
+                <VOUCHERCOMPONENTLIST.LIST>       </VOUCHERCOMPONENTLIST.LIST>
+              </BATCHALLOCATIONS.LIST>
+              <ACCOUNTINGALLOCATIONS.LIST>
+                <OLDAUDITENTRYIDS.LIST TYPE="Number">
+                  <OLDAUDITENTRYIDS>-1</OLDAUDITENTRYIDS>
+                </OLDAUDITENTRYIDS.LIST>
+                <ORIGPURCHINVDATE/>
+                <NARRATION/>
+                <ADDLALLOCTYPE/>
+                <TAXCLASSIFICATIONNAME/>
+                <APPROPRIATEFOR/>
+                <GSTDUTYHEAD/>
+                <GSTAPPROPRIATETO/>
+                <NOTIFICATIONSLNO/>
+                <EXCISEALLOCTYPE/>
+                <SWIFTCODE/>
+                <ROUNDTYPE/>
+                <LEDGERNAME>Sales Local Taxable - GST 18%</LEDGERNAME>
+                <TAXUNITNAME/>
+                <STATNATURENAME/>
+                <GOODSTYPE/>
+                <VATTRADENAME/>
+                <METHODTYPE/>
+                <CLASSRATE/>
+                <STATCLASSIFICATIONNAME/>
+                <EXCISECLASSIFICATIONNAME/>
+                <ISZRBASICSERVICE/>
+                <VATCOMMODITYNAME/>
+                <SCHEDULE/>
+                <SCHEDULESERIALNUMBER/>
+                <VATCOMMODITYCODE/>
+                <VATSUBCOMMODITYCODE/>
+                <VATMAJORCOMMODITYNAME/>
+                <STRDGSTDERIVEDLOCATIONTYPE/>
+                <STRDGSTDERIVEDTAXABILITY/>
+                <STRDGSTDERIVEDNATURETYPE/>
+                <STRDGSTDERIVEDSUPPLYTYPE/>
+                <TDSPARTYNAME/>
+                <VATPARTYORGNAME/>
+                <XBRLADJTYPE/>
+                <VOUCHERFBTCATEGORY/>
+                <TYPEOFTAXPAYMENT/>
+                <VATCALCULATIONTYPE/>
+                <VATWORKSCONTRACTTYPE/>
+                <VATWCDESCRIPTION/>
+                <GSTCLASS> Not Applicable</GSTCLASS>
+                <SCHVIADJTYPE/>
+                <GSTOVRDNCLASSIFICATION/>
+                <GSTOVRDNNATURE/>
+                <GSTOVRDNINELIGIBLEITC/>
+                <GSTOVRDNISREVCHARGEAPPL/>
+                <GSTOVRDNTAXABILITY/>
+                <GSTHSNSACCODE/>
+                <GSTSOURCETYPE/>
+                <GSTITEMSOURCE/>
+                <GSTLEDGERSOURCE/>
+                <GSTGROUPSOURCE/>
+                <GSTSTOCKGROUPSOURCE/>
+                <HSNSOURCETYPE/>
+                <HSNITEMSOURCE/>
+                <HSNLEDGERSOURCE/>
+                <HSNGROUPSOURCE/>
+                <HSNSTOCKGROUPSOURCE/>
+                <GSTOVRDNSTOREDNATURE/>
+                <GSTOVRDNTYPEOFSUPPLY/>
+                <GSTRATEINFERAPPLICABILITY/>
+                <GSTOVRDNNATUREOFGOODS/>
+                <GSTHSNNAME/>
+                <GSTHSNDESCRIPTION/>
+                <GSTHSNINFERAPPLICABILITY/>
+                <HSNOVRDNCLASSIFICATION/>
+                <STRDGSTFINALNATUREOFENTRY/>
+                <STRDGSTDUTYHEAD/>
+                <VATGOODSNATURE/>
+                <GSTDEPGSTCLASSIFICATION/>
+                <GSTDEPHSNCLASSIFICATION/>
+                <POSPAYMENTTYPE/>
+                <GSTPARTYLEDGER/>
+                <ORIGPURCHPARTY/>
+                <ORIGPURCHPARTYADDRESS/>
+                <ORIGPURCHINVNO/>
+                <ORIGPURCHNOTE/>
+                <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+                <LEDGERFROMITEM>No</LEDGERFROMITEM>
+                <REMOVEZEROENTRIES/>
+                <ISPARTYLEDGER>No</ISPARTYLEDGER>
+                <GSTOVERRIDDEN>No</GSTOVERRIDDEN>
+                <ISGSTASSESSABLEVALUEOVERRIDDEN>No</ISGSTASSESSABLEVALUEOVERRIDDEN>
+                <STRDISGSTAPPLICABLE>No</STRDISGSTAPPLICABLE>
+                <STRDGSTISPARTYLEDGER>No</STRDGSTISPARTYLEDGER>
+                <STRDGSTISDUTYLEDGER>No</STRDGSTISDUTYLEDGER>
+                <CONTENTNEGISPOS/>
+                <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+                <ISCAPVATTAXALTERED/>
+                <ISCAPVATNOTCLAIMED>No</ISCAPVATNOTCLAIMED>
+                <STCRADJPERCENT>0</STCRADJPERCENT>
+                <ROUNDLIMIT>0</ROUNDLIMIT>
+                <RATEOFADDLVAT>0</RATEOFADDLVAT>
+                <RATEOFCESSONVAT>0</RATEOFCESSONVAT>
+                <VATTAXRATE>0</VATTAXRATE>
+                <VATITEMQTY>0</VATITEMQTY>
+                <VATWCDEDUCTRATE>0</VATWCDEDUCTRATE>
+                <PREVINVTOTALNUM>0</PREVINVTOTALNUM>
+                <VATWCDEDUCTIONRATE>0</VATWCDEDUCTIONRATE>
+                <GSTTAXRATE>0</GSTTAXRATE>
+                <ORIGINVGOODSQTY>0</ORIGINVGOODSQTY>
+                <CAPVATTAXRATE>0</CAPVATTAXRATE>
+                <AMOUNT>1575.00</AMOUNT>
+                <CESSASSVALONCLASS/>
+                <ADDNLVATCLASSAMT/>
+                <EIDISCOUNTAMT/>
+                <FBTEXEMPTAMOUNT/>
+                <VATASSESSABLEVALUE/>
+                <VATWCCOSTOFLAND/>
+                <VATWCDEDLABOURCHARGES/>
+                <VATWCOTHERDEDUCTIONAMT/>
+                <VATWCVALUEOFTAXFREEGOODS/>
+                <VATWCOTHERCHARGES/>
+                <VATWCSUBCONTRACTORAMT/>
+                <VATWCDEDUCTAMT/>
+                <WCTOTALDEDUCTIONAMT/>
+                <PREVAMOUNT/>
+                <PREVINVTOTALAMT/>
+                <VATWCDEDUCTIONAMOUNT/>
+                <ORIGINVGOODSVALUE/>
+                <CENVATCAPTINPUTAMT/>
+                <GSTASSESSABLEVALUE/>
+                <IGSTLIABILITY/>
+                <CGSTLIABILITY/>
+                <SGSTLIABILITY/>
+                <GSTCESSLIABILITY/>
+                <GSTOVRDNASSESSABLEVALUE/>
+                <GSTASSBLVALUE/>
+                <STRDCOMPUTEDASSESSABLEVALUE/>
+                <STRDCOMPUTEDIGST/>
+                <STRDCOMPUTEDCGST/>
+                <STRDCOMPUTEDSGST/>
+                <STRDCOMPUTEDCESS/>
+                <STRDCOMPUTEDCESSONQTY/>
+                <ORIGINVGOODSTAXVALUE/>
+                <VATWCESTABLISHMENTCOST/>
+                <VATWCCONTRACTORPROFIT/>
+                <VATWCPLANNINGDESIGNFEES/>
+                <VATWCMACHINERYTOOLSCHARGES/>
+                <VATWCCONSUMABLESCOST/>
+                <VATEXPAMOUNT/>
+                <VATASSBLVALUE/>
+                <VATACCEPTEDTAXAMT/>
+                <VATACCEPTEDADDLTAXAMT/>
+                <CASHRECEIVED/>
+                <CAPVATASSEABLEVALUE/>
+                <CAPVATTAXVALUE/>
+                <ORIGPURCHVALUE/>
+                <SUPPLYMARGVAL/>
+                <STRDAPPRSTATECESSGST/>
+                <STRDAPPROPRIATEDDISCOUNT/>
+                <STRDEXCISETAX/>
+                <SERVICETAXDETAILS.LIST>       </SERVICETAXDETAILS.LIST>
+                <BANKALLOCATIONS.LIST>       </BANKALLOCATIONS.LIST>
+                <BILLALLOCATIONS.LIST>       </BILLALLOCATIONS.LIST>
+                <INTERESTCOLLECTION.LIST>       </INTERESTCOLLECTION.LIST>
+                <OLDAUDITENTRIES.LIST>       </OLDAUDITENTRIES.LIST>
+                <ACCOUNTAUDITENTRIES.LIST>       </ACCOUNTAUDITENTRIES.LIST>
+                <AUDITENTRIES.LIST>       </AUDITENTRIES.LIST>
+                <INPUTCRALLOCS.LIST>       </INPUTCRALLOCS.LIST>
+                <DUTYHEADDETAILS.LIST>       </DUTYHEADDETAILS.LIST>
+                <EXCISEDUTYHEADDETAILS.LIST>       </EXCISEDUTYHEADDETAILS.LIST>
+                <RATEDETAILS.LIST>       </RATEDETAILS.LIST>
+                <SUMMARYALLOCS.LIST>       </SUMMARYALLOCS.LIST>
+                <CENVATDUTYALLOCATIONS.LIST>       </CENVATDUTYALLOCATIONS.LIST>
+                <STPYMTDETAILS.LIST>       </STPYMTDETAILS.LIST>
+                <EXCISEPAYMENTALLOCATIONS.LIST>       </EXCISEPAYMENTALLOCATIONS.LIST>
+                <TAXBILLALLOCATIONS.LIST>       </TAXBILLALLOCATIONS.LIST>
+                <TAXOBJECTALLOCATIONS.LIST>       </TAXOBJECTALLOCATIONS.LIST>
+                <TDSEXPENSEALLOCATIONS.LIST>       </TDSEXPENSEALLOCATIONS.LIST>
+                <VATSTATUTORYDETAILS.LIST>       </VATSTATUTORYDETAILS.LIST>
+                <COSTTRACKALLOCATIONS.LIST>       </COSTTRACKALLOCATIONS.LIST>
+                <REFVOUCHERDETAILS.LIST>       </REFVOUCHERDETAILS.LIST>
+                <INVOICEWISEDETAILS.LIST>       </INVOICEWISEDETAILS.LIST>
+                <VATITCDETAILS.LIST>       </VATITCDETAILS.LIST>
+                <ADVANCETAXDETAILS.LIST>       </ADVANCETAXDETAILS.LIST>
+                <TAXTYPEALLOCATIONS.LIST>       </TAXTYPEALLOCATIONS.LIST>
+              </ACCOUNTINGALLOCATIONS.LIST>
+              <DUTYHEADDETAILS.LIST>      </DUTYHEADDETAILS.LIST>
+              <RATEDETAILS.LIST>
+                <GSTRATEDUTYHEAD>CGST</GSTRATEDUTYHEAD>
+                <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                <GSTRATE> 9</GSTRATE>
+                <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+              </RATEDETAILS.LIST>
+              <RATEDETAILS.LIST>
+                <GSTRATEDUTYHEAD>SGST/UTGST</GSTRATEDUTYHEAD>
+                <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                <GSTRATE> 9</GSTRATE>
+                <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+              </RATEDETAILS.LIST>
+              <RATEDETAILS.LIST>
+                <GSTRATEDUTYHEAD>IGST</GSTRATEDUTYHEAD>
+                <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                <GSTRATE> 18</GSTRATE>
+                <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+              </RATEDETAILS.LIST>
+              <RATEDETAILS.LIST>
+                <GSTRATEDUTYHEAD>Cess</GSTRATEDUTYHEAD>
+                <GSTRATEVALUATIONTYPE> Not Applicable</GSTRATEVALUATIONTYPE>
+                <GSTRATE>0</GSTRATE>
+                <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+              </RATEDETAILS.LIST>
+              <RATEDETAILS.LIST>
+                <GSTRATEDUTYHEAD>State Cess</GSTRATEDUTYHEAD>
+                <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                <GSTRATE>0</GSTRATE>
+                <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+              </RATEDETAILS.LIST>
+              <SUPPLEMENTARYDUTYHEADDETAILS.LIST>      </SUPPLEMENTARYDUTYHEADDETAILS.LIST>
+              <TAXOBJECTALLOCATIONS.LIST>      </TAXOBJECTALLOCATIONS.LIST>
+              <REFVOUCHERDETAILS.LIST>      </REFVOUCHERDETAILS.LIST>
+              <EXCISEALLOCATIONS.LIST>      </EXCISEALLOCATIONS.LIST>
+              <EXPENSEALLOCATIONS.LIST>      </EXPENSEALLOCATIONS.LIST>
+            </ALLINVENTORYENTRIES.LIST>
+            <ALLINVENTORYENTRIES.LIST>
+              <ORIGINVOICEDATE/>
+              <ORIGSALESINVDATE/>
+              <DESCRIPTION/>
+              <STOCKITEMNAME>Abrotape (Roll)</STOCKITEMNAME>
+              <STATNATURENAME/>
+              <EXCISECLASSIFICATIONNAME/>
+              <ISZRBASICSERVICE/>
+              <STRDGSTDERIVEDLOCATIONTYPE/>
+              <STRDGSTDERIVEDTAXABILITY/>
+              <STRDGSTDERIVEDNATURETYPE/>
+              <STRDGSTDERIVEDSUPPLYTYPE/>
+              <GSTOVRDNCLASSIFICATION/>
+              <GSTOVRDNNATURE/>
+              <GSTOVRDNINELIGIBLEITC/>
+              <GSTOVRDNISREVCHARGEAPPL> Not Applicable</GSTOVRDNISREVCHARGEAPPL>
+              <GSTOVRDNTAXABILITY>Taxable</GSTOVRDNTAXABILITY>
+              <GSTSOURCETYPE>Stock Item</GSTSOURCETYPE>
+              <GSTITEMSOURCE>Plywood  2.44 x 1.22  19 mm</GSTITEMSOURCE>
+              <GSTLEDGERSOURCE/>
+              <GSTGROUPSOURCE/>
+              <GSTSTOCKGROUPSOURCE/>
+              <HSNSOURCETYPE>Stock Item</HSNSOURCETYPE>
+              <HSNITEMSOURCE>Plywood  2.44 x 1.22  19 mm</HSNITEMSOURCE>
+              <HSNLEDGERSOURCE/>
+              <HSNGROUPSOURCE/>
+              <HSNSTOCKGROUPSOURCE/>
+              <GSTOVRDNSTOREDNATURE> System Inferred</GSTOVRDNSTOREDNATURE>
+              <GSTOVRDNTYPEOFSUPPLY>Goods</GSTOVRDNTYPEOFSUPPLY>
+              <GSTRATEINFERAPPLICABILITY>As per Masters/Company</GSTRATEINFERAPPLICABILITY>
+              <GSTOVRDNNATUREOFGOODS/>
+              <GSTHSNNAME>44123190</GSTHSNNAME>
+              <GSTHSNDESCRIPTION/>
+              <GSTHSNINFERAPPLICABILITY>As per Masters/Company</GSTHSNINFERAPPLICABILITY>
+              <HSNOVRDNCLASSIFICATION/>
+              <STRDGSTFINALNATUREOFENTRY/>
+              <GSTDEPGSTCLASSIFICATION/>
+              <GSTDEPHSNCLASSIFICATION/>
+              <EXCISETARIFF/>
+              <EXCISEEXEMPTION/>
+              <TRADERCNSALESNUMBER/>
+              <BASICPACKAGEMARKS/>
+              <BASICNUMPACKAGES/>
+              <SDTAXCLASSIFICATIONNAME/>
+              <NATUREOFCOMPONENT/>
+              <COMPONENTLISTTYPE/>
+              <DISPLAYNATUREOFCOMPONENT/>
+              <BOMNAME/>
+              <ORIGINVOICENUMBER/>
+              <ORIGINVOICEBOOKNAME/>
+              <ORIGSALESINVNO/>
+              <EXCISERETURNINVOICENO/>
+              <REASONOFREJECTION/>
+              <EXCISECREDITPARTY/>
+              <EXCISECREDITSTKITEM/>
+              <EXCISECREDITCATEGORY/>
+              <TRADERSUPPLIERINVOICENO/>
+              <EXCISESALESINVOICENO/>
+              <GSTITEMUQC/>
+              <GSTITEMUQCUOM/>
+              <ADDLAMOUNT/>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <ISGSTASSESSABLEVALUEOVERRIDDEN/>
+              <STRDISGSTAPPLICABLE/>
+              <CONTENTNEGISPOS/>
+              <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+              <ISAUTONEGATE>No</ISAUTONEGATE>
+              <ISCUSTOMSCLEARANCE/>
+              <ISTRACKCOMPONENT/>
+              <ISTRACKPRODUCTION/>
+              <ISPRIMARYITEM/>
+              <ISSCRAP>No</ISSCRAP>
+              <RATE>130.00/Roll</RATE>
+              <DISCOUNT>0</DISCOUNT>
+              <VATTAXRATE>0</VATTAXRATE>
+              <ORIGINVGOODSQTY>0</ORIGINVGOODSQTY>
+              <EXCISEMRPABATEMENT>0</EXCISEMRPABATEMENT>
+              <ADDLCOSTPERC>0</ADDLCOSTPERC>
+              <REVISEDRATEOFDUTY>0</REVISEDRATEOFDUTY>
+              <ORIGRATEOFDUTY>0</ORIGRATEOFDUTY>
+              <ORIGMRPABATEMENT>0</ORIGMRPABATEMENT>
+              <EXCISERETURNDUTYRATE>0</EXCISERETURNDUTYRATE>
+              <GVATEXCISERATE>0</GVATEXCISERATE>
+              <AMOUNT>260.00</AMOUNT>
+              <EXCISEASSESSABLEVALUE/>
+              <CESSASSVALONCLASS/>
+              <EIDISCOUNTAMT/>
+              <VATASSESSABLEVALUE/>
+              <VATWCDEDUCTAMT/>
+              <WCTOTALDEDUCTIONAMT/>
+              <ORIGINVGOODSVALUE/>
+              <GSTOVRDNASSESSABLEVALUE/>
+              <GSTASSBLVALUE/>
+              <STRDCOMPUTEDASSESSABLEVALUE/>
+              <STRDCOMPUTEDIGST/>
+              <STRDCOMPUTEDCGST/>
+              <STRDCOMPUTEDSGST/>
+              <STRDCOMPUTEDCESS/>
+              <STRDCOMPUTEDCESSONQTY/>
+              <ORIGINVGOODSTAXVALUE/>
+              <VATASSBLVALUE/>
+              <VATACCEPTEDTAXAMT/>
+              <VATACCEPTEDADDLTAXAMT/>
+              <STRDAPPRSTATECESSGST/>
+              <STRDAPPROPRIATEDDISCOUNT/>
+              <STRDEXCISETAX/>
+              <VATINPUTTAXCREDIT/>
+              <VATELIGIBLECREDIT/>
+              <GVATEXCISEAMT/>
+              <ACTUALQTY> 2.00 Roll</ACTUALQTY>
+              <BILLEDQTY> 2.00 Roll</BILLEDQTY>
+              <ORIGACTUALQTY/>
+              <ORIGBILLEDQTY/>
+              <EXCISERETURNINVOICEQTY/>
+              <USABLEQTY/>
+              <EXCISECREDITPENDINGQTY/>
+              <MRPRATE/>
+              <EXCISEMRPRATE/>
+              <ORIGRATE/>
+              <REVISEDRATE/>
+              <ESCALATIONRATE/>
+              <ORIGMRPRATE/>
+              <ORIGRATEOFQTY/>
+              <REVISEDRATEOFQTY/>
+              <INCLVATRATE/>
+              <BATCHALLOCATIONS.LIST>
+                <MFDON/>
+                <ORDERYEAREND/>
+                <TRACKINGYEAREND/>
+                <ORDERPRECLOSUREDATE/>
+                <NARRATION/>
+                <GODOWNNAME>Main Location</GODOWNNAME>
+                <BATCHNAME>Primary Batch</BATCHNAME>
+                <DESTINATIONGODOWNNAME/>
+                <INDENTNO> Not Applicable</INDENTNO>
+                <ORDERTYPE/>
+                <PARENTITEM/>
+                <ORDERCLOSUREREASON/>
+                <ORDERNO> Not Applicable</ORDERNO>
+                <TRACKINGNUMBER>Verbally</TRACKINGNUMBER>
+                <DYNAMICCSTNO/>
+                <DYNAMICCSTPARENTITEM/>
+                <SUMDYNAMICCSTNO/>
+                <SUMBATCHNAME/>
+                <SUMTRACKINGNUMBER/>
+                <SUMORDERNO/>
+                <SUMINDENTNO/>
+                <ADDLAMOUNT/>
+                <DYNAMICCSTISCLEARED>No</DYNAMICCSTISCLEARED>
+                <TRACKID TYPE="Number"/>
+                <BATCHID TYPE="Number"/>
+                <BATCHDISCOUNT TYPE="Number"/>
+                <AMOUNT>260.00</AMOUNT>
+                <ADDLEXPENSEAMOUNT/>
+                <BATCHDIFFVAL/>
+                <ACTUALQTY> 2.00 Roll</ACTUALQTY>
+                <BILLEDQTY> 2.00 Roll</BILLEDQTY>
+                <ORDERPRECLOSUREQTY/>
+                <ORIGACTUALQTY/>
+                <ORIGBILLEDQTY/>
+                <BATCHPHYSDIFF/>
+                <ORIGRATE/>
+                <REVISEDRATE/>
+                <ESCALATIONRATE/>
+                <INCLVATRATE/>
+                <BATCHRATE TYPE="Rate">130.00/Roll</BATCHRATE>
+                <EXPIRYPERIOD/>
+                <INDENTDUEDATE/>
+                <ORDERDUEDATE/>
+                <ADDITIONALDETAILS.LIST>       </ADDITIONALDETAILS.LIST>
+                <VOUCHERCOMPONENTLIST.LIST>       </VOUCHERCOMPONENTLIST.LIST>
+              </BATCHALLOCATIONS.LIST>
+              <ACCOUNTINGALLOCATIONS.LIST>
+                <OLDAUDITENTRYIDS.LIST TYPE="Number">
+                  <OLDAUDITENTRYIDS>-1</OLDAUDITENTRYIDS>
+                </OLDAUDITENTRYIDS.LIST>
+                <ORIGPURCHINVDATE/>
+                <NARRATION/>
+                <ADDLALLOCTYPE/>
+                <TAXCLASSIFICATIONNAME/>
+                <APPROPRIATEFOR/>
+                <GSTDUTYHEAD/>
+                <GSTAPPROPRIATETO/>
+                <NOTIFICATIONSLNO/>
+                <EXCISEALLOCTYPE/>
+                <SWIFTCODE/>
+                <ROUNDTYPE/>
+                <LEDGERNAME>Sales Local Taxable - GST 18%</LEDGERNAME>
+                <TAXUNITNAME/>
+                <STATNATURENAME/>
+                <GOODSTYPE/>
+                <VATTRADENAME/>
+                <METHODTYPE/>
+                <CLASSRATE/>
+                <STATCLASSIFICATIONNAME/>
+                <EXCISECLASSIFICATIONNAME/>
+                <ISZRBASICSERVICE/>
+                <VATCOMMODITYNAME/>
+                <SCHEDULE/>
+                <SCHEDULESERIALNUMBER/>
+                <VATCOMMODITYCODE/>
+                <VATSUBCOMMODITYCODE/>
+                <VATMAJORCOMMODITYNAME/>
+                <STRDGSTDERIVEDLOCATIONTYPE/>
+                <STRDGSTDERIVEDTAXABILITY/>
+                <STRDGSTDERIVEDNATURETYPE/>
+                <STRDGSTDERIVEDSUPPLYTYPE/>
+                <TDSPARTYNAME/>
+                <VATPARTYORGNAME/>
+                <XBRLADJTYPE/>
+                <VOUCHERFBTCATEGORY/>
+                <TYPEOFTAXPAYMENT/>
+                <VATCALCULATIONTYPE/>
+                <VATWORKSCONTRACTTYPE/>
+                <VATWCDESCRIPTION/>
+                <GSTCLASS> Not Applicable</GSTCLASS>
+                <SCHVIADJTYPE/>
+                <GSTOVRDNCLASSIFICATION/>
+                <GSTOVRDNNATURE/>
+                <GSTOVRDNINELIGIBLEITC/>
+                <GSTOVRDNISREVCHARGEAPPL/>
+                <GSTOVRDNTAXABILITY/>
+                <GSTHSNSACCODE/>
+                <GSTSOURCETYPE/>
+                <GSTITEMSOURCE/>
+                <GSTLEDGERSOURCE/>
+                <GSTGROUPSOURCE/>
+                <GSTSTOCKGROUPSOURCE/>
+                <HSNSOURCETYPE/>
+                <HSNITEMSOURCE/>
+                <HSNLEDGERSOURCE/>
+                <HSNGROUPSOURCE/>
+                <HSNSTOCKGROUPSOURCE/>
+                <GSTOVRDNSTOREDNATURE/>
+                <GSTOVRDNTYPEOFSUPPLY/>
+                <GSTRATEINFERAPPLICABILITY/>
+                <GSTOVRDNNATUREOFGOODS/>
+                <GSTHSNNAME/>
+                <GSTHSNDESCRIPTION/>
+                <GSTHSNINFERAPPLICABILITY/>
+                <HSNOVRDNCLASSIFICATION/>
+                <STRDGSTFINALNATUREOFENTRY/>
+                <STRDGSTDUTYHEAD/>
+                <VATGOODSNATURE/>
+                <GSTDEPGSTCLASSIFICATION/>
+                <GSTDEPHSNCLASSIFICATION/>
+                <POSPAYMENTTYPE/>
+                <GSTPARTYLEDGER/>
+                <ORIGPURCHPARTY/>
+                <ORIGPURCHPARTYADDRESS/>
+                <ORIGPURCHINVNO/>
+                <ORIGPURCHNOTE/>
+                <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+                <LEDGERFROMITEM>No</LEDGERFROMITEM>
+                <REMOVEZEROENTRIES/>
+                <ISPARTYLEDGER>No</ISPARTYLEDGER>
+                <GSTOVERRIDDEN>No</GSTOVERRIDDEN>
+                <ISGSTASSESSABLEVALUEOVERRIDDEN>No</ISGSTASSESSABLEVALUEOVERRIDDEN>
+                <STRDISGSTAPPLICABLE>No</STRDISGSTAPPLICABLE>
+                <STRDGSTISPARTYLEDGER>No</STRDGSTISPARTYLEDGER>
+                <STRDGSTISDUTYLEDGER>No</STRDGSTISDUTYLEDGER>
+                <CONTENTNEGISPOS/>
+                <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+                <ISCAPVATTAXALTERED/>
+                <ISCAPVATNOTCLAIMED>No</ISCAPVATNOTCLAIMED>
+                <STCRADJPERCENT>0</STCRADJPERCENT>
+                <ROUNDLIMIT>0</ROUNDLIMIT>
+                <RATEOFADDLVAT>0</RATEOFADDLVAT>
+                <RATEOFCESSONVAT>0</RATEOFCESSONVAT>
+                <VATTAXRATE>0</VATTAXRATE>
+                <VATITEMQTY>0</VATITEMQTY>
+                <VATWCDEDUCTRATE>0</VATWCDEDUCTRATE>
+                <PREVINVTOTALNUM>0</PREVINVTOTALNUM>
+                <VATWCDEDUCTIONRATE>0</VATWCDEDUCTIONRATE>
+                <GSTTAXRATE>0</GSTTAXRATE>
+                <ORIGINVGOODSQTY>0</ORIGINVGOODSQTY>
+                <CAPVATTAXRATE>0</CAPVATTAXRATE>
+                <AMOUNT>260.00</AMOUNT>
+                <CESSASSVALONCLASS/>
+                <ADDNLVATCLASSAMT/>
+                <EIDISCOUNTAMT/>
+                <FBTEXEMPTAMOUNT/>
+                <VATASSESSABLEVALUE/>
+                <VATWCCOSTOFLAND/>
+                <VATWCDEDLABOURCHARGES/>
+                <VATWCOTHERDEDUCTIONAMT/>
+                <VATWCVALUEOFTAXFREEGOODS/>
+                <VATWCOTHERCHARGES/>
+                <VATWCSUBCONTRACTORAMT/>
+                <VATWCDEDUCTAMT/>
+                <WCTOTALDEDUCTIONAMT/>
+                <PREVAMOUNT/>
+                <PREVINVTOTALAMT/>
+                <VATWCDEDUCTIONAMOUNT/>
+                <ORIGINVGOODSVALUE/>
+                <CENVATCAPTINPUTAMT/>
+                <GSTASSESSABLEVALUE/>
+                <IGSTLIABILITY/>
+                <CGSTLIABILITY/>
+                <SGSTLIABILITY/>
+                <GSTCESSLIABILITY/>
+                <GSTOVRDNASSESSABLEVALUE/>
+                <GSTASSBLVALUE/>
+                <STRDCOMPUTEDASSESSABLEVALUE/>
+                <STRDCOMPUTEDIGST/>
+                <STRDCOMPUTEDCGST/>
+                <STRDCOMPUTEDSGST/>
+                <STRDCOMPUTEDCESS/>
+                <STRDCOMPUTEDCESSONQTY/>
+                <ORIGINVGOODSTAXVALUE/>
+                <VATWCESTABLISHMENTCOST/>
+                <VATWCCONTRACTORPROFIT/>
+                <VATWCPLANNINGDESIGNFEES/>
+                <VATWCMACHINERYTOOLSCHARGES/>
+                <VATWCCONSUMABLESCOST/>
+                <VATEXPAMOUNT/>
+                <VATASSBLVALUE/>
+                <VATACCEPTEDTAXAMT/>
+                <VATACCEPTEDADDLTAXAMT/>
+                <CASHRECEIVED/>
+                <CAPVATASSEABLEVALUE/>
+                <CAPVATTAXVALUE/>
+                <ORIGPURCHVALUE/>
+                <SUPPLYMARGVAL/>
+                <STRDAPPRSTATECESSGST/>
+                <STRDAPPROPRIATEDDISCOUNT/>
+                <STRDEXCISETAX/>
+                <SERVICETAXDETAILS.LIST>       </SERVICETAXDETAILS.LIST>
+                <BANKALLOCATIONS.LIST>       </BANKALLOCATIONS.LIST>
+                <BILLALLOCATIONS.LIST>       </BILLALLOCATIONS.LIST>
+                <INTERESTCOLLECTION.LIST>       </INTERESTCOLLECTION.LIST>
+                <OLDAUDITENTRIES.LIST>       </OLDAUDITENTRIES.LIST>
+                <ACCOUNTAUDITENTRIES.LIST>       </ACCOUNTAUDITENTRIES.LIST>
+                <AUDITENTRIES.LIST>       </AUDITENTRIES.LIST>
+                <INPUTCRALLOCS.LIST>       </INPUTCRALLOCS.LIST>
+                <DUTYHEADDETAILS.LIST>       </DUTYHEADDETAILS.LIST>
+                <EXCISEDUTYHEADDETAILS.LIST>       </EXCISEDUTYHEADDETAILS.LIST>
+                <RATEDETAILS.LIST>       </RATEDETAILS.LIST>
+                <SUMMARYALLOCS.LIST>       </SUMMARYALLOCS.LIST>
+                <CENVATDUTYALLOCATIONS.LIST>       </CENVATDUTYALLOCATIONS.LIST>
+                <STPYMTDETAILS.LIST>       </STPYMTDETAILS.LIST>
+                <EXCISEPAYMENTALLOCATIONS.LIST>       </EXCISEPAYMENTALLOCATIONS.LIST>
+                <TAXBILLALLOCATIONS.LIST>       </TAXBILLALLOCATIONS.LIST>
+                <TAXOBJECTALLOCATIONS.LIST>       </TAXOBJECTALLOCATIONS.LIST>
+                <TDSEXPENSEALLOCATIONS.LIST>       </TDSEXPENSEALLOCATIONS.LIST>
+                <VATSTATUTORYDETAILS.LIST>       </VATSTATUTORYDETAILS.LIST>
+                <COSTTRACKALLOCATIONS.LIST>       </COSTTRACKALLOCATIONS.LIST>
+                <REFVOUCHERDETAILS.LIST>       </REFVOUCHERDETAILS.LIST>
+                <INVOICEWISEDETAILS.LIST>       </INVOICEWISEDETAILS.LIST>
+                <VATITCDETAILS.LIST>       </VATITCDETAILS.LIST>
+                <ADVANCETAXDETAILS.LIST>       </ADVANCETAXDETAILS.LIST>
+                <TAXTYPEALLOCATIONS.LIST>       </TAXTYPEALLOCATIONS.LIST>
+              </ACCOUNTINGALLOCATIONS.LIST>
+              <DUTYHEADDETAILS.LIST>      </DUTYHEADDETAILS.LIST>
+              <RATEDETAILS.LIST>
+                <GSTRATEDUTYHEAD>CGST</GSTRATEDUTYHEAD>
+                <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                <GSTRATE> 9</GSTRATE>
+                <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+              </RATEDETAILS.LIST>
+              <RATEDETAILS.LIST>
+                <GSTRATEDUTYHEAD>SGST/UTGST</GSTRATEDUTYHEAD>
+                <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                <GSTRATE> 9</GSTRATE>
+                <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+              </RATEDETAILS.LIST>
+              <RATEDETAILS.LIST>
+                <GSTRATEDUTYHEAD>IGST</GSTRATEDUTYHEAD>
+                <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                <GSTRATE> 18</GSTRATE>
+                <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+              </RATEDETAILS.LIST>
+              <RATEDETAILS.LIST>
+                <GSTRATEDUTYHEAD>Cess</GSTRATEDUTYHEAD>
+                <GSTRATEVALUATIONTYPE> Not Applicable</GSTRATEVALUATIONTYPE>
+                <GSTRATE>0</GSTRATE>
+                <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+              </RATEDETAILS.LIST>
+              <RATEDETAILS.LIST>
+                <GSTRATEDUTYHEAD>State Cess</GSTRATEDUTYHEAD>
+                <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                <GSTRATE>0</GSTRATE>
+                <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+              </RATEDETAILS.LIST>
+              <SUPPLEMENTARYDUTYHEADDETAILS.LIST>      </SUPPLEMENTARYDUTYHEADDETAILS.LIST>
+              <TAXOBJECTALLOCATIONS.LIST>      </TAXOBJECTALLOCATIONS.LIST>
+              <REFVOUCHERDETAILS.LIST>      </REFVOUCHERDETAILS.LIST>
+              <EXCISEALLOCATIONS.LIST>      </EXCISEALLOCATIONS.LIST>
+              <EXPENSEALLOCATIONS.LIST>      </EXPENSEALLOCATIONS.LIST>
+            </ALLINVENTORYENTRIES.LIST>
+            <ALLINVENTORYENTRIES.LIST>
+              <ORIGINVOICEDATE/>
+              <ORIGSALESINVDATE/>
+              <DESCRIPTION/>
+              <STOCKITEMNAME>Fevicol Nail Free Ultra</STOCKITEMNAME>
+              <STATNATURENAME/>
+              <EXCISECLASSIFICATIONNAME/>
+              <ISZRBASICSERVICE/>
+              <STRDGSTDERIVEDLOCATIONTYPE/>
+              <STRDGSTDERIVEDTAXABILITY/>
+              <STRDGSTDERIVEDNATURETYPE/>
+              <STRDGSTDERIVEDSUPPLYTYPE/>
+              <GSTOVRDNCLASSIFICATION/>
+              <GSTOVRDNNATURE/>
+              <GSTOVRDNINELIGIBLEITC/>
+              <GSTOVRDNISREVCHARGEAPPL> Not Applicable</GSTOVRDNISREVCHARGEAPPL>
+              <GSTOVRDNTAXABILITY>Taxable</GSTOVRDNTAXABILITY>
+              <GSTSOURCETYPE>Stock Item</GSTSOURCETYPE>
+              <GSTITEMSOURCE>Plywood  2.44 x 1.22  19 mm</GSTITEMSOURCE>
+              <GSTLEDGERSOURCE/>
+              <GSTGROUPSOURCE/>
+              <GSTSTOCKGROUPSOURCE/>
+              <HSNSOURCETYPE>Stock Item</HSNSOURCETYPE>
+              <HSNITEMSOURCE>Plywood  2.44 x 1.22  19 mm</HSNITEMSOURCE>
+              <HSNLEDGERSOURCE/>
+              <HSNGROUPSOURCE/>
+              <HSNSTOCKGROUPSOURCE/>
+              <GSTOVRDNSTOREDNATURE> System Inferred</GSTOVRDNSTOREDNATURE>
+              <GSTOVRDNTYPEOFSUPPLY>Goods</GSTOVRDNTYPEOFSUPPLY>
+              <GSTRATEINFERAPPLICABILITY>As per Masters/Company</GSTRATEINFERAPPLICABILITY>
+              <GSTOVRDNNATUREOFGOODS/>
+              <GSTHSNNAME>44123190</GSTHSNNAME>
+              <GSTHSNDESCRIPTION/>
+              <GSTHSNINFERAPPLICABILITY>As per Masters/Company</GSTHSNINFERAPPLICABILITY>
+              <HSNOVRDNCLASSIFICATION/>
+              <STRDGSTFINALNATUREOFENTRY/>
+              <GSTDEPGSTCLASSIFICATION/>
+              <GSTDEPHSNCLASSIFICATION/>
+              <EXCISETARIFF/>
+              <EXCISEEXEMPTION/>
+              <TRADERCNSALESNUMBER/>
+              <BASICPACKAGEMARKS/>
+              <BASICNUMPACKAGES/>
+              <SDTAXCLASSIFICATIONNAME/>
+              <NATUREOFCOMPONENT/>
+              <COMPONENTLISTTYPE/>
+              <DISPLAYNATUREOFCOMPONENT/>
+              <BOMNAME/>
+              <ORIGINVOICENUMBER/>
+              <ORIGINVOICEBOOKNAME/>
+              <ORIGSALESINVNO/>
+              <EXCISERETURNINVOICENO/>
+              <REASONOFREJECTION/>
+              <EXCISECREDITPARTY/>
+              <EXCISECREDITSTKITEM/>
+              <EXCISECREDITCATEGORY/>
+              <TRADERSUPPLIERINVOICENO/>
+              <EXCISESALESINVOICENO/>
+              <GSTITEMUQC/>
+              <GSTITEMUQCUOM/>
+              <ADDLAMOUNT/>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <ISGSTASSESSABLEVALUEOVERRIDDEN/>
+              <STRDISGSTAPPLICABLE/>
+              <CONTENTNEGISPOS/>
+              <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+              <ISAUTONEGATE>No</ISAUTONEGATE>
+              <ISCUSTOMSCLEARANCE/>
+              <ISTRACKCOMPONENT/>
+              <ISTRACKPRODUCTION/>
+              <ISPRIMARYITEM/>
+              <ISSCRAP>No</ISSCRAP>
+              <RATE>350.00/nos</RATE>
+              <DISCOUNT>0</DISCOUNT>
+              <VATTAXRATE>0</VATTAXRATE>
+              <ORIGINVGOODSQTY>0</ORIGINVGOODSQTY>
+              <EXCISEMRPABATEMENT>0</EXCISEMRPABATEMENT>
+              <ADDLCOSTPERC>0</ADDLCOSTPERC>
+              <REVISEDRATEOFDUTY>0</REVISEDRATEOFDUTY>
+              <ORIGRATEOFDUTY>0</ORIGRATEOFDUTY>
+              <ORIGMRPABATEMENT>0</ORIGMRPABATEMENT>
+              <EXCISERETURNDUTYRATE>0</EXCISERETURNDUTYRATE>
+              <GVATEXCISERATE>0</GVATEXCISERATE>
+              <AMOUNT>700.00</AMOUNT>
+              <EXCISEASSESSABLEVALUE/>
+              <CESSASSVALONCLASS/>
+              <EIDISCOUNTAMT/>
+              <VATASSESSABLEVALUE/>
+              <VATWCDEDUCTAMT/>
+              <WCTOTALDEDUCTIONAMT/>
+              <ORIGINVGOODSVALUE/>
+              <GSTOVRDNASSESSABLEVALUE/>
+              <GSTASSBLVALUE/>
+              <STRDCOMPUTEDASSESSABLEVALUE/>
+              <STRDCOMPUTEDIGST/>
+              <STRDCOMPUTEDCGST/>
+              <STRDCOMPUTEDSGST/>
+              <STRDCOMPUTEDCESS/>
+              <STRDCOMPUTEDCESSONQTY/>
+              <ORIGINVGOODSTAXVALUE/>
+              <VATASSBLVALUE/>
+              <VATACCEPTEDTAXAMT/>
+              <VATACCEPTEDADDLTAXAMT/>
+              <STRDAPPRSTATECESSGST/>
+              <STRDAPPROPRIATEDDISCOUNT/>
+              <STRDEXCISETAX/>
+              <VATINPUTTAXCREDIT/>
+              <VATELIGIBLECREDIT/>
+              <GVATEXCISEAMT/>
+              <ACTUALQTY> 2.00 nos</ACTUALQTY>
+              <BILLEDQTY> 2.00 nos</BILLEDQTY>
+              <ORIGACTUALQTY/>
+              <ORIGBILLEDQTY/>
+              <EXCISERETURNINVOICEQTY/>
+              <USABLEQTY/>
+              <EXCISECREDITPENDINGQTY/>
+              <MRPRATE/>
+              <EXCISEMRPRATE/>
+              <ORIGRATE/>
+              <REVISEDRATE/>
+              <ESCALATIONRATE/>
+              <ORIGMRPRATE/>
+              <ORIGRATEOFQTY/>
+              <REVISEDRATEOFQTY/>
+              <INCLVATRATE/>
+              <BATCHALLOCATIONS.LIST>
+                <MFDON/>
+                <ORDERYEAREND/>
+                <TRACKINGYEAREND/>
+                <ORDERPRECLOSUREDATE/>
+                <NARRATION/>
+                <GODOWNNAME>Main Location</GODOWNNAME>
+                <BATCHNAME>Primary Batch</BATCHNAME>
+                <DESTINATIONGODOWNNAME/>
+                <INDENTNO> Not Applicable</INDENTNO>
+                <ORDERTYPE/>
+                <PARENTITEM/>
+                <ORDERCLOSUREREASON/>
+                <ORDERNO> Not Applicable</ORDERNO>
+                <TRACKINGNUMBER>Verbally</TRACKINGNUMBER>
+                <DYNAMICCSTNO/>
+                <DYNAMICCSTPARENTITEM/>
+                <SUMDYNAMICCSTNO/>
+                <SUMBATCHNAME/>
+                <SUMTRACKINGNUMBER/>
+                <SUMORDERNO/>
+                <SUMINDENTNO/>
+                <ADDLAMOUNT/>
+                <DYNAMICCSTISCLEARED>No</DYNAMICCSTISCLEARED>
+                <TRACKID TYPE="Number"/>
+                <BATCHID TYPE="Number"/>
+                <BATCHDISCOUNT TYPE="Number"/>
+                <AMOUNT>700.00</AMOUNT>
+                <ADDLEXPENSEAMOUNT/>
+                <BATCHDIFFVAL/>
+                <ACTUALQTY> 2.00 nos</ACTUALQTY>
+                <BILLEDQTY> 2.00 nos</BILLEDQTY>
+                <ORDERPRECLOSUREQTY/>
+                <ORIGACTUALQTY/>
+                <ORIGBILLEDQTY/>
+                <BATCHPHYSDIFF/>
+                <ORIGRATE/>
+                <REVISEDRATE/>
+                <ESCALATIONRATE/>
+                <INCLVATRATE/>
+                <BATCHRATE TYPE="Rate">350.00/nos</BATCHRATE>
+                <EXPIRYPERIOD/>
+                <INDENTDUEDATE/>
+                <ORDERDUEDATE/>
+                <ADDITIONALDETAILS.LIST>       </ADDITIONALDETAILS.LIST>
+                <VOUCHERCOMPONENTLIST.LIST>       </VOUCHERCOMPONENTLIST.LIST>
+              </BATCHALLOCATIONS.LIST>
+              <ACCOUNTINGALLOCATIONS.LIST>
+                <OLDAUDITENTRYIDS.LIST TYPE="Number">
+                  <OLDAUDITENTRYIDS>-1</OLDAUDITENTRYIDS>
+                </OLDAUDITENTRYIDS.LIST>
+                <ORIGPURCHINVDATE/>
+                <NARRATION/>
+                <ADDLALLOCTYPE/>
+                <TAXCLASSIFICATIONNAME/>
+                <APPROPRIATEFOR/>
+                <GSTDUTYHEAD/>
+                <GSTAPPROPRIATETO/>
+                <NOTIFICATIONSLNO/>
+                <EXCISEALLOCTYPE/>
+                <SWIFTCODE/>
+                <ROUNDTYPE/>
+                <LEDGERNAME>Sales Local Taxable - GST 18%</LEDGERNAME>
+                <TAXUNITNAME/>
+                <STATNATURENAME/>
+                <GOODSTYPE/>
+                <VATTRADENAME/>
+                <METHODTYPE/>
+                <CLASSRATE/>
+                <STATCLASSIFICATIONNAME/>
+                <EXCISECLASSIFICATIONNAME/>
+                <ISZRBASICSERVICE/>
+                <VATCOMMODITYNAME/>
+                <SCHEDULE/>
+                <SCHEDULESERIALNUMBER/>
+                <VATCOMMODITYCODE/>
+                <VATSUBCOMMODITYCODE/>
+                <VATMAJORCOMMODITYNAME/>
+                <STRDGSTDERIVEDLOCATIONTYPE/>
+                <STRDGSTDERIVEDTAXABILITY/>
+                <STRDGSTDERIVEDNATURETYPE/>
+                <STRDGSTDERIVEDSUPPLYTYPE/>
+                <TDSPARTYNAME/>
+                <VATPARTYORGNAME/>
+                <XBRLADJTYPE/>
+                <VOUCHERFBTCATEGORY/>
+                <TYPEOFTAXPAYMENT/>
+                <VATCALCULATIONTYPE/>
+                <VATWORKSCONTRACTTYPE/>
+                <VATWCDESCRIPTION/>
+                <GSTCLASS> Not Applicable</GSTCLASS>
+                <SCHVIADJTYPE/>
+                <GSTOVRDNCLASSIFICATION/>
+                <GSTOVRDNNATURE/>
+                <GSTOVRDNINELIGIBLEITC/>
+                <GSTOVRDNISREVCHARGEAPPL/>
+                <GSTOVRDNTAXABILITY/>
+                <GSTHSNSACCODE/>
+                <GSTSOURCETYPE/>
+                <GSTITEMSOURCE/>
+                <GSTLEDGERSOURCE/>
+                <GSTGROUPSOURCE/>
+                <GSTSTOCKGROUPSOURCE/>
+                <HSNSOURCETYPE/>
+                <HSNITEMSOURCE/>
+                <HSNLEDGERSOURCE/>
+                <HSNGROUPSOURCE/>
+                <HSNSTOCKGROUPSOURCE/>
+                <GSTOVRDNSTOREDNATURE/>
+                <GSTOVRDNTYPEOFSUPPLY/>
+                <GSTRATEINFERAPPLICABILITY/>
+                <GSTOVRDNNATUREOFGOODS/>
+                <GSTHSNNAME/>
+                <GSTHSNDESCRIPTION/>
+                <GSTHSNINFERAPPLICABILITY/>
+                <HSNOVRDNCLASSIFICATION/>
+                <STRDGSTFINALNATUREOFENTRY/>
+                <STRDGSTDUTYHEAD/>
+                <VATGOODSNATURE/>
+                <GSTDEPGSTCLASSIFICATION/>
+                <GSTDEPHSNCLASSIFICATION/>
+                <POSPAYMENTTYPE/>
+                <GSTPARTYLEDGER/>
+                <ORIGPURCHPARTY/>
+                <ORIGPURCHPARTYADDRESS/>
+                <ORIGPURCHINVNO/>
+                <ORIGPURCHNOTE/>
+                <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+                <LEDGERFROMITEM>No</LEDGERFROMITEM>
+                <REMOVEZEROENTRIES/>
+                <ISPARTYLEDGER>No</ISPARTYLEDGER>
+                <GSTOVERRIDDEN>No</GSTOVERRIDDEN>
+                <ISGSTASSESSABLEVALUEOVERRIDDEN>No</ISGSTASSESSABLEVALUEOVERRIDDEN>
+                <STRDISGSTAPPLICABLE>No</STRDISGSTAPPLICABLE>
+                <STRDGSTISPARTYLEDGER>No</STRDGSTISPARTYLEDGER>
+                <STRDGSTISDUTYLEDGER>No</STRDGSTISDUTYLEDGER>
+                <CONTENTNEGISPOS/>
+                <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+                <ISCAPVATTAXALTERED/>
+                <ISCAPVATNOTCLAIMED>No</ISCAPVATNOTCLAIMED>
+                <STCRADJPERCENT>0</STCRADJPERCENT>
+                <ROUNDLIMIT>0</ROUNDLIMIT>
+                <RATEOFADDLVAT>0</RATEOFADDLVAT>
+                <RATEOFCESSONVAT>0</RATEOFCESSONVAT>
+                <VATTAXRATE>0</VATTAXRATE>
+                <VATITEMQTY>0</VATITEMQTY>
+                <VATWCDEDUCTRATE>0</VATWCDEDUCTRATE>
+                <PREVINVTOTALNUM>0</PREVINVTOTALNUM>
+                <VATWCDEDUCTIONRATE>0</VATWCDEDUCTIONRATE>
+                <GSTTAXRATE>0</GSTTAXRATE>
+                <ORIGINVGOODSQTY>0</ORIGINVGOODSQTY>
+                <CAPVATTAXRATE>0</CAPVATTAXRATE>
+                <AMOUNT>700.00</AMOUNT>
+                <CESSASSVALONCLASS/>
+                <ADDNLVATCLASSAMT/>
+                <EIDISCOUNTAMT/>
+                <FBTEXEMPTAMOUNT/>
+                <VATASSESSABLEVALUE/>
+                <VATWCCOSTOFLAND/>
+                <VATWCDEDLABOURCHARGES/>
+                <VATWCOTHERDEDUCTIONAMT/>
+                <VATWCVALUEOFTAXFREEGOODS/>
+                <VATWCOTHERCHARGES/>
+                <VATWCSUBCONTRACTORAMT/>
+                <VATWCDEDUCTAMT/>
+                <WCTOTALDEDUCTIONAMT/>
+                <PREVAMOUNT/>
+                <PREVINVTOTALAMT/>
+                <VATWCDEDUCTIONAMOUNT/>
+                <ORIGINVGOODSVALUE/>
+                <CENVATCAPTINPUTAMT/>
+                <GSTASSESSABLEVALUE/>
+                <IGSTLIABILITY/>
+                <CGSTLIABILITY/>
+                <SGSTLIABILITY/>
+                <GSTCESSLIABILITY/>
+                <GSTOVRDNASSESSABLEVALUE/>
+                <GSTASSBLVALUE/>
+                <STRDCOMPUTEDASSESSABLEVALUE/>
+                <STRDCOMPUTEDIGST/>
+                <STRDCOMPUTEDCGST/>
+                <STRDCOMPUTEDSGST/>
+                <STRDCOMPUTEDCESS/>
+                <STRDCOMPUTEDCESSONQTY/>
+                <ORIGINVGOODSTAXVALUE/>
+                <VATWCESTABLISHMENTCOST/>
+                <VATWCCONTRACTORPROFIT/>
+                <VATWCPLANNINGDESIGNFEES/>
+                <VATWCMACHINERYTOOLSCHARGES/>
+                <VATWCCONSUMABLESCOST/>
+                <VATEXPAMOUNT/>
+                <VATASSBLVALUE/>
+                <VATACCEPTEDTAXAMT/>
+                <VATACCEPTEDADDLTAXAMT/>
+                <CASHRECEIVED/>
+                <CAPVATASSEABLEVALUE/>
+                <CAPVATTAXVALUE/>
+                <ORIGPURCHVALUE/>
+                <SUPPLYMARGVAL/>
+                <STRDAPPRSTATECESSGST/>
+                <STRDAPPROPRIATEDDISCOUNT/>
+                <STRDEXCISETAX/>
+                <SERVICETAXDETAILS.LIST>       </SERVICETAXDETAILS.LIST>
+                <BANKALLOCATIONS.LIST>       </BANKALLOCATIONS.LIST>
+                <BILLALLOCATIONS.LIST>       </BILLALLOCATIONS.LIST>
+                <INTERESTCOLLECTION.LIST>       </INTERESTCOLLECTION.LIST>
+                <OLDAUDITENTRIES.LIST>       </OLDAUDITENTRIES.LIST>
+                <ACCOUNTAUDITENTRIES.LIST>       </ACCOUNTAUDITENTRIES.LIST>
+                <AUDITENTRIES.LIST>       </AUDITENTRIES.LIST>
+                <INPUTCRALLOCS.LIST>       </INPUTCRALLOCS.LIST>
+                <DUTYHEADDETAILS.LIST>       </DUTYHEADDETAILS.LIST>
+                <EXCISEDUTYHEADDETAILS.LIST>       </EXCISEDUTYHEADDETAILS.LIST>
+                <RATEDETAILS.LIST>       </RATEDETAILS.LIST>
+                <SUMMARYALLOCS.LIST>       </SUMMARYALLOCS.LIST>
+                <CENVATDUTYALLOCATIONS.LIST>       </CENVATDUTYALLOCATIONS.LIST>
+                <STPYMTDETAILS.LIST>       </STPYMTDETAILS.LIST>
+                <EXCISEPAYMENTALLOCATIONS.LIST>       </EXCISEPAYMENTALLOCATIONS.LIST>
+                <TAXBILLALLOCATIONS.LIST>       </TAXBILLALLOCATIONS.LIST>
+                <TAXOBJECTALLOCATIONS.LIST>       </TAXOBJECTALLOCATIONS.LIST>
+                <TDSEXPENSEALLOCATIONS.LIST>       </TDSEXPENSEALLOCATIONS.LIST>
+                <VATSTATUTORYDETAILS.LIST>       </VATSTATUTORYDETAILS.LIST>
+                <COSTTRACKALLOCATIONS.LIST>       </COSTTRACKALLOCATIONS.LIST>
+                <REFVOUCHERDETAILS.LIST>       </REFVOUCHERDETAILS.LIST>
+                <INVOICEWISEDETAILS.LIST>       </INVOICEWISEDETAILS.LIST>
+                <VATITCDETAILS.LIST>       </VATITCDETAILS.LIST>
+                <ADVANCETAXDETAILS.LIST>       </ADVANCETAXDETAILS.LIST>
+                <TAXTYPEALLOCATIONS.LIST>       </TAXTYPEALLOCATIONS.LIST>
+              </ACCOUNTINGALLOCATIONS.LIST>
+              <DUTYHEADDETAILS.LIST>      </DUTYHEADDETAILS.LIST>
+              <RATEDETAILS.LIST>
+                <GSTRATEDUTYHEAD>CGST</GSTRATEDUTYHEAD>
+                <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                <GSTRATE> 9</GSTRATE>
+                <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+              </RATEDETAILS.LIST>
+              <RATEDETAILS.LIST>
+                <GSTRATEDUTYHEAD>SGST/UTGST</GSTRATEDUTYHEAD>
+                <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                <GSTRATE> 9</GSTRATE>
+                <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+              </RATEDETAILS.LIST>
+              <RATEDETAILS.LIST>
+                <GSTRATEDUTYHEAD>IGST</GSTRATEDUTYHEAD>
+                <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                <GSTRATE> 18</GSTRATE>
+                <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+              </RATEDETAILS.LIST>
+              <RATEDETAILS.LIST>
+                <GSTRATEDUTYHEAD>Cess</GSTRATEDUTYHEAD>
+                <GSTRATEVALUATIONTYPE> Not Applicable</GSTRATEVALUATIONTYPE>
+                <GSTRATE>0</GSTRATE>
+                <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+              </RATEDETAILS.LIST>
+              <RATEDETAILS.LIST>
+                <GSTRATEDUTYHEAD>State Cess</GSTRATEDUTYHEAD>
+                <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                <GSTRATE>0</GSTRATE>
+                <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+              </RATEDETAILS.LIST>
+              <SUPPLEMENTARYDUTYHEADDETAILS.LIST>      </SUPPLEMENTARYDUTYHEADDETAILS.LIST>
+              <TAXOBJECTALLOCATIONS.LIST>      </TAXOBJECTALLOCATIONS.LIST>
+              <REFVOUCHERDETAILS.LIST>      </REFVOUCHERDETAILS.LIST>
+              <EXCISEALLOCATIONS.LIST>      </EXCISEALLOCATIONS.LIST>
+              <EXPENSEALLOCATIONS.LIST>      </EXPENSEALLOCATIONS.LIST>
+            </ALLINVENTORYENTRIES.LIST>
+            <ALLINVENTORYENTRIES.LIST>
+              <ORIGINVOICEDATE/>
+              <ORIGSALESINVDATE/>
+              <DESCRIPTION/>
+              <STOCKITEMNAME>Fevicol Ezzespray (Nos)</STOCKITEMNAME>
+              <STATNATURENAME/>
+              <EXCISECLASSIFICATIONNAME/>
+              <ISZRBASICSERVICE/>
+              <STRDGSTDERIVEDLOCATIONTYPE/>
+              <STRDGSTDERIVEDTAXABILITY/>
+              <STRDGSTDERIVEDNATURETYPE/>
+              <STRDGSTDERIVEDSUPPLYTYPE/>
+              <GSTOVRDNCLASSIFICATION/>
+              <GSTOVRDNNATURE/>
+              <GSTOVRDNINELIGIBLEITC/>
+              <GSTOVRDNISREVCHARGEAPPL> Not Applicable</GSTOVRDNISREVCHARGEAPPL>
+              <GSTOVRDNTAXABILITY>Taxable</GSTOVRDNTAXABILITY>
+              <GSTSOURCETYPE>Stock Item</GSTSOURCETYPE>
+              <GSTITEMSOURCE>Plywood  2.44 x 1.22  19 mm</GSTITEMSOURCE>
+              <GSTLEDGERSOURCE/>
+              <GSTGROUPSOURCE/>
+              <GSTSTOCKGROUPSOURCE/>
+              <HSNSOURCETYPE>Stock Item</HSNSOURCETYPE>
+              <HSNITEMSOURCE>Plywood  2.44 x 1.22  19 mm</HSNITEMSOURCE>
+              <HSNLEDGERSOURCE/>
+              <HSNGROUPSOURCE/>
+              <HSNSTOCKGROUPSOURCE/>
+              <GSTOVRDNSTOREDNATURE> System Inferred</GSTOVRDNSTOREDNATURE>
+              <GSTOVRDNTYPEOFSUPPLY>Goods</GSTOVRDNTYPEOFSUPPLY>
+              <GSTRATEINFERAPPLICABILITY>As per Masters/Company</GSTRATEINFERAPPLICABILITY>
+              <GSTOVRDNNATUREOFGOODS/>
+              <GSTHSNNAME>44123190</GSTHSNNAME>
+              <GSTHSNDESCRIPTION/>
+              <GSTHSNINFERAPPLICABILITY>As per Masters/Company</GSTHSNINFERAPPLICABILITY>
+              <HSNOVRDNCLASSIFICATION/>
+              <STRDGSTFINALNATUREOFENTRY/>
+              <GSTDEPGSTCLASSIFICATION/>
+              <GSTDEPHSNCLASSIFICATION/>
+              <EXCISETARIFF/>
+              <EXCISEEXEMPTION/>
+              <TRADERCNSALESNUMBER/>
+              <BASICPACKAGEMARKS/>
+              <BASICNUMPACKAGES/>
+              <SDTAXCLASSIFICATIONNAME/>
+              <NATUREOFCOMPONENT/>
+              <COMPONENTLISTTYPE/>
+              <DISPLAYNATUREOFCOMPONENT/>
+              <BOMNAME/>
+              <ORIGINVOICENUMBER/>
+              <ORIGINVOICEBOOKNAME/>
+              <ORIGSALESINVNO/>
+              <EXCISERETURNINVOICENO/>
+              <REASONOFREJECTION/>
+              <EXCISECREDITPARTY/>
+              <EXCISECREDITSTKITEM/>
+              <EXCISECREDITCATEGORY/>
+              <TRADERSUPPLIERINVOICENO/>
+              <EXCISESALESINVOICENO/>
+              <GSTITEMUQC/>
+              <GSTITEMUQCUOM/>
+              <ADDLAMOUNT/>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <ISGSTASSESSABLEVALUEOVERRIDDEN/>
+              <STRDISGSTAPPLICABLE/>
+              <CONTENTNEGISPOS/>
+              <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+              <ISAUTONEGATE>No</ISAUTONEGATE>
+              <ISCUSTOMSCLEARANCE/>
+              <ISTRACKCOMPONENT/>
+              <ISTRACKPRODUCTION/>
+              <ISPRIMARYITEM/>
+              <ISSCRAP>No</ISSCRAP>
+              <RATE>550.00/nos</RATE>
+              <DISCOUNT>0</DISCOUNT>
+              <VATTAXRATE>0</VATTAXRATE>
+              <ORIGINVGOODSQTY>0</ORIGINVGOODSQTY>
+              <EXCISEMRPABATEMENT>0</EXCISEMRPABATEMENT>
+              <ADDLCOSTPERC>0</ADDLCOSTPERC>
+              <REVISEDRATEOFDUTY>0</REVISEDRATEOFDUTY>
+              <ORIGRATEOFDUTY>0</ORIGRATEOFDUTY>
+              <ORIGMRPABATEMENT>0</ORIGMRPABATEMENT>
+              <EXCISERETURNDUTYRATE>0</EXCISERETURNDUTYRATE>
+              <GVATEXCISERATE>0</GVATEXCISERATE>
+              <AMOUNT>550.00</AMOUNT>
+              <EXCISEASSESSABLEVALUE/>
+              <CESSASSVALONCLASS/>
+              <EIDISCOUNTAMT/>
+              <VATASSESSABLEVALUE/>
+              <VATWCDEDUCTAMT/>
+              <WCTOTALDEDUCTIONAMT/>
+              <ORIGINVGOODSVALUE/>
+              <GSTOVRDNASSESSABLEVALUE/>
+              <GSTASSBLVALUE/>
+              <STRDCOMPUTEDASSESSABLEVALUE/>
+              <STRDCOMPUTEDIGST/>
+              <STRDCOMPUTEDCGST/>
+              <STRDCOMPUTEDSGST/>
+              <STRDCOMPUTEDCESS/>
+              <STRDCOMPUTEDCESSONQTY/>
+              <ORIGINVGOODSTAXVALUE/>
+              <VATASSBLVALUE/>
+              <VATACCEPTEDTAXAMT/>
+              <VATACCEPTEDADDLTAXAMT/>
+              <STRDAPPRSTATECESSGST/>
+              <STRDAPPROPRIATEDDISCOUNT/>
+              <STRDEXCISETAX/>
+              <VATINPUTTAXCREDIT/>
+              <VATELIGIBLECREDIT/>
+              <GVATEXCISEAMT/>
+              <ACTUALQTY> 1.00 nos</ACTUALQTY>
+              <BILLEDQTY> 1.00 nos</BILLEDQTY>
+              <ORIGACTUALQTY/>
+              <ORIGBILLEDQTY/>
+              <EXCISERETURNINVOICEQTY/>
+              <USABLEQTY/>
+              <EXCISECREDITPENDINGQTY/>
+              <MRPRATE/>
+              <EXCISEMRPRATE/>
+              <ORIGRATE/>
+              <REVISEDRATE/>
+              <ESCALATIONRATE/>
+              <ORIGMRPRATE/>
+              <ORIGRATEOFQTY/>
+              <REVISEDRATEOFQTY/>
+              <INCLVATRATE/>
+              <BATCHALLOCATIONS.LIST>
+                <MFDON/>
+                <ORDERYEAREND/>
+                <TRACKINGYEAREND/>
+                <ORDERPRECLOSUREDATE/>
+                <NARRATION/>
+                <GODOWNNAME>Main Location</GODOWNNAME>
+                <BATCHNAME>Primary Batch</BATCHNAME>
+                <DESTINATIONGODOWNNAME/>
+                <INDENTNO> Not Applicable</INDENTNO>
+                <ORDERTYPE/>
+                <PARENTITEM/>
+                <ORDERCLOSUREREASON/>
+                <ORDERNO> Not Applicable</ORDERNO>
+                <TRACKINGNUMBER>Verbally</TRACKINGNUMBER>
+                <DYNAMICCSTNO/>
+                <DYNAMICCSTPARENTITEM/>
+                <SUMDYNAMICCSTNO/>
+                <SUMBATCHNAME/>
+                <SUMTRACKINGNUMBER/>
+                <SUMORDERNO/>
+                <SUMINDENTNO/>
+                <ADDLAMOUNT/>
+                <DYNAMICCSTISCLEARED>No</DYNAMICCSTISCLEARED>
+                <TRACKID TYPE="Number"/>
+                <BATCHID TYPE="Number"/>
+                <BATCHDISCOUNT TYPE="Number"/>
+                <AMOUNT>550.00</AMOUNT>
+                <ADDLEXPENSEAMOUNT/>
+                <BATCHDIFFVAL/>
+                <ACTUALQTY> 1.00 nos</ACTUALQTY>
+                <BILLEDQTY> 1.00 nos</BILLEDQTY>
+                <ORDERPRECLOSUREQTY/>
+                <ORIGACTUALQTY/>
+                <ORIGBILLEDQTY/>
+                <BATCHPHYSDIFF/>
+                <ORIGRATE/>
+                <REVISEDRATE/>
+                <ESCALATIONRATE/>
+                <INCLVATRATE/>
+                <BATCHRATE TYPE="Rate">550.00/nos</BATCHRATE>
+                <EXPIRYPERIOD/>
+                <INDENTDUEDATE/>
+                <ORDERDUEDATE/>
+                <ADDITIONALDETAILS.LIST>       </ADDITIONALDETAILS.LIST>
+                <VOUCHERCOMPONENTLIST.LIST>       </VOUCHERCOMPONENTLIST.LIST>
+              </BATCHALLOCATIONS.LIST>
+              <ACCOUNTINGALLOCATIONS.LIST>
+                <OLDAUDITENTRYIDS.LIST TYPE="Number">
+                  <OLDAUDITENTRYIDS>-1</OLDAUDITENTRYIDS>
+                </OLDAUDITENTRYIDS.LIST>
+                <ORIGPURCHINVDATE/>
+                <NARRATION/>
+                <ADDLALLOCTYPE/>
+                <TAXCLASSIFICATIONNAME/>
+                <APPROPRIATEFOR/>
+                <GSTDUTYHEAD/>
+                <GSTAPPROPRIATETO/>
+                <NOTIFICATIONSLNO/>
+                <EXCISEALLOCTYPE/>
+                <SWIFTCODE/>
+                <ROUNDTYPE/>
+                <LEDGERNAME>Sales Local Taxable - GST 18%</LEDGERNAME>
+                <TAXUNITNAME/>
+                <STATNATURENAME/>
+                <GOODSTYPE/>
+                <VATTRADENAME/>
+                <METHODTYPE/>
+                <CLASSRATE/>
+                <STATCLASSIFICATIONNAME/>
+                <EXCISECLASSIFICATIONNAME/>
+                <ISZRBASICSERVICE/>
+                <VATCOMMODITYNAME/>
+                <SCHEDULE/>
+                <SCHEDULESERIALNUMBER/>
+                <VATCOMMODITYCODE/>
+                <VATSUBCOMMODITYCODE/>
+                <VATMAJORCOMMODITYNAME/>
+                <STRDGSTDERIVEDLOCATIONTYPE/>
+                <STRDGSTDERIVEDTAXABILITY/>
+                <STRDGSTDERIVEDNATURETYPE/>
+                <STRDGSTDERIVEDSUPPLYTYPE/>
+                <TDSPARTYNAME/>
+                <VATPARTYORGNAME/>
+                <XBRLADJTYPE/>
+                <VOUCHERFBTCATEGORY/>
+                <TYPEOFTAXPAYMENT/>
+                <VATCALCULATIONTYPE/>
+                <VATWORKSCONTRACTTYPE/>
+                <VATWCDESCRIPTION/>
+                <GSTCLASS> Not Applicable</GSTCLASS>
+                <SCHVIADJTYPE/>
+                <GSTOVRDNCLASSIFICATION/>
+                <GSTOVRDNNATURE/>
+                <GSTOVRDNINELIGIBLEITC/>
+                <GSTOVRDNISREVCHARGEAPPL/>
+                <GSTOVRDNTAXABILITY/>
+                <GSTHSNSACCODE/>
+                <GSTSOURCETYPE/>
+                <GSTITEMSOURCE/>
+                <GSTLEDGERSOURCE/>
+                <GSTGROUPSOURCE/>
+                <GSTSTOCKGROUPSOURCE/>
+                <HSNSOURCETYPE/>
+                <HSNITEMSOURCE/>
+                <HSNLEDGERSOURCE/>
+                <HSNGROUPSOURCE/>
+                <HSNSTOCKGROUPSOURCE/>
+                <GSTOVRDNSTOREDNATURE/>
+                <GSTOVRDNTYPEOFSUPPLY/>
+                <GSTRATEINFERAPPLICABILITY/>
+                <GSTOVRDNNATUREOFGOODS/>
+                <GSTHSNNAME/>
+                <GSTHSNDESCRIPTION/>
+                <GSTHSNINFERAPPLICABILITY/>
+                <HSNOVRDNCLASSIFICATION/>
+                <STRDGSTFINALNATUREOFENTRY/>
+                <STRDGSTDUTYHEAD/>
+                <VATGOODSNATURE/>
+                <GSTDEPGSTCLASSIFICATION/>
+                <GSTDEPHSNCLASSIFICATION/>
+                <POSPAYMENTTYPE/>
+                <GSTPARTYLEDGER/>
+                <ORIGPURCHPARTY/>
+                <ORIGPURCHPARTYADDRESS/>
+                <ORIGPURCHINVNO/>
+                <ORIGPURCHNOTE/>
+                <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+                <LEDGERFROMITEM>No</LEDGERFROMITEM>
+                <REMOVEZEROENTRIES/>
+                <ISPARTYLEDGER>No</ISPARTYLEDGER>
+                <GSTOVERRIDDEN>No</GSTOVERRIDDEN>
+                <ISGSTASSESSABLEVALUEOVERRIDDEN>No</ISGSTASSESSABLEVALUEOVERRIDDEN>
+                <STRDISGSTAPPLICABLE>No</STRDISGSTAPPLICABLE>
+                <STRDGSTISPARTYLEDGER>No</STRDGSTISPARTYLEDGER>
+                <STRDGSTISDUTYLEDGER>No</STRDGSTISDUTYLEDGER>
+                <CONTENTNEGISPOS/>
+                <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+                <ISCAPVATTAXALTERED/>
+                <ISCAPVATNOTCLAIMED>No</ISCAPVATNOTCLAIMED>
+                <STCRADJPERCENT>0</STCRADJPERCENT>
+                <ROUNDLIMIT>0</ROUNDLIMIT>
+                <RATEOFADDLVAT>0</RATEOFADDLVAT>
+                <RATEOFCESSONVAT>0</RATEOFCESSONVAT>
+                <VATTAXRATE>0</VATTAXRATE>
+                <VATITEMQTY>0</VATITEMQTY>
+                <VATWCDEDUCTRATE>0</VATWCDEDUCTRATE>
+                <PREVINVTOTALNUM>0</PREVINVTOTALNUM>
+                <VATWCDEDUCTIONRATE>0</VATWCDEDUCTIONRATE>
+                <GSTTAXRATE>0</GSTTAXRATE>
+                <ORIGINVGOODSQTY>0</ORIGINVGOODSQTY>
+                <CAPVATTAXRATE>0</CAPVATTAXRATE>
+                <AMOUNT>550.00</AMOUNT>
+                <CESSASSVALONCLASS/>
+                <ADDNLVATCLASSAMT/>
+                <EIDISCOUNTAMT/>
+                <FBTEXEMPTAMOUNT/>
+                <VATASSESSABLEVALUE/>
+                <VATWCCOSTOFLAND/>
+                <VATWCDEDLABOURCHARGES/>
+                <VATWCOTHERDEDUCTIONAMT/>
+                <VATWCVALUEOFTAXFREEGOODS/>
+                <VATWCOTHERCHARGES/>
+                <VATWCSUBCONTRACTORAMT/>
+                <VATWCDEDUCTAMT/>
+                <WCTOTALDEDUCTIONAMT/>
+                <PREVAMOUNT/>
+                <PREVINVTOTALAMT/>
+                <VATWCDEDUCTIONAMOUNT/>
+                <ORIGINVGOODSVALUE/>
+                <CENVATCAPTINPUTAMT/>
+                <GSTASSESSABLEVALUE/>
+                <IGSTLIABILITY/>
+                <CGSTLIABILITY/>
+                <SGSTLIABILITY/>
+                <GSTCESSLIABILITY/>
+                <GSTOVRDNASSESSABLEVALUE/>
+                <GSTASSBLVALUE/>
+                <STRDCOMPUTEDASSESSABLEVALUE/>
+                <STRDCOMPUTEDIGST/>
+                <STRDCOMPUTEDCGST/>
+                <STRDCOMPUTEDSGST/>
+                <STRDCOMPUTEDCESS/>
+                <STRDCOMPUTEDCESSONQTY/>
+                <ORIGINVGOODSTAXVALUE/>
+                <VATWCESTABLISHMENTCOST/>
+                <VATWCCONTRACTORPROFIT/>
+                <VATWCPLANNINGDESIGNFEES/>
+                <VATWCMACHINERYTOOLSCHARGES/>
+                <VATWCCONSUMABLESCOST/>
+                <VATEXPAMOUNT/>
+                <VATASSBLVALUE/>
+                <VATACCEPTEDTAXAMT/>
+                <VATACCEPTEDADDLTAXAMT/>
+                <CASHRECEIVED/>
+                <CAPVATASSEABLEVALUE/>
+                <CAPVATTAXVALUE/>
+                <ORIGPURCHVALUE/>
+                <SUPPLYMARGVAL/>
+                <STRDAPPRSTATECESSGST/>
+                <STRDAPPROPRIATEDDISCOUNT/>
+                <STRDEXCISETAX/>
+                <SERVICETAXDETAILS.LIST>       </SERVICETAXDETAILS.LIST>
+                <BANKALLOCATIONS.LIST>       </BANKALLOCATIONS.LIST>
+                <BILLALLOCATIONS.LIST>       </BILLALLOCATIONS.LIST>
+                <INTERESTCOLLECTION.LIST>       </INTERESTCOLLECTION.LIST>
+                <OLDAUDITENTRIES.LIST>       </OLDAUDITENTRIES.LIST>
+                <ACCOUNTAUDITENTRIES.LIST>       </ACCOUNTAUDITENTRIES.LIST>
+                <AUDITENTRIES.LIST>       </AUDITENTRIES.LIST>
+                <INPUTCRALLOCS.LIST>       </INPUTCRALLOCS.LIST>
+                <DUTYHEADDETAILS.LIST>       </DUTYHEADDETAILS.LIST>
+                <EXCISEDUTYHEADDETAILS.LIST>       </EXCISEDUTYHEADDETAILS.LIST>
+                <RATEDETAILS.LIST>       </RATEDETAILS.LIST>
+                <SUMMARYALLOCS.LIST>       </SUMMARYALLOCS.LIST>
+                <CENVATDUTYALLOCATIONS.LIST>       </CENVATDUTYALLOCATIONS.LIST>
+                <STPYMTDETAILS.LIST>       </STPYMTDETAILS.LIST>
+                <EXCISEPAYMENTALLOCATIONS.LIST>       </EXCISEPAYMENTALLOCATIONS.LIST>
+                <TAXBILLALLOCATIONS.LIST>       </TAXBILLALLOCATIONS.LIST>
+                <TAXOBJECTALLOCATIONS.LIST>       </TAXOBJECTALLOCATIONS.LIST>
+                <TDSEXPENSEALLOCATIONS.LIST>       </TDSEXPENSEALLOCATIONS.LIST>
+                <VATSTATUTORYDETAILS.LIST>       </VATSTATUTORYDETAILS.LIST>
+                <COSTTRACKALLOCATIONS.LIST>       </COSTTRACKALLOCATIONS.LIST>
+                <REFVOUCHERDETAILS.LIST>       </REFVOUCHERDETAILS.LIST>
+                <INVOICEWISEDETAILS.LIST>       </INVOICEWISEDETAILS.LIST>
+                <VATITCDETAILS.LIST>       </VATITCDETAILS.LIST>
+                <ADVANCETAXDETAILS.LIST>       </ADVANCETAXDETAILS.LIST>
+                <TAXTYPEALLOCATIONS.LIST>       </TAXTYPEALLOCATIONS.LIST>
+              </ACCOUNTINGALLOCATIONS.LIST>
+              <DUTYHEADDETAILS.LIST>      </DUTYHEADDETAILS.LIST>
+              <RATEDETAILS.LIST>
+                <GSTRATEDUTYHEAD>CGST</GSTRATEDUTYHEAD>
+                <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                <GSTRATE> 9</GSTRATE>
+                <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+              </RATEDETAILS.LIST>
+              <RATEDETAILS.LIST>
+                <GSTRATEDUTYHEAD>SGST/UTGST</GSTRATEDUTYHEAD>
+                <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                <GSTRATE> 9</GSTRATE>
+                <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+              </RATEDETAILS.LIST>
+              <RATEDETAILS.LIST>
+                <GSTRATEDUTYHEAD>IGST</GSTRATEDUTYHEAD>
+                <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                <GSTRATE> 18</GSTRATE>
+                <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+              </RATEDETAILS.LIST>
+              <RATEDETAILS.LIST>
+                <GSTRATEDUTYHEAD>Cess</GSTRATEDUTYHEAD>
+                <GSTRATEVALUATIONTYPE> Not Applicable</GSTRATEVALUATIONTYPE>
+                <GSTRATE>0</GSTRATE>
+                <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+              </RATEDETAILS.LIST>
+              <RATEDETAILS.LIST>
+                <GSTRATEDUTYHEAD>State Cess</GSTRATEDUTYHEAD>
+                <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                <GSTRATE>0</GSTRATE>
+                <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+              </RATEDETAILS.LIST>
+              <SUPPLEMENTARYDUTYHEADDETAILS.LIST>      </SUPPLEMENTARYDUTYHEADDETAILS.LIST>
+              <TAXOBJECTALLOCATIONS.LIST>      </TAXOBJECTALLOCATIONS.LIST>
+              <REFVOUCHERDETAILS.LIST>      </REFVOUCHERDETAILS.LIST>
+              <EXCISEALLOCATIONS.LIST>      </EXCISEALLOCATIONS.LIST>
+              <EXPENSEALLOCATIONS.LIST>      </EXPENSEALLOCATIONS.LIST>
+            </ALLINVENTORYENTRIES.LIST>
+            <LEDGERENTRIES.LIST>
+              <OLDAUDITENTRYIDS.LIST TYPE="Number">
+                <OLDAUDITENTRYIDS>-1</OLDAUDITENTRYIDS>
+              </OLDAUDITENTRYIDS.LIST>
+              <ORIGPURCHINVDATE/>
+              <NARRATION/>
+              <ADDLALLOCTYPE/>
+              <TAXCLASSIFICATIONNAME/>
+              <APPROPRIATEFOR/>
+              <GSTDUTYHEAD/>
+              <GSTAPPROPRIATETO/>
+              <NOTIFICATIONSLNO/>
+              <EXCISEALLOCTYPE/>
+              <SWIFTCODE/>
+              <ROUNDTYPE/>
+              <LEDGERNAME>Rokoko Interior Designers Pvt Ltd</LEDGERNAME>
+              <TAXUNITNAME/>
+              <STATNATURENAME/>
+              <GOODSTYPE/>
+              <VATTRADENAME/>
+              <METHODTYPE/>
+              <CLASSRATE/>
+              <STATCLASSIFICATIONNAME/>
+              <EXCISECLASSIFICATIONNAME/>
+              <ISZRBASICSERVICE/>
+              <VATCOMMODITYNAME/>
+              <SCHEDULE/>
+              <SCHEDULESERIALNUMBER/>
+              <VATCOMMODITYCODE/>
+              <VATSUBCOMMODITYCODE/>
+              <VATMAJORCOMMODITYNAME/>
+              <STRDGSTDERIVEDLOCATIONTYPE/>
+              <STRDGSTDERIVEDTAXABILITY/>
+              <STRDGSTDERIVEDNATURETYPE/>
+              <STRDGSTDERIVEDSUPPLYTYPE/>
+              <TDSPARTYNAME/>
+              <VATPARTYORGNAME/>
+              <XBRLADJTYPE/>
+              <VOUCHERFBTCATEGORY/>
+              <TYPEOFTAXPAYMENT/>
+              <VATCALCULATIONTYPE/>
+              <VATWORKSCONTRACTTYPE/>
+              <VATWCDESCRIPTION/>
+              <GSTCLASS> Not Applicable</GSTCLASS>
+              <SCHVIADJTYPE/>
+              <GSTOVRDNCLASSIFICATION/>
+              <GSTOVRDNNATURE/>
+              <GSTOVRDNINELIGIBLEITC/>
+              <GSTOVRDNISREVCHARGEAPPL/>
+              <GSTOVRDNTAXABILITY/>
+              <GSTHSNSACCODE/>
+              <GSTSOURCETYPE/>
+              <GSTITEMSOURCE/>
+              <GSTLEDGERSOURCE/>
+              <GSTGROUPSOURCE/>
+              <GSTSTOCKGROUPSOURCE/>
+              <HSNSOURCETYPE/>
+              <HSNITEMSOURCE/>
+              <HSNLEDGERSOURCE/>
+              <HSNGROUPSOURCE/>
+              <HSNSTOCKGROUPSOURCE/>
+              <GSTOVRDNSTOREDNATURE/>
+              <GSTOVRDNTYPEOFSUPPLY/>
+              <GSTRATEINFERAPPLICABILITY/>
+              <GSTOVRDNNATUREOFGOODS/>
+              <GSTHSNNAME/>
+              <GSTHSNDESCRIPTION/>
+              <GSTHSNINFERAPPLICABILITY/>
+              <HSNOVRDNCLASSIFICATION/>
+              <STRDGSTFINALNATUREOFENTRY/>
+              <STRDGSTDUTYHEAD/>
+              <VATGOODSNATURE/>
+              <GSTDEPGSTCLASSIFICATION/>
+              <GSTDEPHSNCLASSIFICATION/>
+              <POSPAYMENTTYPE/>
+              <GSTPARTYLEDGER/>
+              <ORIGPURCHPARTY/>
+              <ORIGPURCHPARTYADDRESS/>
+              <ORIGPURCHINVNO/>
+              <ORIGPURCHNOTE/>
+              <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+              <LEDGERFROMITEM>No</LEDGERFROMITEM>
+              <REMOVEZEROENTRIES/>
+              <ISPARTYLEDGER>Yes</ISPARTYLEDGER>
+              <GSTOVERRIDDEN>No</GSTOVERRIDDEN>
+              <ISGSTASSESSABLEVALUEOVERRIDDEN>No</ISGSTASSESSABLEVALUEOVERRIDDEN>
+              <STRDISGSTAPPLICABLE>No</STRDISGSTAPPLICABLE>
+              <STRDGSTISPARTYLEDGER>No</STRDGSTISPARTYLEDGER>
+              <STRDGSTISDUTYLEDGER>No</STRDGSTISDUTYLEDGER>
+              <CONTENTNEGISPOS/>
+              <ISLASTDEEMEDPOSITIVE>Yes</ISLASTDEEMEDPOSITIVE>
+              <ISCAPVATTAXALTERED/>
+              <ISCAPVATNOTCLAIMED>No</ISCAPVATNOTCLAIMED>
+              <STCRADJPERCENT>0</STCRADJPERCENT>
+              <ROUNDLIMIT>0</ROUNDLIMIT>
+              <RATEOFADDLVAT>0</RATEOFADDLVAT>
+              <RATEOFCESSONVAT>0</RATEOFCESSONVAT>
+              <VATTAXRATE>0</VATTAXRATE>
+              <VATITEMQTY>0</VATITEMQTY>
+              <VATWCDEDUCTRATE>0</VATWCDEDUCTRATE>
+              <PREVINVTOTALNUM>0</PREVINVTOTALNUM>
+              <VATWCDEDUCTIONRATE>0</VATWCDEDUCTIONRATE>
+              <GSTTAXRATE>0</GSTTAXRATE>
+              <ORIGINVGOODSQTY>0</ORIGINVGOODSQTY>
+              <CAPVATTAXRATE>0</CAPVATTAXRATE>
+              <AMOUNT>-3640.30</AMOUNT>
+              <CESSASSVALONCLASS/>
+              <ADDNLVATCLASSAMT/>
+              <EIDISCOUNTAMT/>
+              <FBTEXEMPTAMOUNT/>
+              <VATASSESSABLEVALUE/>
+              <VATWCCOSTOFLAND/>
+              <VATWCDEDLABOURCHARGES/>
+              <VATWCOTHERDEDUCTIONAMT/>
+              <VATWCVALUEOFTAXFREEGOODS/>
+              <VATWCOTHERCHARGES/>
+              <VATWCSUBCONTRACTORAMT/>
+              <VATWCDEDUCTAMT/>
+              <WCTOTALDEDUCTIONAMT/>
+              <PREVAMOUNT/>
+              <PREVINVTOTALAMT/>
+              <VATWCDEDUCTIONAMOUNT/>
+              <ORIGINVGOODSVALUE/>
+              <CENVATCAPTINPUTAMT/>
+              <GSTASSESSABLEVALUE/>
+              <IGSTLIABILITY/>
+              <CGSTLIABILITY/>
+              <SGSTLIABILITY/>
+              <GSTCESSLIABILITY/>
+              <GSTOVRDNASSESSABLEVALUE/>
+              <GSTASSBLVALUE/>
+              <STRDCOMPUTEDASSESSABLEVALUE/>
+              <STRDCOMPUTEDIGST/>
+              <STRDCOMPUTEDCGST/>
+              <STRDCOMPUTEDSGST/>
+              <STRDCOMPUTEDCESS/>
+              <STRDCOMPUTEDCESSONQTY/>
+              <ORIGINVGOODSTAXVALUE/>
+              <VATWCESTABLISHMENTCOST/>
+              <VATWCCONTRACTORPROFIT/>
+              <VATWCPLANNINGDESIGNFEES/>
+              <VATWCMACHINERYTOOLSCHARGES/>
+              <VATWCCONSUMABLESCOST/>
+              <VATEXPAMOUNT/>
+              <VATASSBLVALUE/>
+              <VATACCEPTEDTAXAMT/>
+              <VATACCEPTEDADDLTAXAMT/>
+              <CASHRECEIVED/>
+              <CAPVATASSEABLEVALUE/>
+              <CAPVATTAXVALUE/>
+              <ORIGPURCHVALUE/>
+              <SUPPLYMARGVAL/>
+              <STRDAPPRSTATECESSGST/>
+              <STRDAPPROPRIATEDDISCOUNT/>
+              <STRDEXCISETAX/>
+              <SERVICETAXDETAILS.LIST>      </SERVICETAXDETAILS.LIST>
+              <BANKALLOCATIONS.LIST>      </BANKALLOCATIONS.LIST>
+              <BILLALLOCATIONS.LIST>
+                <BILLDATE TYPE="Date"/>
+                <YEAREND/>
+                <BILLCREATIONDATE TYPE="Date"/>
+                <NAME>16782T</NAME>
+                <BILLCREDITPERIOD/>
+                <TDSDEDUCTEESECTIONNUMBER/>
+                <TDSLEDGERNC/>
+                <SERVICETAXLEDGER/>
+                <BILLTYPE>New Ref</BILLTYPE>
+                <SUMNAME/>
+                <TDSDEDUCTEEISSPECIALRATE>No</TDSDEDUCTEEISSPECIALRATE>
+                <TDSDEDUCTEESPECIALRATE>0</TDSDEDUCTEESPECIALRATE>
+                <BILLID TYPE="Number"/>
+                <AMOUNT>-3640.30</AMOUNT>
+                <INTERESTCOLLECTION.LIST>       </INTERESTCOLLECTION.LIST>
+                <STBILLCATEGORIES.LIST>       </STBILLCATEGORIES.LIST>
+              </BILLALLOCATIONS.LIST>
+              <INTERESTCOLLECTION.LIST>      </INTERESTCOLLECTION.LIST>
+              <OLDAUDITENTRIES.LIST>      </OLDAUDITENTRIES.LIST>
+              <ACCOUNTAUDITENTRIES.LIST>      </ACCOUNTAUDITENTRIES.LIST>
+              <AUDITENTRIES.LIST>      </AUDITENTRIES.LIST>
+              <INPUTCRALLOCS.LIST>      </INPUTCRALLOCS.LIST>
+              <DUTYHEADDETAILS.LIST>      </DUTYHEADDETAILS.LIST>
+              <EXCISEDUTYHEADDETAILS.LIST>      </EXCISEDUTYHEADDETAILS.LIST>
+              <RATEDETAILS.LIST>      </RATEDETAILS.LIST>
+              <SUMMARYALLOCS.LIST>      </SUMMARYALLOCS.LIST>
+              <CENVATDUTYALLOCATIONS.LIST>      </CENVATDUTYALLOCATIONS.LIST>
+              <STPYMTDETAILS.LIST>      </STPYMTDETAILS.LIST>
+              <EXCISEPAYMENTALLOCATIONS.LIST>      </EXCISEPAYMENTALLOCATIONS.LIST>
+              <TAXBILLALLOCATIONS.LIST>      </TAXBILLALLOCATIONS.LIST>
+              <TAXOBJECTALLOCATIONS.LIST>      </TAXOBJECTALLOCATIONS.LIST>
+              <TDSEXPENSEALLOCATIONS.LIST>      </TDSEXPENSEALLOCATIONS.LIST>
+              <VATSTATUTORYDETAILS.LIST>      </VATSTATUTORYDETAILS.LIST>
+              <COSTTRACKALLOCATIONS.LIST>      </COSTTRACKALLOCATIONS.LIST>
+              <REFVOUCHERDETAILS.LIST>      </REFVOUCHERDETAILS.LIST>
+              <INVOICEWISEDETAILS.LIST>      </INVOICEWISEDETAILS.LIST>
+              <VATITCDETAILS.LIST>      </VATITCDETAILS.LIST>
+              <ADVANCETAXDETAILS.LIST>      </ADVANCETAXDETAILS.LIST>
+              <TAXTYPEALLOCATIONS.LIST>      </TAXTYPEALLOCATIONS.LIST>
+            </LEDGERENTRIES.LIST>
+            <LEDGERENTRIES.LIST>
+              <OLDAUDITENTRYIDS.LIST TYPE="Number">
+                <OLDAUDITENTRYIDS>-1</OLDAUDITENTRYIDS>
+              </OLDAUDITENTRYIDS.LIST>
+              <ORIGPURCHINVDATE/>
+              <NARRATION/>
+              <ADDLALLOCTYPE/>
+              <TAXCLASSIFICATIONNAME/>
+              <APPROPRIATEFOR/>
+              <GSTDUTYHEAD/>
+              <GSTAPPROPRIATETO/>
+              <NOTIFICATIONSLNO/>
+              <EXCISEALLOCTYPE/>
+              <SWIFTCODE/>
+              <ROUNDTYPE> Not Applicable</ROUNDTYPE>
+              <LEDGERNAME>CGST</LEDGERNAME>
+              <TAXUNITNAME/>
+              <STATNATURENAME/>
+              <GOODSTYPE/>
+              <VATTRADENAME/>
+              <METHODTYPE/>
+              <CLASSRATE/>
+              <STATCLASSIFICATIONNAME/>
+              <EXCISECLASSIFICATIONNAME/>
+              <ISZRBASICSERVICE/>
+              <VATCOMMODITYNAME/>
+              <SCHEDULE/>
+              <SCHEDULESERIALNUMBER/>
+              <VATCOMMODITYCODE/>
+              <VATSUBCOMMODITYCODE/>
+              <VATMAJORCOMMODITYNAME/>
+              <STRDGSTDERIVEDLOCATIONTYPE/>
+              <STRDGSTDERIVEDTAXABILITY/>
+              <STRDGSTDERIVEDNATURETYPE/>
+              <STRDGSTDERIVEDSUPPLYTYPE/>
+              <TDSPARTYNAME/>
+              <VATPARTYORGNAME/>
+              <XBRLADJTYPE/>
+              <VOUCHERFBTCATEGORY/>
+              <TYPEOFTAXPAYMENT/>
+              <VATCALCULATIONTYPE/>
+              <VATWORKSCONTRACTTYPE/>
+              <VATWCDESCRIPTION/>
+              <GSTCLASS> Not Applicable</GSTCLASS>
+              <SCHVIADJTYPE/>
+              <GSTOVRDNCLASSIFICATION/>
+              <GSTOVRDNNATURE/>
+              <GSTOVRDNINELIGIBLEITC/>
+              <GSTOVRDNISREVCHARGEAPPL/>
+              <GSTOVRDNTAXABILITY/>
+              <GSTHSNSACCODE/>
+              <GSTSOURCETYPE/>
+              <GSTITEMSOURCE/>
+              <GSTLEDGERSOURCE/>
+              <GSTGROUPSOURCE/>
+              <GSTSTOCKGROUPSOURCE/>
+              <HSNSOURCETYPE/>
+              <HSNITEMSOURCE/>
+              <HSNLEDGERSOURCE/>
+              <HSNGROUPSOURCE/>
+              <HSNSTOCKGROUPSOURCE/>
+              <GSTOVRDNSTOREDNATURE/>
+              <GSTOVRDNTYPEOFSUPPLY/>
+              <GSTRATEINFERAPPLICABILITY/>
+              <GSTOVRDNNATUREOFGOODS/>
+              <GSTHSNNAME/>
+              <GSTHSNDESCRIPTION/>
+              <GSTHSNINFERAPPLICABILITY/>
+              <HSNOVRDNCLASSIFICATION/>
+              <STRDGSTFINALNATUREOFENTRY/>
+              <STRDGSTDUTYHEAD/>
+              <VATGOODSNATURE/>
+              <GSTDEPGSTCLASSIFICATION/>
+              <GSTDEPHSNCLASSIFICATION/>
+              <POSPAYMENTTYPE/>
+              <GSTPARTYLEDGER/>
+              <ORIGPURCHPARTY/>
+              <ORIGPURCHPARTYADDRESS/>
+              <ORIGPURCHINVNO/>
+              <ORIGPURCHNOTE/>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <LEDGERFROMITEM>No</LEDGERFROMITEM>
+              <REMOVEZEROENTRIES/>
+              <ISPARTYLEDGER>No</ISPARTYLEDGER>
+              <GSTOVERRIDDEN>No</GSTOVERRIDDEN>
+              <ISGSTASSESSABLEVALUEOVERRIDDEN>No</ISGSTASSESSABLEVALUEOVERRIDDEN>
+              <STRDISGSTAPPLICABLE>No</STRDISGSTAPPLICABLE>
+              <STRDGSTISPARTYLEDGER>No</STRDGSTISPARTYLEDGER>
+              <STRDGSTISDUTYLEDGER>No</STRDGSTISDUTYLEDGER>
+              <CONTENTNEGISPOS/>
+              <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+              <ISCAPVATTAXALTERED/>
+              <ISCAPVATNOTCLAIMED>No</ISCAPVATNOTCLAIMED>
+              <STCRADJPERCENT>0</STCRADJPERCENT>
+              <ROUNDLIMIT>0</ROUNDLIMIT>
+              <RATEOFADDLVAT>0</RATEOFADDLVAT>
+              <RATEOFCESSONVAT>0</RATEOFCESSONVAT>
+              <VATTAXRATE>0</VATTAXRATE>
+              <VATITEMQTY>0</VATITEMQTY>
+              <VATWCDEDUCTRATE>0</VATWCDEDUCTRATE>
+              <PREVINVTOTALNUM>0</PREVINVTOTALNUM>
+              <VATWCDEDUCTIONRATE>0</VATWCDEDUCTIONRATE>
+              <GSTTAXRATE>0</GSTTAXRATE>
+              <ORIGINVGOODSQTY>0</ORIGINVGOODSQTY>
+              <CAPVATTAXRATE>0</CAPVATTAXRATE>
+              <AMOUNT>277.65</AMOUNT>
+              <CESSASSVALONCLASS/>
+              <ADDNLVATCLASSAMT/>
+              <EIDISCOUNTAMT/>
+              <FBTEXEMPTAMOUNT/>
+              <VATASSESSABLEVALUE/>
+              <VATWCCOSTOFLAND/>
+              <VATWCDEDLABOURCHARGES/>
+              <VATWCOTHERDEDUCTIONAMT/>
+              <VATWCVALUEOFTAXFREEGOODS/>
+              <VATWCOTHERCHARGES/>
+              <VATWCSUBCONTRACTORAMT/>
+              <VATWCDEDUCTAMT/>
+              <WCTOTALDEDUCTIONAMT/>
+              <PREVAMOUNT/>
+              <PREVINVTOTALAMT/>
+              <VATWCDEDUCTIONAMOUNT/>
+              <ORIGINVGOODSVALUE/>
+              <CENVATCAPTINPUTAMT/>
+              <GSTASSESSABLEVALUE/>
+              <IGSTLIABILITY/>
+              <CGSTLIABILITY/>
+              <SGSTLIABILITY/>
+              <GSTCESSLIABILITY/>
+              <GSTOVRDNASSESSABLEVALUE/>
+              <GSTASSBLVALUE/>
+              <STRDCOMPUTEDASSESSABLEVALUE/>
+              <STRDCOMPUTEDIGST/>
+              <STRDCOMPUTEDCGST/>
+              <STRDCOMPUTEDSGST/>
+              <STRDCOMPUTEDCESS/>
+              <STRDCOMPUTEDCESSONQTY/>
+              <ORIGINVGOODSTAXVALUE/>
+              <VATWCESTABLISHMENTCOST/>
+              <VATWCCONTRACTORPROFIT/>
+              <VATWCPLANNINGDESIGNFEES/>
+              <VATWCMACHINERYTOOLSCHARGES/>
+              <VATWCCONSUMABLESCOST/>
+              <VATEXPAMOUNT>6163.02</VATEXPAMOUNT>
+              <VATASSBLVALUE/>
+              <VATACCEPTEDTAXAMT/>
+              <VATACCEPTEDADDLTAXAMT/>
+              <CASHRECEIVED/>
+              <CAPVATASSEABLEVALUE/>
+              <CAPVATTAXVALUE/>
+              <ORIGPURCHVALUE/>
+              <SUPPLYMARGVAL/>
+              <STRDAPPRSTATECESSGST/>
+              <STRDAPPROPRIATEDDISCOUNT/>
+              <STRDEXCISETAX/>
+              <SERVICETAXDETAILS.LIST>      </SERVICETAXDETAILS.LIST>
+              <BANKALLOCATIONS.LIST>      </BANKALLOCATIONS.LIST>
+              <BILLALLOCATIONS.LIST>      </BILLALLOCATIONS.LIST>
+              <INTERESTCOLLECTION.LIST>      </INTERESTCOLLECTION.LIST>
+              <OLDAUDITENTRIES.LIST>      </OLDAUDITENTRIES.LIST>
+              <ACCOUNTAUDITENTRIES.LIST>      </ACCOUNTAUDITENTRIES.LIST>
+              <AUDITENTRIES.LIST>      </AUDITENTRIES.LIST>
+              <INPUTCRALLOCS.LIST>      </INPUTCRALLOCS.LIST>
+              <DUTYHEADDETAILS.LIST>      </DUTYHEADDETAILS.LIST>
+              <EXCISEDUTYHEADDETAILS.LIST>      </EXCISEDUTYHEADDETAILS.LIST>
+              <RATEDETAILS.LIST>      </RATEDETAILS.LIST>
+              <SUMMARYALLOCS.LIST>      </SUMMARYALLOCS.LIST>
+              <CENVATDUTYALLOCATIONS.LIST>      </CENVATDUTYALLOCATIONS.LIST>
+              <STPYMTDETAILS.LIST>      </STPYMTDETAILS.LIST>
+              <EXCISEPAYMENTALLOCATIONS.LIST>      </EXCISEPAYMENTALLOCATIONS.LIST>
+              <TAXBILLALLOCATIONS.LIST>      </TAXBILLALLOCATIONS.LIST>
+              <TAXOBJECTALLOCATIONS.LIST>      </TAXOBJECTALLOCATIONS.LIST>
+              <TDSEXPENSEALLOCATIONS.LIST>      </TDSEXPENSEALLOCATIONS.LIST>
+              <VATSTATUTORYDETAILS.LIST>      </VATSTATUTORYDETAILS.LIST>
+              <COSTTRACKALLOCATIONS.LIST>      </COSTTRACKALLOCATIONS.LIST>
+              <REFVOUCHERDETAILS.LIST>      </REFVOUCHERDETAILS.LIST>
+              <INVOICEWISEDETAILS.LIST>      </INVOICEWISEDETAILS.LIST>
+              <VATITCDETAILS.LIST>      </VATITCDETAILS.LIST>
+              <ADVANCETAXDETAILS.LIST>      </ADVANCETAXDETAILS.LIST>
+              <TAXTYPEALLOCATIONS.LIST>      </TAXTYPEALLOCATIONS.LIST>
+            </LEDGERENTRIES.LIST>
+            <LEDGERENTRIES.LIST>
+              <OLDAUDITENTRYIDS.LIST TYPE="Number">
+                <OLDAUDITENTRYIDS>-1</OLDAUDITENTRYIDS>
+              </OLDAUDITENTRYIDS.LIST>
+              <ORIGPURCHINVDATE/>
+              <NARRATION/>
+              <ADDLALLOCTYPE/>
+              <TAXCLASSIFICATIONNAME/>
+              <APPROPRIATEFOR/>
+              <GSTDUTYHEAD/>
+              <GSTAPPROPRIATETO/>
+              <NOTIFICATIONSLNO/>
+              <EXCISEALLOCTYPE/>
+              <SWIFTCODE/>
+              <ROUNDTYPE> Not Applicable</ROUNDTYPE>
+              <LEDGERNAME>SGST</LEDGERNAME>
+              <TAXUNITNAME/>
+              <STATNATURENAME/>
+              <GOODSTYPE/>
+              <VATTRADENAME/>
+              <METHODTYPE/>
+              <CLASSRATE/>
+              <STATCLASSIFICATIONNAME/>
+              <EXCISECLASSIFICATIONNAME/>
+              <ISZRBASICSERVICE/>
+              <VATCOMMODITYNAME/>
+              <SCHEDULE/>
+              <SCHEDULESERIALNUMBER/>
+              <VATCOMMODITYCODE/>
+              <VATSUBCOMMODITYCODE/>
+              <VATMAJORCOMMODITYNAME/>
+              <STRDGSTDERIVEDLOCATIONTYPE/>
+              <STRDGSTDERIVEDTAXABILITY/>
+              <STRDGSTDERIVEDNATURETYPE/>
+              <STRDGSTDERIVEDSUPPLYTYPE/>
+              <TDSPARTYNAME/>
+              <VATPARTYORGNAME/>
+              <XBRLADJTYPE/>
+              <VOUCHERFBTCATEGORY/>
+              <TYPEOFTAXPAYMENT/>
+              <VATCALCULATIONTYPE/>
+              <VATWORKSCONTRACTTYPE/>
+              <VATWCDESCRIPTION/>
+              <GSTCLASS> Not Applicable</GSTCLASS>
+              <SCHVIADJTYPE/>
+              <GSTOVRDNCLASSIFICATION/>
+              <GSTOVRDNNATURE/>
+              <GSTOVRDNINELIGIBLEITC/>
+              <GSTOVRDNISREVCHARGEAPPL/>
+              <GSTOVRDNTAXABILITY/>
+              <GSTHSNSACCODE/>
+              <GSTSOURCETYPE/>
+              <GSTITEMSOURCE/>
+              <GSTLEDGERSOURCE/>
+              <GSTGROUPSOURCE/>
+              <GSTSTOCKGROUPSOURCE/>
+              <HSNSOURCETYPE/>
+              <HSNITEMSOURCE/>
+              <HSNLEDGERSOURCE/>
+              <HSNGROUPSOURCE/>
+              <HSNSTOCKGROUPSOURCE/>
+              <GSTOVRDNSTOREDNATURE/>
+              <GSTOVRDNTYPEOFSUPPLY/>
+              <GSTRATEINFERAPPLICABILITY/>
+              <GSTOVRDNNATUREOFGOODS/>
+              <GSTHSNNAME/>
+              <GSTHSNDESCRIPTION/>
+              <GSTHSNINFERAPPLICABILITY/>
+              <HSNOVRDNCLASSIFICATION/>
+              <STRDGSTFINALNATUREOFENTRY/>
+              <STRDGSTDUTYHEAD/>
+              <VATGOODSNATURE/>
+              <GSTDEPGSTCLASSIFICATION/>
+              <GSTDEPHSNCLASSIFICATION/>
+              <POSPAYMENTTYPE/>
+              <GSTPARTYLEDGER/>
+              <ORIGPURCHPARTY/>
+              <ORIGPURCHPARTYADDRESS/>
+              <ORIGPURCHINVNO/>
+              <ORIGPURCHNOTE/>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <LEDGERFROMITEM>No</LEDGERFROMITEM>
+              <REMOVEZEROENTRIES/>
+              <ISPARTYLEDGER>No</ISPARTYLEDGER>
+              <GSTOVERRIDDEN>No</GSTOVERRIDDEN>
+              <ISGSTASSESSABLEVALUEOVERRIDDEN>No</ISGSTASSESSABLEVALUEOVERRIDDEN>
+              <STRDISGSTAPPLICABLE>No</STRDISGSTAPPLICABLE>
+              <STRDGSTISPARTYLEDGER>No</STRDGSTISPARTYLEDGER>
+              <STRDGSTISDUTYLEDGER>No</STRDGSTISDUTYLEDGER>
+              <CONTENTNEGISPOS/>
+              <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+              <ISCAPVATTAXALTERED/>
+              <ISCAPVATNOTCLAIMED>No</ISCAPVATNOTCLAIMED>
+              <STCRADJPERCENT>0</STCRADJPERCENT>
+              <ROUNDLIMIT>0</ROUNDLIMIT>
+              <RATEOFADDLVAT>0</RATEOFADDLVAT>
+              <RATEOFCESSONVAT>0</RATEOFCESSONVAT>
+              <VATTAXRATE>0</VATTAXRATE>
+              <VATITEMQTY>0</VATITEMQTY>
+              <VATWCDEDUCTRATE>0</VATWCDEDUCTRATE>
+              <PREVINVTOTALNUM>0</PREVINVTOTALNUM>
+              <VATWCDEDUCTIONRATE>0</VATWCDEDUCTIONRATE>
+              <GSTTAXRATE>0</GSTTAXRATE>
+              <ORIGINVGOODSQTY>0</ORIGINVGOODSQTY>
+              <CAPVATTAXRATE>0</CAPVATTAXRATE>
+              <AMOUNT>277.65</AMOUNT>
+              <CESSASSVALONCLASS/>
+              <ADDNLVATCLASSAMT/>
+              <EIDISCOUNTAMT/>
+              <FBTEXEMPTAMOUNT/>
+              <VATASSESSABLEVALUE/>
+              <VATWCCOSTOFLAND/>
+              <VATWCDEDLABOURCHARGES/>
+              <VATWCOTHERDEDUCTIONAMT/>
+              <VATWCVALUEOFTAXFREEGOODS/>
+              <VATWCOTHERCHARGES/>
+              <VATWCSUBCONTRACTORAMT/>
+              <VATWCDEDUCTAMT/>
+              <WCTOTALDEDUCTIONAMT/>
+              <PREVAMOUNT/>
+              <PREVINVTOTALAMT/>
+              <VATWCDEDUCTIONAMOUNT/>
+              <ORIGINVGOODSVALUE/>
+              <CENVATCAPTINPUTAMT/>
+              <GSTASSESSABLEVALUE/>
+              <IGSTLIABILITY/>
+              <CGSTLIABILITY/>
+              <SGSTLIABILITY/>
+              <GSTCESSLIABILITY/>
+              <GSTOVRDNASSESSABLEVALUE/>
+              <GSTASSBLVALUE/>
+              <STRDCOMPUTEDASSESSABLEVALUE/>
+              <STRDCOMPUTEDIGST/>
+              <STRDCOMPUTEDCGST/>
+              <STRDCOMPUTEDSGST/>
+              <STRDCOMPUTEDCESS/>
+              <STRDCOMPUTEDCESSONQTY/>
+              <ORIGINVGOODSTAXVALUE/>
+              <VATWCESTABLISHMENTCOST/>
+              <VATWCCONTRACTORPROFIT/>
+              <VATWCPLANNINGDESIGNFEES/>
+              <VATWCMACHINERYTOOLSCHARGES/>
+              <VATWCCONSUMABLESCOST/>
+              <VATEXPAMOUNT>6163.02</VATEXPAMOUNT>
+              <VATASSBLVALUE/>
+              <VATACCEPTEDTAXAMT/>
+              <VATACCEPTEDADDLTAXAMT/>
+              <CASHRECEIVED/>
+              <CAPVATASSEABLEVALUE/>
+              <CAPVATTAXVALUE/>
+              <ORIGPURCHVALUE/>
+              <SUPPLYMARGVAL/>
+              <STRDAPPRSTATECESSGST/>
+              <STRDAPPROPRIATEDDISCOUNT/>
+              <STRDEXCISETAX/>
+              <SERVICETAXDETAILS.LIST>      </SERVICETAXDETAILS.LIST>
+              <BANKALLOCATIONS.LIST>      </BANKALLOCATIONS.LIST>
+              <BILLALLOCATIONS.LIST>      </BILLALLOCATIONS.LIST>
+              <INTERESTCOLLECTION.LIST>      </INTERESTCOLLECTION.LIST>
+              <OLDAUDITENTRIES.LIST>      </OLDAUDITENTRIES.LIST>
+              <ACCOUNTAUDITENTRIES.LIST>      </ACCOUNTAUDITENTRIES.LIST>
+              <AUDITENTRIES.LIST>      </AUDITENTRIES.LIST>
+              <INPUTCRALLOCS.LIST>      </INPUTCRALLOCS.LIST>
+              <DUTYHEADDETAILS.LIST>      </DUTYHEADDETAILS.LIST>
+              <EXCISEDUTYHEADDETAILS.LIST>      </EXCISEDUTYHEADDETAILS.LIST>
+              <RATEDETAILS.LIST>      </RATEDETAILS.LIST>
+              <SUMMARYALLOCS.LIST>      </SUMMARYALLOCS.LIST>
+              <CENVATDUTYALLOCATIONS.LIST>      </CENVATDUTYALLOCATIONS.LIST>
+              <STPYMTDETAILS.LIST>      </STPYMTDETAILS.LIST>
+              <EXCISEPAYMENTALLOCATIONS.LIST>      </EXCISEPAYMENTALLOCATIONS.LIST>
+              <TAXBILLALLOCATIONS.LIST>      </TAXBILLALLOCATIONS.LIST>
+              <TAXOBJECTALLOCATIONS.LIST>      </TAXOBJECTALLOCATIONS.LIST>
+              <TDSEXPENSEALLOCATIONS.LIST>      </TDSEXPENSEALLOCATIONS.LIST>
+              <VATSTATUTORYDETAILS.LIST>      </VATSTATUTORYDETAILS.LIST>
+              <COSTTRACKALLOCATIONS.LIST>      </COSTTRACKALLOCATIONS.LIST>
+              <REFVOUCHERDETAILS.LIST>      </REFVOUCHERDETAILS.LIST>
+              <INVOICEWISEDETAILS.LIST>      </INVOICEWISEDETAILS.LIST>
+              <VATITCDETAILS.LIST>      </VATITCDETAILS.LIST>
+              <ADVANCETAXDETAILS.LIST>      </ADVANCETAXDETAILS.LIST>
+              <TAXTYPEALLOCATIONS.LIST>      </TAXTYPEALLOCATIONS.LIST>
+            </LEDGERENTRIES.LIST>
+            <ALLLEDGERENTRIES.LIST>
+              <OLDAUDITENTRYIDS.LIST TYPE="Number">
+                <OLDAUDITENTRYIDS>-1</OLDAUDITENTRYIDS>
+              </OLDAUDITENTRYIDS.LIST>
+              <ORIGPURCHINVDATE/>
+              <NARRATION/>
+              <ADDLALLOCTYPE/>
+              <TAXCLASSIFICATIONNAME/>
+              <APPROPRIATEFOR/>
+              <GSTDUTYHEAD/>
+              <GSTAPPROPRIATETO/>
+              <NOTIFICATIONSLNO/>
+              <EXCISEALLOCTYPE/>
+              <SWIFTCODE/>
+              <ROUNDTYPE/>
+              <LEDGERNAME>Rokoko Interior Designers Pvt Ltd</LEDGERNAME>
+              <TAXUNITNAME/>
+              <STATNATURENAME/>
+              <GOODSTYPE/>
+              <VATTRADENAME/>
+              <METHODTYPE/>
+              <CLASSRATE/>
+              <STATCLASSIFICATIONNAME/>
+              <EXCISECLASSIFICATIONNAME/>
+              <ISZRBASICSERVICE/>
+              <VATCOMMODITYNAME/>
+              <SCHEDULE/>
+              <SCHEDULESERIALNUMBER/>
+              <VATCOMMODITYCODE/>
+              <VATSUBCOMMODITYCODE/>
+              <VATMAJORCOMMODITYNAME/>
+              <STRDGSTDERIVEDLOCATIONTYPE/>
+              <STRDGSTDERIVEDTAXABILITY/>
+              <STRDGSTDERIVEDNATURETYPE/>
+              <STRDGSTDERIVEDSUPPLYTYPE/>
+              <TDSPARTYNAME/>
+              <VATPARTYORGNAME/>
+              <XBRLADJTYPE/>
+              <VOUCHERFBTCATEGORY/>
+              <TYPEOFTAXPAYMENT/>
+              <VATCALCULATIONTYPE/>
+              <VATWORKSCONTRACTTYPE/>
+              <VATWCDESCRIPTION/>
+              <GSTCLASS> Not Applicable</GSTCLASS>
+              <SCHVIADJTYPE/>
+              <GSTOVRDNCLASSIFICATION/>
+              <GSTOVRDNNATURE/>
+              <GSTOVRDNINELIGIBLEITC/>
+              <GSTOVRDNISREVCHARGEAPPL/>
+              <GSTOVRDNTAXABILITY/>
+              <GSTHSNSACCODE/>
+              <GSTSOURCETYPE/>
+              <GSTITEMSOURCE/>
+              <GSTLEDGERSOURCE/>
+              <GSTGROUPSOURCE/>
+              <GSTSTOCKGROUPSOURCE/>
+              <HSNSOURCETYPE/>
+              <HSNITEMSOURCE/>
+              <HSNLEDGERSOURCE/>
+              <HSNGROUPSOURCE/>
+              <HSNSTOCKGROUPSOURCE/>
+              <GSTOVRDNSTOREDNATURE/>
+              <GSTOVRDNTYPEOFSUPPLY/>
+              <GSTRATEINFERAPPLICABILITY/>
+              <GSTOVRDNNATUREOFGOODS/>
+              <GSTHSNNAME/>
+              <GSTHSNDESCRIPTION/>
+              <GSTHSNINFERAPPLICABILITY/>
+              <HSNOVRDNCLASSIFICATION/>
+              <STRDGSTFINALNATUREOFENTRY/>
+              <STRDGSTDUTYHEAD/>
+              <VATGOODSNATURE/>
+              <GSTDEPGSTCLASSIFICATION/>
+              <GSTDEPHSNCLASSIFICATION/>
+              <POSPAYMENTTYPE/>
+              <GSTPARTYLEDGER/>
+              <ORIGPURCHPARTY/>
+              <ORIGPURCHPARTYADDRESS/>
+              <ORIGPURCHINVNO/>
+              <ORIGPURCHNOTE/>
+              <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+              <LEDGERFROMITEM>No</LEDGERFROMITEM>
+              <REMOVEZEROENTRIES/>
+              <ISPARTYLEDGER>Yes</ISPARTYLEDGER>
+              <GSTOVERRIDDEN>No</GSTOVERRIDDEN>
+              <ISGSTASSESSABLEVALUEOVERRIDDEN>No</ISGSTASSESSABLEVALUEOVERRIDDEN>
+              <STRDISGSTAPPLICABLE>No</STRDISGSTAPPLICABLE>
+              <STRDGSTISPARTYLEDGER>No</STRDGSTISPARTYLEDGER>
+              <STRDGSTISDUTYLEDGER>No</STRDGSTISDUTYLEDGER>
+              <CONTENTNEGISPOS/>
+              <ISLASTDEEMEDPOSITIVE>Yes</ISLASTDEEMEDPOSITIVE>
+              <ISCAPVATTAXALTERED/>
+              <ISCAPVATNOTCLAIMED>No</ISCAPVATNOTCLAIMED>
+              <STCRADJPERCENT>0</STCRADJPERCENT>
+              <ROUNDLIMIT>0</ROUNDLIMIT>
+              <RATEOFADDLVAT>0</RATEOFADDLVAT>
+              <RATEOFCESSONVAT>0</RATEOFCESSONVAT>
+              <VATTAXRATE>0</VATTAXRATE>
+              <VATITEMQTY>0</VATITEMQTY>
+              <VATWCDEDUCTRATE>0</VATWCDEDUCTRATE>
+              <PREVINVTOTALNUM>0</PREVINVTOTALNUM>
+              <VATWCDEDUCTIONRATE>0</VATWCDEDUCTIONRATE>
+              <GSTTAXRATE>0</GSTTAXRATE>
+              <ORIGINVGOODSQTY>0</ORIGINVGOODSQTY>
+              <CAPVATTAXRATE>0</CAPVATTAXRATE>
+              <AMOUNT>-3640.30</AMOUNT>
+              <CESSASSVALONCLASS/>
+              <ADDNLVATCLASSAMT/>
+              <EIDISCOUNTAMT/>
+              <FBTEXEMPTAMOUNT/>
+              <VATASSESSABLEVALUE/>
+              <VATWCCOSTOFLAND/>
+              <VATWCDEDLABOURCHARGES/>
+              <VATWCOTHERDEDUCTIONAMT/>
+              <VATWCVALUEOFTAXFREEGOODS/>
+              <VATWCOTHERCHARGES/>
+              <VATWCSUBCONTRACTORAMT/>
+              <VATWCDEDUCTAMT/>
+              <WCTOTALDEDUCTIONAMT/>
+              <PREVAMOUNT/>
+              <PREVINVTOTALAMT/>
+              <VATWCDEDUCTIONAMOUNT/>
+              <ORIGINVGOODSVALUE/>
+              <CENVATCAPTINPUTAMT/>
+              <GSTASSESSABLEVALUE/>
+              <IGSTLIABILITY/>
+              <CGSTLIABILITY/>
+              <SGSTLIABILITY/>
+              <GSTCESSLIABILITY/>
+              <GSTOVRDNASSESSABLEVALUE/>
+              <GSTASSBLVALUE/>
+              <STRDCOMPUTEDASSESSABLEVALUE/>
+              <STRDCOMPUTEDIGST/>
+              <STRDCOMPUTEDCGST/>
+              <STRDCOMPUTEDSGST/>
+              <STRDCOMPUTEDCESS/>
+              <STRDCOMPUTEDCESSONQTY/>
+              <ORIGINVGOODSTAXVALUE/>
+              <VATWCESTABLISHMENTCOST/>
+              <VATWCCONTRACTORPROFIT/>
+              <VATWCPLANNINGDESIGNFEES/>
+              <VATWCMACHINERYTOOLSCHARGES/>
+              <VATWCCONSUMABLESCOST/>
+              <VATEXPAMOUNT/>
+              <VATASSBLVALUE/>
+              <VATACCEPTEDTAXAMT/>
+              <VATACCEPTEDADDLTAXAMT/>
+              <CASHRECEIVED/>
+              <CAPVATASSEABLEVALUE/>
+              <CAPVATTAXVALUE/>
+              <ORIGPURCHVALUE/>
+              <SUPPLYMARGVAL/>
+              <STRDAPPRSTATECESSGST/>
+              <STRDAPPROPRIATEDDISCOUNT/>
+              <STRDEXCISETAX/>
+              <SERVICETAXDETAILS.LIST>      </SERVICETAXDETAILS.LIST>
+              <BANKALLOCATIONS.LIST>      </BANKALLOCATIONS.LIST>
+              <BILLALLOCATIONS.LIST>
+                <BILLDATE TYPE="Date"/>
+                <YEAREND/>
+                <BILLCREATIONDATE TYPE="Date"/>
+                <NAME>16782T</NAME>
+                <BILLCREDITPERIOD/>
+                <TDSDEDUCTEESECTIONNUMBER/>
+                <TDSLEDGERNC/>
+                <SERVICETAXLEDGER/>
+                <BILLTYPE>New Ref</BILLTYPE>
+                <SUMNAME/>
+                <TDSDEDUCTEEISSPECIALRATE>No</TDSDEDUCTEEISSPECIALRATE>
+                <TDSDEDUCTEESPECIALRATE>0</TDSDEDUCTEESPECIALRATE>
+                <BILLID TYPE="Number"/>
+                <AMOUNT>-3640.30</AMOUNT>
+                <INTERESTCOLLECTION.LIST>       </INTERESTCOLLECTION.LIST>
+                <STBILLCATEGORIES.LIST>       </STBILLCATEGORIES.LIST>
+              </BILLALLOCATIONS.LIST>
+              <INTERESTCOLLECTION.LIST>      </INTERESTCOLLECTION.LIST>
+              <OLDAUDITENTRIES.LIST>      </OLDAUDITENTRIES.LIST>
+              <ACCOUNTAUDITENTRIES.LIST>      </ACCOUNTAUDITENTRIES.LIST>
+              <AUDITENTRIES.LIST>      </AUDITENTRIES.LIST>
+              <INPUTCRALLOCS.LIST>      </INPUTCRALLOCS.LIST>
+              <DUTYHEADDETAILS.LIST>      </DUTYHEADDETAILS.LIST>
+              <EXCISEDUTYHEADDETAILS.LIST>      </EXCISEDUTYHEADDETAILS.LIST>
+              <RATEDETAILS.LIST>      </RATEDETAILS.LIST>
+              <SUMMARYALLOCS.LIST>      </SUMMARYALLOCS.LIST>
+              <CENVATDUTYALLOCATIONS.LIST>      </CENVATDUTYALLOCATIONS.LIST>
+              <STPYMTDETAILS.LIST>      </STPYMTDETAILS.LIST>
+              <EXCISEPAYMENTALLOCATIONS.LIST>      </EXCISEPAYMENTALLOCATIONS.LIST>
+              <TAXBILLALLOCATIONS.LIST>      </TAXBILLALLOCATIONS.LIST>
+              <TAXOBJECTALLOCATIONS.LIST>      </TAXOBJECTALLOCATIONS.LIST>
+              <TDSEXPENSEALLOCATIONS.LIST>      </TDSEXPENSEALLOCATIONS.LIST>
+              <VATSTATUTORYDETAILS.LIST>      </VATSTATUTORYDETAILS.LIST>
+              <COSTTRACKALLOCATIONS.LIST>      </COSTTRACKALLOCATIONS.LIST>
+              <REFVOUCHERDETAILS.LIST>      </REFVOUCHERDETAILS.LIST>
+              <INVOICEWISEDETAILS.LIST>      </INVOICEWISEDETAILS.LIST>
+              <VATITCDETAILS.LIST>      </VATITCDETAILS.LIST>
+              <ADVANCETAXDETAILS.LIST>      </ADVANCETAXDETAILS.LIST>
+              <TAXTYPEALLOCATIONS.LIST>      </TAXTYPEALLOCATIONS.LIST>
+            </ALLLEDGERENTRIES.LIST>
+            <ALLLEDGERENTRIES.LIST>
+              <OLDAUDITENTRYIDS.LIST TYPE="Number">
+                <OLDAUDITENTRYIDS>-1</OLDAUDITENTRYIDS>
+              </OLDAUDITENTRYIDS.LIST>
+              <ORIGPURCHINVDATE/>
+              <NARRATION/>
+              <ADDLALLOCTYPE/>
+              <TAXCLASSIFICATIONNAME/>
+              <APPROPRIATEFOR/>
+              <GSTDUTYHEAD/>
+              <GSTAPPROPRIATETO/>
+              <NOTIFICATIONSLNO/>
+              <EXCISEALLOCTYPE/>
+              <SWIFTCODE/>
+              <ROUNDTYPE/>
+              <LEDGERNAME>Sales Local Taxable - GST 18%</LEDGERNAME>
+              <TAXUNITNAME/>
+              <STATNATURENAME/>
+              <GOODSTYPE/>
+              <VATTRADENAME/>
+              <METHODTYPE/>
+              <CLASSRATE/>
+              <STATCLASSIFICATIONNAME/>
+              <EXCISECLASSIFICATIONNAME/>
+              <ISZRBASICSERVICE/>
+              <VATCOMMODITYNAME/>
+              <SCHEDULE/>
+              <SCHEDULESERIALNUMBER/>
+              <VATCOMMODITYCODE/>
+              <VATSUBCOMMODITYCODE/>
+              <VATMAJORCOMMODITYNAME/>
+              <STRDGSTDERIVEDLOCATIONTYPE/>
+              <STRDGSTDERIVEDTAXABILITY/>
+              <STRDGSTDERIVEDNATURETYPE/>
+              <STRDGSTDERIVEDSUPPLYTYPE/>
+              <TDSPARTYNAME/>
+              <VATPARTYORGNAME/>
+              <XBRLADJTYPE/>
+              <VOUCHERFBTCATEGORY/>
+              <TYPEOFTAXPAYMENT/>
+              <VATCALCULATIONTYPE/>
+              <VATWORKSCONTRACTTYPE/>
+              <VATWCDESCRIPTION/>
+              <GSTCLASS> Not Applicable</GSTCLASS>
+              <SCHVIADJTYPE/>
+              <GSTOVRDNCLASSIFICATION/>
+              <GSTOVRDNNATURE/>
+              <GSTOVRDNINELIGIBLEITC/>
+              <GSTOVRDNISREVCHARGEAPPL/>
+              <GSTOVRDNTAXABILITY/>
+              <GSTHSNSACCODE/>
+              <GSTSOURCETYPE/>
+              <GSTITEMSOURCE/>
+              <GSTLEDGERSOURCE/>
+              <GSTGROUPSOURCE/>
+              <GSTSTOCKGROUPSOURCE/>
+              <HSNSOURCETYPE/>
+              <HSNITEMSOURCE/>
+              <HSNLEDGERSOURCE/>
+              <HSNGROUPSOURCE/>
+              <HSNSTOCKGROUPSOURCE/>
+              <GSTOVRDNSTOREDNATURE/>
+              <GSTOVRDNTYPEOFSUPPLY/>
+              <GSTRATEINFERAPPLICABILITY/>
+              <GSTOVRDNNATUREOFGOODS/>
+              <GSTHSNNAME/>
+              <GSTHSNDESCRIPTION/>
+              <GSTHSNINFERAPPLICABILITY/>
+              <HSNOVRDNCLASSIFICATION/>
+              <STRDGSTFINALNATUREOFENTRY/>
+              <STRDGSTDUTYHEAD/>
+              <VATGOODSNATURE/>
+              <GSTDEPGSTCLASSIFICATION/>
+              <GSTDEPHSNCLASSIFICATION/>
+              <POSPAYMENTTYPE/>
+              <GSTPARTYLEDGER/>
+              <ORIGPURCHPARTY/>
+              <ORIGPURCHPARTYADDRESS/>
+              <ORIGPURCHINVNO/>
+              <ORIGPURCHNOTE/>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <LEDGERFROMITEM>No</LEDGERFROMITEM>
+              <REMOVEZEROENTRIES/>
+              <ISPARTYLEDGER>No</ISPARTYLEDGER>
+              <GSTOVERRIDDEN>No</GSTOVERRIDDEN>
+              <ISGSTASSESSABLEVALUEOVERRIDDEN>No</ISGSTASSESSABLEVALUEOVERRIDDEN>
+              <STRDISGSTAPPLICABLE>No</STRDISGSTAPPLICABLE>
+              <STRDGSTISPARTYLEDGER>No</STRDGSTISPARTYLEDGER>
+              <STRDGSTISDUTYLEDGER>No</STRDGSTISDUTYLEDGER>
+              <CONTENTNEGISPOS/>
+              <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+              <ISCAPVATTAXALTERED/>
+              <ISCAPVATNOTCLAIMED>No</ISCAPVATNOTCLAIMED>
+              <STCRADJPERCENT>0</STCRADJPERCENT>
+              <ROUNDLIMIT>0</ROUNDLIMIT>
+              <RATEOFADDLVAT>0</RATEOFADDLVAT>
+              <RATEOFCESSONVAT>0</RATEOFCESSONVAT>
+              <VATTAXRATE>0</VATTAXRATE>
+              <VATITEMQTY>0</VATITEMQTY>
+              <VATWCDEDUCTRATE>0</VATWCDEDUCTRATE>
+              <PREVINVTOTALNUM>0</PREVINVTOTALNUM>
+              <VATWCDEDUCTIONRATE>0</VATWCDEDUCTIONRATE>
+              <GSTTAXRATE>0</GSTTAXRATE>
+              <ORIGINVGOODSQTY>0</ORIGINVGOODSQTY>
+              <CAPVATTAXRATE>0</CAPVATTAXRATE>
+              <AMOUNT>3085.00</AMOUNT>
+              <CESSASSVALONCLASS/>
+              <ADDNLVATCLASSAMT/>
+              <EIDISCOUNTAMT/>
+              <FBTEXEMPTAMOUNT/>
+              <VATASSESSABLEVALUE/>
+              <VATWCCOSTOFLAND/>
+              <VATWCDEDLABOURCHARGES/>
+              <VATWCOTHERDEDUCTIONAMT/>
+              <VATWCVALUEOFTAXFREEGOODS/>
+              <VATWCOTHERCHARGES/>
+              <VATWCSUBCONTRACTORAMT/>
+              <VATWCDEDUCTAMT/>
+              <WCTOTALDEDUCTIONAMT/>
+              <PREVAMOUNT/>
+              <PREVINVTOTALAMT/>
+              <VATWCDEDUCTIONAMOUNT/>
+              <ORIGINVGOODSVALUE/>
+              <CENVATCAPTINPUTAMT/>
+              <GSTASSESSABLEVALUE/>
+              <IGSTLIABILITY/>
+              <CGSTLIABILITY/>
+              <SGSTLIABILITY/>
+              <GSTCESSLIABILITY/>
+              <GSTOVRDNASSESSABLEVALUE/>
+              <GSTASSBLVALUE/>
+              <STRDCOMPUTEDASSESSABLEVALUE/>
+              <STRDCOMPUTEDIGST/>
+              <STRDCOMPUTEDCGST/>
+              <STRDCOMPUTEDSGST/>
+              <STRDCOMPUTEDCESS/>
+              <STRDCOMPUTEDCESSONQTY/>
+              <ORIGINVGOODSTAXVALUE/>
+              <VATWCESTABLISHMENTCOST/>
+              <VATWCCONTRACTORPROFIT/>
+              <VATWCPLANNINGDESIGNFEES/>
+              <VATWCMACHINERYTOOLSCHARGES/>
+              <VATWCCONSUMABLESCOST/>
+              <VATEXPAMOUNT/>
+              <VATASSBLVALUE/>
+              <VATACCEPTEDTAXAMT/>
+              <VATACCEPTEDADDLTAXAMT/>
+              <CASHRECEIVED/>
+              <CAPVATASSEABLEVALUE/>
+              <CAPVATTAXVALUE/>
+              <ORIGPURCHVALUE/>
+              <SUPPLYMARGVAL/>
+              <STRDAPPRSTATECESSGST/>
+              <STRDAPPROPRIATEDDISCOUNT/>
+              <STRDEXCISETAX/>
+              <SERVICETAXDETAILS.LIST>      </SERVICETAXDETAILS.LIST>
+              <BANKALLOCATIONS.LIST>      </BANKALLOCATIONS.LIST>
+              <BILLALLOCATIONS.LIST>      </BILLALLOCATIONS.LIST>
+              <INTERESTCOLLECTION.LIST>      </INTERESTCOLLECTION.LIST>
+              <OLDAUDITENTRIES.LIST>      </OLDAUDITENTRIES.LIST>
+              <ACCOUNTAUDITENTRIES.LIST>      </ACCOUNTAUDITENTRIES.LIST>
+              <AUDITENTRIES.LIST>      </AUDITENTRIES.LIST>
+              <INPUTCRALLOCS.LIST>      </INPUTCRALLOCS.LIST>
+              <INVENTORYALLOCATIONS.LIST>
+                <BASICUSERDESCRIPTION.LIST TYPE="String">
+                  <BASICUSERDESCRIPTION>Europa</BASICUSERDESCRIPTION>
+                </BASICUSERDESCRIPTION.LIST>
+                <ORIGINVOICEDATE/>
+                <ORIGSALESINVDATE/>
+                <DESCRIPTION/>
+                <STOCKITEMNAME>Drawer Lock</STOCKITEMNAME>
+                <STATNATURENAME/>
+                <EXCISECLASSIFICATIONNAME/>
+                <ISZRBASICSERVICE/>
+                <STRDGSTDERIVEDLOCATIONTYPE/>
+                <STRDGSTDERIVEDTAXABILITY/>
+                <STRDGSTDERIVEDNATURETYPE/>
+                <STRDGSTDERIVEDSUPPLYTYPE/>
+                <GSTOVRDNCLASSIFICATION/>
+                <GSTOVRDNNATURE/>
+                <GSTOVRDNINELIGIBLEITC/>
+                <GSTOVRDNISREVCHARGEAPPL> Not Applicable</GSTOVRDNISREVCHARGEAPPL>
+                <GSTOVRDNTAXABILITY>Taxable</GSTOVRDNTAXABILITY>
+                <GSTSOURCETYPE>Stock Item</GSTSOURCETYPE>
+                <GSTITEMSOURCE>Plywood  2.44 x 1.22  19 mm</GSTITEMSOURCE>
+                <GSTLEDGERSOURCE/>
+                <GSTGROUPSOURCE/>
+                <GSTSTOCKGROUPSOURCE/>
+                <HSNSOURCETYPE>Stock Item</HSNSOURCETYPE>
+                <HSNITEMSOURCE>Plywood  2.44 x 1.22  19 mm</HSNITEMSOURCE>
+                <HSNLEDGERSOURCE/>
+                <HSNGROUPSOURCE/>
+                <HSNSTOCKGROUPSOURCE/>
+                <GSTOVRDNSTOREDNATURE> System Inferred</GSTOVRDNSTOREDNATURE>
+                <GSTOVRDNTYPEOFSUPPLY>Goods</GSTOVRDNTYPEOFSUPPLY>
+                <GSTRATEINFERAPPLICABILITY>As per Masters/Company</GSTRATEINFERAPPLICABILITY>
+                <GSTOVRDNNATUREOFGOODS/>
+                <GSTHSNNAME>44123190</GSTHSNNAME>
+                <GSTHSNDESCRIPTION/>
+                <GSTHSNINFERAPPLICABILITY>As per Masters/Company</GSTHSNINFERAPPLICABILITY>
+                <HSNOVRDNCLASSIFICATION/>
+                <STRDGSTFINALNATUREOFENTRY/>
+                <GSTDEPGSTCLASSIFICATION/>
+                <GSTDEPHSNCLASSIFICATION/>
+                <EXCISETARIFF/>
+                <EXCISEEXEMPTION/>
+                <TRADERCNSALESNUMBER/>
+                <BASICPACKAGEMARKS/>
+                <BASICNUMPACKAGES/>
+                <SDTAXCLASSIFICATIONNAME/>
+                <NATUREOFCOMPONENT/>
+                <COMPONENTLISTTYPE/>
+                <DISPLAYNATUREOFCOMPONENT/>
+                <BOMNAME/>
+                <ORIGINVOICENUMBER/>
+                <ORIGINVOICEBOOKNAME/>
+                <ORIGSALESINVNO/>
+                <EXCISERETURNINVOICENO/>
+                <REASONOFREJECTION/>
+                <EXCISECREDITPARTY/>
+                <EXCISECREDITSTKITEM/>
+                <EXCISECREDITCATEGORY/>
+                <TRADERSUPPLIERINVOICENO/>
+                <EXCISESALESINVOICENO/>
+                <GSTITEMUQC/>
+                <GSTITEMUQCUOM/>
+                <ADDLAMOUNT/>
+                <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+                <ISGSTASSESSABLEVALUEOVERRIDDEN/>
+                <STRDISGSTAPPLICABLE/>
+                <CONTENTNEGISPOS/>
+                <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+                <ISAUTONEGATE>No</ISAUTONEGATE>
+                <ISCUSTOMSCLEARANCE/>
+                <ISTRACKCOMPONENT/>
+                <ISTRACKPRODUCTION/>
+                <ISPRIMARYITEM/>
+                <ISSCRAP>No</ISSCRAP>
+                <RATE>175.00/nos</RATE>
+                <DISCOUNT>0</DISCOUNT>
+                <VATTAXRATE>0</VATTAXRATE>
+                <ORIGINVGOODSQTY>0</ORIGINVGOODSQTY>
+                <EXCISEMRPABATEMENT>0</EXCISEMRPABATEMENT>
+                <ADDLCOSTPERC>0</ADDLCOSTPERC>
+                <REVISEDRATEOFDUTY>0</REVISEDRATEOFDUTY>
+                <ORIGRATEOFDUTY>0</ORIGRATEOFDUTY>
+                <ORIGMRPABATEMENT>0</ORIGMRPABATEMENT>
+                <EXCISERETURNDUTYRATE>0</EXCISERETURNDUTYRATE>
+                <GVATEXCISERATE>0</GVATEXCISERATE>
+                <AMOUNT>1575.00</AMOUNT>
+                <EXCISEASSESSABLEVALUE/>
+                <CESSASSVALONCLASS/>
+                <EIDISCOUNTAMT/>
+                <VATASSESSABLEVALUE/>
+                <VATWCDEDUCTAMT/>
+                <WCTOTALDEDUCTIONAMT/>
+                <ORIGINVGOODSVALUE/>
+                <GSTOVRDNASSESSABLEVALUE/>
+                <GSTASSBLVALUE/>
+                <STRDCOMPUTEDASSESSABLEVALUE/>
+                <STRDCOMPUTEDIGST/>
+                <STRDCOMPUTEDCGST/>
+                <STRDCOMPUTEDSGST/>
+                <STRDCOMPUTEDCESS/>
+                <STRDCOMPUTEDCESSONQTY/>
+                <ORIGINVGOODSTAXVALUE/>
+                <VATASSBLVALUE/>
+                <VATACCEPTEDTAXAMT/>
+                <VATACCEPTEDADDLTAXAMT/>
+                <STRDAPPRSTATECESSGST/>
+                <STRDAPPROPRIATEDDISCOUNT/>
+                <STRDEXCISETAX/>
+                <VATINPUTTAXCREDIT/>
+                <VATELIGIBLECREDIT/>
+                <GVATEXCISEAMT/>
+                <ACTUALQTY> 9.00 nos</ACTUALQTY>
+                <BILLEDQTY> 9.00 nos</BILLEDQTY>
+                <ORIGACTUALQTY/>
+                <ORIGBILLEDQTY/>
+                <EXCISERETURNINVOICEQTY/>
+                <USABLEQTY/>
+                <EXCISECREDITPENDINGQTY/>
+                <MRPRATE/>
+                <EXCISEMRPRATE/>
+                <ORIGRATE/>
+                <REVISEDRATE/>
+                <ESCALATIONRATE/>
+                <ORIGMRPRATE/>
+                <ORIGRATEOFQTY/>
+                <REVISEDRATEOFQTY/>
+                <INCLVATRATE/>
+                <BATCHALLOCATIONS.LIST>
+                  <MFDON/>
+                  <ORDERYEAREND/>
+                  <TRACKINGYEAREND/>
+                  <ORDERPRECLOSUREDATE/>
+                  <NARRATION/>
+                  <GODOWNNAME>Main Location</GODOWNNAME>
+                  <BATCHNAME>Primary Batch</BATCHNAME>
+                  <DESTINATIONGODOWNNAME/>
+                  <INDENTNO> Not Applicable</INDENTNO>
+                  <ORDERTYPE/>
+                  <PARENTITEM/>
+                  <ORDERCLOSUREREASON/>
+                  <ORDERNO> Not Applicable</ORDERNO>
+                  <TRACKINGNUMBER>Verbally</TRACKINGNUMBER>
+                  <DYNAMICCSTNO/>
+                  <DYNAMICCSTPARENTITEM/>
+                  <SUMDYNAMICCSTNO/>
+                  <SUMBATCHNAME/>
+                  <SUMTRACKINGNUMBER/>
+                  <SUMORDERNO/>
+                  <SUMINDENTNO/>
+                  <ADDLAMOUNT/>
+                  <DYNAMICCSTISCLEARED>No</DYNAMICCSTISCLEARED>
+                  <TRACKID TYPE="Number"/>
+                  <BATCHID TYPE="Number"/>
+                  <BATCHDISCOUNT TYPE="Number"/>
+                  <AMOUNT>1575.00</AMOUNT>
+                  <ADDLEXPENSEAMOUNT/>
+                  <BATCHDIFFVAL/>
+                  <ACTUALQTY> 9.00 nos</ACTUALQTY>
+                  <BILLEDQTY> 9.00 nos</BILLEDQTY>
+                  <ORDERPRECLOSUREQTY/>
+                  <ORIGACTUALQTY/>
+                  <ORIGBILLEDQTY/>
+                  <BATCHPHYSDIFF/>
+                  <ORIGRATE/>
+                  <REVISEDRATE/>
+                  <ESCALATIONRATE/>
+                  <INCLVATRATE/>
+                  <BATCHRATE TYPE="Rate">175.00/nos</BATCHRATE>
+                  <EXPIRYPERIOD/>
+                  <INDENTDUEDATE/>
+                  <ORDERDUEDATE/>
+                  <ADDITIONALDETAILS.LIST>        </ADDITIONALDETAILS.LIST>
+                  <VOUCHERCOMPONENTLIST.LIST>        </VOUCHERCOMPONENTLIST.LIST>
+                </BATCHALLOCATIONS.LIST>
+                <DUTYHEADDETAILS.LIST>       </DUTYHEADDETAILS.LIST>
+                <RATEDETAILS.LIST>
+                  <GSTRATEDUTYHEAD>CGST</GSTRATEDUTYHEAD>
+                  <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                  <GSTRATE> 9</GSTRATE>
+                  <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+                </RATEDETAILS.LIST>
+                <RATEDETAILS.LIST>
+                  <GSTRATEDUTYHEAD>SGST/UTGST</GSTRATEDUTYHEAD>
+                  <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                  <GSTRATE> 9</GSTRATE>
+                  <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+                </RATEDETAILS.LIST>
+                <RATEDETAILS.LIST>
+                  <GSTRATEDUTYHEAD>IGST</GSTRATEDUTYHEAD>
+                  <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                  <GSTRATE> 18</GSTRATE>
+                  <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+                </RATEDETAILS.LIST>
+                <RATEDETAILS.LIST>
+                  <GSTRATEDUTYHEAD>Cess</GSTRATEDUTYHEAD>
+                  <GSTRATEVALUATIONTYPE> Not Applicable</GSTRATEVALUATIONTYPE>
+                  <GSTRATE>0</GSTRATE>
+                  <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+                </RATEDETAILS.LIST>
+                <RATEDETAILS.LIST>
+                  <GSTRATEDUTYHEAD>State Cess</GSTRATEDUTYHEAD>
+                  <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                  <GSTRATE>0</GSTRATE>
+                  <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+                </RATEDETAILS.LIST>
+                <SUPPLEMENTARYDUTYHEADDETAILS.LIST>       </SUPPLEMENTARYDUTYHEADDETAILS.LIST>
+                <TAXOBJECTALLOCATIONS.LIST>       </TAXOBJECTALLOCATIONS.LIST>
+                <COSTTRACKALLOCATIONS.LIST>       </COSTTRACKALLOCATIONS.LIST>
+                <REFVOUCHERDETAILS.LIST>       </REFVOUCHERDETAILS.LIST>
+                <EXCISEALLOCATIONS.LIST>       </EXCISEALLOCATIONS.LIST>
+                <EXPENSEALLOCATIONS.LIST>       </EXPENSEALLOCATIONS.LIST>
+              </INVENTORYALLOCATIONS.LIST>
+              <INVENTORYALLOCATIONS.LIST>
+                <ORIGINVOICEDATE/>
+                <ORIGSALESINVDATE/>
+                <DESCRIPTION/>
+                <STOCKITEMNAME>Abrotape (Roll)</STOCKITEMNAME>
+                <STATNATURENAME/>
+                <EXCISECLASSIFICATIONNAME/>
+                <ISZRBASICSERVICE/>
+                <STRDGSTDERIVEDLOCATIONTYPE/>
+                <STRDGSTDERIVEDTAXABILITY/>
+                <STRDGSTDERIVEDNATURETYPE/>
+                <STRDGSTDERIVEDSUPPLYTYPE/>
+                <GSTOVRDNCLASSIFICATION/>
+                <GSTOVRDNNATURE/>
+                <GSTOVRDNINELIGIBLEITC/>
+                <GSTOVRDNISREVCHARGEAPPL> Not Applicable</GSTOVRDNISREVCHARGEAPPL>
+                <GSTOVRDNTAXABILITY>Taxable</GSTOVRDNTAXABILITY>
+                <GSTSOURCETYPE>Stock Item</GSTSOURCETYPE>
+                <GSTITEMSOURCE>Plywood  2.44 x 1.22  19 mm</GSTITEMSOURCE>
+                <GSTLEDGERSOURCE/>
+                <GSTGROUPSOURCE/>
+                <GSTSTOCKGROUPSOURCE/>
+                <HSNSOURCETYPE>Stock Item</HSNSOURCETYPE>
+                <HSNITEMSOURCE>Plywood  2.44 x 1.22  19 mm</HSNITEMSOURCE>
+                <HSNLEDGERSOURCE/>
+                <HSNGROUPSOURCE/>
+                <HSNSTOCKGROUPSOURCE/>
+                <GSTOVRDNSTOREDNATURE> System Inferred</GSTOVRDNSTOREDNATURE>
+                <GSTOVRDNTYPEOFSUPPLY>Goods</GSTOVRDNTYPEOFSUPPLY>
+                <GSTRATEINFERAPPLICABILITY>As per Masters/Company</GSTRATEINFERAPPLICABILITY>
+                <GSTOVRDNNATUREOFGOODS/>
+                <GSTHSNNAME>44123190</GSTHSNNAME>
+                <GSTHSNDESCRIPTION/>
+                <GSTHSNINFERAPPLICABILITY>As per Masters/Company</GSTHSNINFERAPPLICABILITY>
+                <HSNOVRDNCLASSIFICATION/>
+                <STRDGSTFINALNATUREOFENTRY/>
+                <GSTDEPGSTCLASSIFICATION/>
+                <GSTDEPHSNCLASSIFICATION/>
+                <EXCISETARIFF/>
+                <EXCISEEXEMPTION/>
+                <TRADERCNSALESNUMBER/>
+                <BASICPACKAGEMARKS/>
+                <BASICNUMPACKAGES/>
+                <SDTAXCLASSIFICATIONNAME/>
+                <NATUREOFCOMPONENT/>
+                <COMPONENTLISTTYPE/>
+                <DISPLAYNATUREOFCOMPONENT/>
+                <BOMNAME/>
+                <ORIGINVOICENUMBER/>
+                <ORIGINVOICEBOOKNAME/>
+                <ORIGSALESINVNO/>
+                <EXCISERETURNINVOICENO/>
+                <REASONOFREJECTION/>
+                <EXCISECREDITPARTY/>
+                <EXCISECREDITSTKITEM/>
+                <EXCISECREDITCATEGORY/>
+                <TRADERSUPPLIERINVOICENO/>
+                <EXCISESALESINVOICENO/>
+                <GSTITEMUQC/>
+                <GSTITEMUQCUOM/>
+                <ADDLAMOUNT/>
+                <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+                <ISGSTASSESSABLEVALUEOVERRIDDEN/>
+                <STRDISGSTAPPLICABLE/>
+                <CONTENTNEGISPOS/>
+                <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+                <ISAUTONEGATE>No</ISAUTONEGATE>
+                <ISCUSTOMSCLEARANCE/>
+                <ISTRACKCOMPONENT/>
+                <ISTRACKPRODUCTION/>
+                <ISPRIMARYITEM/>
+                <ISSCRAP>No</ISSCRAP>
+                <RATE>130.00/Roll</RATE>
+                <DISCOUNT>0</DISCOUNT>
+                <VATTAXRATE>0</VATTAXRATE>
+                <ORIGINVGOODSQTY>0</ORIGINVGOODSQTY>
+                <EXCISEMRPABATEMENT>0</EXCISEMRPABATEMENT>
+                <ADDLCOSTPERC>0</ADDLCOSTPERC>
+                <REVISEDRATEOFDUTY>0</REVISEDRATEOFDUTY>
+                <ORIGRATEOFDUTY>0</ORIGRATEOFDUTY>
+                <ORIGMRPABATEMENT>0</ORIGMRPABATEMENT>
+                <EXCISERETURNDUTYRATE>0</EXCISERETURNDUTYRATE>
+                <GVATEXCISERATE>0</GVATEXCISERATE>
+                <AMOUNT>260.00</AMOUNT>
+                <EXCISEASSESSABLEVALUE/>
+                <CESSASSVALONCLASS/>
+                <EIDISCOUNTAMT/>
+                <VATASSESSABLEVALUE/>
+                <VATWCDEDUCTAMT/>
+                <WCTOTALDEDUCTIONAMT/>
+                <ORIGINVGOODSVALUE/>
+                <GSTOVRDNASSESSABLEVALUE/>
+                <GSTASSBLVALUE/>
+                <STRDCOMPUTEDASSESSABLEVALUE/>
+                <STRDCOMPUTEDIGST/>
+                <STRDCOMPUTEDCGST/>
+                <STRDCOMPUTEDSGST/>
+                <STRDCOMPUTEDCESS/>
+                <STRDCOMPUTEDCESSONQTY/>
+                <ORIGINVGOODSTAXVALUE/>
+                <VATASSBLVALUE/>
+                <VATACCEPTEDTAXAMT/>
+                <VATACCEPTEDADDLTAXAMT/>
+                <STRDAPPRSTATECESSGST/>
+                <STRDAPPROPRIATEDDISCOUNT/>
+                <STRDEXCISETAX/>
+                <VATINPUTTAXCREDIT/>
+                <VATELIGIBLECREDIT/>
+                <GVATEXCISEAMT/>
+                <ACTUALQTY> 2.00 Roll</ACTUALQTY>
+                <BILLEDQTY> 2.00 Roll</BILLEDQTY>
+                <ORIGACTUALQTY/>
+                <ORIGBILLEDQTY/>
+                <EXCISERETURNINVOICEQTY/>
+                <USABLEQTY/>
+                <EXCISECREDITPENDINGQTY/>
+                <MRPRATE/>
+                <EXCISEMRPRATE/>
+                <ORIGRATE/>
+                <REVISEDRATE/>
+                <ESCALATIONRATE/>
+                <ORIGMRPRATE/>
+                <ORIGRATEOFQTY/>
+                <REVISEDRATEOFQTY/>
+                <INCLVATRATE/>
+                <BATCHALLOCATIONS.LIST>
+                  <MFDON/>
+                  <ORDERYEAREND/>
+                  <TRACKINGYEAREND/>
+                  <ORDERPRECLOSUREDATE/>
+                  <NARRATION/>
+                  <GODOWNNAME>Main Location</GODOWNNAME>
+                  <BATCHNAME>Primary Batch</BATCHNAME>
+                  <DESTINATIONGODOWNNAME/>
+                  <INDENTNO> Not Applicable</INDENTNO>
+                  <ORDERTYPE/>
+                  <PARENTITEM/>
+                  <ORDERCLOSUREREASON/>
+                  <ORDERNO> Not Applicable</ORDERNO>
+                  <TRACKINGNUMBER>Verbally</TRACKINGNUMBER>
+                  <DYNAMICCSTNO/>
+                  <DYNAMICCSTPARENTITEM/>
+                  <SUMDYNAMICCSTNO/>
+                  <SUMBATCHNAME/>
+                  <SUMTRACKINGNUMBER/>
+                  <SUMORDERNO/>
+                  <SUMINDENTNO/>
+                  <ADDLAMOUNT/>
+                  <DYNAMICCSTISCLEARED>No</DYNAMICCSTISCLEARED>
+                  <TRACKID TYPE="Number"/>
+                  <BATCHID TYPE="Number"/>
+                  <BATCHDISCOUNT TYPE="Number"/>
+                  <AMOUNT>260.00</AMOUNT>
+                  <ADDLEXPENSEAMOUNT/>
+                  <BATCHDIFFVAL/>
+                  <ACTUALQTY> 2.00 Roll</ACTUALQTY>
+                  <BILLEDQTY> 2.00 Roll</BILLEDQTY>
+                  <ORDERPRECLOSUREQTY/>
+                  <ORIGACTUALQTY/>
+                  <ORIGBILLEDQTY/>
+                  <BATCHPHYSDIFF/>
+                  <ORIGRATE/>
+                  <REVISEDRATE/>
+                  <ESCALATIONRATE/>
+                  <INCLVATRATE/>
+                  <BATCHRATE TYPE="Rate">130.00/Roll</BATCHRATE>
+                  <EXPIRYPERIOD/>
+                  <INDENTDUEDATE/>
+                  <ORDERDUEDATE/>
+                  <ADDITIONALDETAILS.LIST>        </ADDITIONALDETAILS.LIST>
+                  <VOUCHERCOMPONENTLIST.LIST>        </VOUCHERCOMPONENTLIST.LIST>
+                </BATCHALLOCATIONS.LIST>
+                <DUTYHEADDETAILS.LIST>       </DUTYHEADDETAILS.LIST>
+                <RATEDETAILS.LIST>
+                  <GSTRATEDUTYHEAD>CGST</GSTRATEDUTYHEAD>
+                  <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                  <GSTRATE> 9</GSTRATE>
+                  <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+                </RATEDETAILS.LIST>
+                <RATEDETAILS.LIST>
+                  <GSTRATEDUTYHEAD>SGST/UTGST</GSTRATEDUTYHEAD>
+                  <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                  <GSTRATE> 9</GSTRATE>
+                  <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+                </RATEDETAILS.LIST>
+                <RATEDETAILS.LIST>
+                  <GSTRATEDUTYHEAD>IGST</GSTRATEDUTYHEAD>
+                  <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                  <GSTRATE> 18</GSTRATE>
+                  <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+                </RATEDETAILS.LIST>
+                <RATEDETAILS.LIST>
+                  <GSTRATEDUTYHEAD>Cess</GSTRATEDUTYHEAD>
+                  <GSTRATEVALUATIONTYPE> Not Applicable</GSTRATEVALUATIONTYPE>
+                  <GSTRATE>0</GSTRATE>
+                  <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+                </RATEDETAILS.LIST>
+                <RATEDETAILS.LIST>
+                  <GSTRATEDUTYHEAD>State Cess</GSTRATEDUTYHEAD>
+                  <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                  <GSTRATE>0</GSTRATE>
+                  <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+                </RATEDETAILS.LIST>
+                <SUPPLEMENTARYDUTYHEADDETAILS.LIST>       </SUPPLEMENTARYDUTYHEADDETAILS.LIST>
+                <TAXOBJECTALLOCATIONS.LIST>       </TAXOBJECTALLOCATIONS.LIST>
+                <COSTTRACKALLOCATIONS.LIST>       </COSTTRACKALLOCATIONS.LIST>
+                <REFVOUCHERDETAILS.LIST>       </REFVOUCHERDETAILS.LIST>
+                <EXCISEALLOCATIONS.LIST>       </EXCISEALLOCATIONS.LIST>
+                <EXPENSEALLOCATIONS.LIST>       </EXPENSEALLOCATIONS.LIST>
+              </INVENTORYALLOCATIONS.LIST>
+              <INVENTORYALLOCATIONS.LIST>
+                <ORIGINVOICEDATE/>
+                <ORIGSALESINVDATE/>
+                <DESCRIPTION/>
+                <STOCKITEMNAME>Fevicol Nail Free Ultra</STOCKITEMNAME>
+                <STATNATURENAME/>
+                <EXCISECLASSIFICATIONNAME/>
+                <ISZRBASICSERVICE/>
+                <STRDGSTDERIVEDLOCATIONTYPE/>
+                <STRDGSTDERIVEDTAXABILITY/>
+                <STRDGSTDERIVEDNATURETYPE/>
+                <STRDGSTDERIVEDSUPPLYTYPE/>
+                <GSTOVRDNCLASSIFICATION/>
+                <GSTOVRDNNATURE/>
+                <GSTOVRDNINELIGIBLEITC/>
+                <GSTOVRDNISREVCHARGEAPPL> Not Applicable</GSTOVRDNISREVCHARGEAPPL>
+                <GSTOVRDNTAXABILITY>Taxable</GSTOVRDNTAXABILITY>
+                <GSTSOURCETYPE>Stock Item</GSTSOURCETYPE>
+                <GSTITEMSOURCE>Plywood  2.44 x 1.22  19 mm</GSTITEMSOURCE>
+                <GSTLEDGERSOURCE/>
+                <GSTGROUPSOURCE/>
+                <GSTSTOCKGROUPSOURCE/>
+                <HSNSOURCETYPE>Stock Item</HSNSOURCETYPE>
+                <HSNITEMSOURCE>Plywood  2.44 x 1.22  19 mm</HSNITEMSOURCE>
+                <HSNLEDGERSOURCE/>
+                <HSNGROUPSOURCE/>
+                <HSNSTOCKGROUPSOURCE/>
+                <GSTOVRDNSTOREDNATURE> System Inferred</GSTOVRDNSTOREDNATURE>
+                <GSTOVRDNTYPEOFSUPPLY>Goods</GSTOVRDNTYPEOFSUPPLY>
+                <GSTRATEINFERAPPLICABILITY>As per Masters/Company</GSTRATEINFERAPPLICABILITY>
+                <GSTOVRDNNATUREOFGOODS/>
+                <GSTHSNNAME>44123190</GSTHSNNAME>
+                <GSTHSNDESCRIPTION/>
+                <GSTHSNINFERAPPLICABILITY>As per Masters/Company</GSTHSNINFERAPPLICABILITY>
+                <HSNOVRDNCLASSIFICATION/>
+                <STRDGSTFINALNATUREOFENTRY/>
+                <GSTDEPGSTCLASSIFICATION/>
+                <GSTDEPHSNCLASSIFICATION/>
+                <EXCISETARIFF/>
+                <EXCISEEXEMPTION/>
+                <TRADERCNSALESNUMBER/>
+                <BASICPACKAGEMARKS/>
+                <BASICNUMPACKAGES/>
+                <SDTAXCLASSIFICATIONNAME/>
+                <NATUREOFCOMPONENT/>
+                <COMPONENTLISTTYPE/>
+                <DISPLAYNATUREOFCOMPONENT/>
+                <BOMNAME/>
+                <ORIGINVOICENUMBER/>
+                <ORIGINVOICEBOOKNAME/>
+                <ORIGSALESINVNO/>
+                <EXCISERETURNINVOICENO/>
+                <REASONOFREJECTION/>
+                <EXCISECREDITPARTY/>
+                <EXCISECREDITSTKITEM/>
+                <EXCISECREDITCATEGORY/>
+                <TRADERSUPPLIERINVOICENO/>
+                <EXCISESALESINVOICENO/>
+                <GSTITEMUQC/>
+                <GSTITEMUQCUOM/>
+                <ADDLAMOUNT/>
+                <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+                <ISGSTASSESSABLEVALUEOVERRIDDEN/>
+                <STRDISGSTAPPLICABLE/>
+                <CONTENTNEGISPOS/>
+                <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+                <ISAUTONEGATE>No</ISAUTONEGATE>
+                <ISCUSTOMSCLEARANCE/>
+                <ISTRACKCOMPONENT/>
+                <ISTRACKPRODUCTION/>
+                <ISPRIMARYITEM/>
+                <ISSCRAP>No</ISSCRAP>
+                <RATE>350.00/nos</RATE>
+                <DISCOUNT>0</DISCOUNT>
+                <VATTAXRATE>0</VATTAXRATE>
+                <ORIGINVGOODSQTY>0</ORIGINVGOODSQTY>
+                <EXCISEMRPABATEMENT>0</EXCISEMRPABATEMENT>
+                <ADDLCOSTPERC>0</ADDLCOSTPERC>
+                <REVISEDRATEOFDUTY>0</REVISEDRATEOFDUTY>
+                <ORIGRATEOFDUTY>0</ORIGRATEOFDUTY>
+                <ORIGMRPABATEMENT>0</ORIGMRPABATEMENT>
+                <EXCISERETURNDUTYRATE>0</EXCISERETURNDUTYRATE>
+                <GVATEXCISERATE>0</GVATEXCISERATE>
+                <AMOUNT>700.00</AMOUNT>
+                <EXCISEASSESSABLEVALUE/>
+                <CESSASSVALONCLASS/>
+                <EIDISCOUNTAMT/>
+                <VATASSESSABLEVALUE/>
+                <VATWCDEDUCTAMT/>
+                <WCTOTALDEDUCTIONAMT/>
+                <ORIGINVGOODSVALUE/>
+                <GSTOVRDNASSESSABLEVALUE/>
+                <GSTASSBLVALUE/>
+                <STRDCOMPUTEDASSESSABLEVALUE/>
+                <STRDCOMPUTEDIGST/>
+                <STRDCOMPUTEDCGST/>
+                <STRDCOMPUTEDSGST/>
+                <STRDCOMPUTEDCESS/>
+                <STRDCOMPUTEDCESSONQTY/>
+                <ORIGINVGOODSTAXVALUE/>
+                <VATASSBLVALUE/>
+                <VATACCEPTEDTAXAMT/>
+                <VATACCEPTEDADDLTAXAMT/>
+                <STRDAPPRSTATECESSGST/>
+                <STRDAPPROPRIATEDDISCOUNT/>
+                <STRDEXCISETAX/>
+                <VATINPUTTAXCREDIT/>
+                <VATELIGIBLECREDIT/>
+                <GVATEXCISEAMT/>
+                <ACTUALQTY> 2.00 nos</ACTUALQTY>
+                <BILLEDQTY> 2.00 nos</BILLEDQTY>
+                <ORIGACTUALQTY/>
+                <ORIGBILLEDQTY/>
+                <EXCISERETURNINVOICEQTY/>
+                <USABLEQTY/>
+                <EXCISECREDITPENDINGQTY/>
+                <MRPRATE/>
+                <EXCISEMRPRATE/>
+                <ORIGRATE/>
+                <REVISEDRATE/>
+                <ESCALATIONRATE/>
+                <ORIGMRPRATE/>
+                <ORIGRATEOFQTY/>
+                <REVISEDRATEOFQTY/>
+                <INCLVATRATE/>
+                <BATCHALLOCATIONS.LIST>
+                  <MFDON/>
+                  <ORDERYEAREND/>
+                  <TRACKINGYEAREND/>
+                  <ORDERPRECLOSUREDATE/>
+                  <NARRATION/>
+                  <GODOWNNAME>Main Location</GODOWNNAME>
+                  <BATCHNAME>Primary Batch</BATCHNAME>
+                  <DESTINATIONGODOWNNAME/>
+                  <INDENTNO> Not Applicable</INDENTNO>
+                  <ORDERTYPE/>
+                  <PARENTITEM/>
+                  <ORDERCLOSUREREASON/>
+                  <ORDERNO> Not Applicable</ORDERNO>
+                  <TRACKINGNUMBER>Verbally</TRACKINGNUMBER>
+                  <DYNAMICCSTNO/>
+                  <DYNAMICCSTPARENTITEM/>
+                  <SUMDYNAMICCSTNO/>
+                  <SUMBATCHNAME/>
+                  <SUMTRACKINGNUMBER/>
+                  <SUMORDERNO/>
+                  <SUMINDENTNO/>
+                  <ADDLAMOUNT/>
+                  <DYNAMICCSTISCLEARED>No</DYNAMICCSTISCLEARED>
+                  <TRACKID TYPE="Number"/>
+                  <BATCHID TYPE="Number"/>
+                  <BATCHDISCOUNT TYPE="Number"/>
+                  <AMOUNT>700.00</AMOUNT>
+                  <ADDLEXPENSEAMOUNT/>
+                  <BATCHDIFFVAL/>
+                  <ACTUALQTY> 2.00 nos</ACTUALQTY>
+                  <BILLEDQTY> 2.00 nos</BILLEDQTY>
+                  <ORDERPRECLOSUREQTY/>
+                  <ORIGACTUALQTY/>
+                  <ORIGBILLEDQTY/>
+                  <BATCHPHYSDIFF/>
+                  <ORIGRATE/>
+                  <REVISEDRATE/>
+                  <ESCALATIONRATE/>
+                  <INCLVATRATE/>
+                  <BATCHRATE TYPE="Rate">350.00/nos</BATCHRATE>
+                  <EXPIRYPERIOD/>
+                  <INDENTDUEDATE/>
+                  <ORDERDUEDATE/>
+                  <ADDITIONALDETAILS.LIST>        </ADDITIONALDETAILS.LIST>
+                  <VOUCHERCOMPONENTLIST.LIST>        </VOUCHERCOMPONENTLIST.LIST>
+                </BATCHALLOCATIONS.LIST>
+                <DUTYHEADDETAILS.LIST>       </DUTYHEADDETAILS.LIST>
+                <RATEDETAILS.LIST>
+                  <GSTRATEDUTYHEAD>CGST</GSTRATEDUTYHEAD>
+                  <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                  <GSTRATE> 9</GSTRATE>
+                  <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+                </RATEDETAILS.LIST>
+                <RATEDETAILS.LIST>
+                  <GSTRATEDUTYHEAD>SGST/UTGST</GSTRATEDUTYHEAD>
+                  <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                  <GSTRATE> 9</GSTRATE>
+                  <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+                </RATEDETAILS.LIST>
+                <RATEDETAILS.LIST>
+                  <GSTRATEDUTYHEAD>IGST</GSTRATEDUTYHEAD>
+                  <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                  <GSTRATE> 18</GSTRATE>
+                  <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+                </RATEDETAILS.LIST>
+                <RATEDETAILS.LIST>
+                  <GSTRATEDUTYHEAD>Cess</GSTRATEDUTYHEAD>
+                  <GSTRATEVALUATIONTYPE> Not Applicable</GSTRATEVALUATIONTYPE>
+                  <GSTRATE>0</GSTRATE>
+                  <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+                </RATEDETAILS.LIST>
+                <RATEDETAILS.LIST>
+                  <GSTRATEDUTYHEAD>State Cess</GSTRATEDUTYHEAD>
+                  <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                  <GSTRATE>0</GSTRATE>
+                  <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+                </RATEDETAILS.LIST>
+                <SUPPLEMENTARYDUTYHEADDETAILS.LIST>       </SUPPLEMENTARYDUTYHEADDETAILS.LIST>
+                <TAXOBJECTALLOCATIONS.LIST>       </TAXOBJECTALLOCATIONS.LIST>
+                <COSTTRACKALLOCATIONS.LIST>       </COSTTRACKALLOCATIONS.LIST>
+                <REFVOUCHERDETAILS.LIST>       </REFVOUCHERDETAILS.LIST>
+                <EXCISEALLOCATIONS.LIST>       </EXCISEALLOCATIONS.LIST>
+                <EXPENSEALLOCATIONS.LIST>       </EXPENSEALLOCATIONS.LIST>
+              </INVENTORYALLOCATIONS.LIST>
+              <INVENTORYALLOCATIONS.LIST>
+                <ORIGINVOICEDATE/>
+                <ORIGSALESINVDATE/>
+                <DESCRIPTION/>
+                <STOCKITEMNAME>Fevicol Ezzespray (Nos)</STOCKITEMNAME>
+                <STATNATURENAME/>
+                <EXCISECLASSIFICATIONNAME/>
+                <ISZRBASICSERVICE/>
+                <STRDGSTDERIVEDLOCATIONTYPE/>
+                <STRDGSTDERIVEDTAXABILITY/>
+                <STRDGSTDERIVEDNATURETYPE/>
+                <STRDGSTDERIVEDSUPPLYTYPE/>
+                <GSTOVRDNCLASSIFICATION/>
+                <GSTOVRDNNATURE/>
+                <GSTOVRDNINELIGIBLEITC/>
+                <GSTOVRDNISREVCHARGEAPPL> Not Applicable</GSTOVRDNISREVCHARGEAPPL>
+                <GSTOVRDNTAXABILITY>Taxable</GSTOVRDNTAXABILITY>
+                <GSTSOURCETYPE>Stock Item</GSTSOURCETYPE>
+                <GSTITEMSOURCE>Plywood  2.44 x 1.22  19 mm</GSTITEMSOURCE>
+                <GSTLEDGERSOURCE/>
+                <GSTGROUPSOURCE/>
+                <GSTSTOCKGROUPSOURCE/>
+                <HSNSOURCETYPE>Stock Item</HSNSOURCETYPE>
+                <HSNITEMSOURCE>Plywood  2.44 x 1.22  19 mm</HSNITEMSOURCE>
+                <HSNLEDGERSOURCE/>
+                <HSNGROUPSOURCE/>
+                <HSNSTOCKGROUPSOURCE/>
+                <GSTOVRDNSTOREDNATURE> System Inferred</GSTOVRDNSTOREDNATURE>
+                <GSTOVRDNTYPEOFSUPPLY>Goods</GSTOVRDNTYPEOFSUPPLY>
+                <GSTRATEINFERAPPLICABILITY>As per Masters/Company</GSTRATEINFERAPPLICABILITY>
+                <GSTOVRDNNATUREOFGOODS/>
+                <GSTHSNNAME>44123190</GSTHSNNAME>
+                <GSTHSNDESCRIPTION/>
+                <GSTHSNINFERAPPLICABILITY>As per Masters/Company</GSTHSNINFERAPPLICABILITY>
+                <HSNOVRDNCLASSIFICATION/>
+                <STRDGSTFINALNATUREOFENTRY/>
+                <GSTDEPGSTCLASSIFICATION/>
+                <GSTDEPHSNCLASSIFICATION/>
+                <EXCISETARIFF/>
+                <EXCISEEXEMPTION/>
+                <TRADERCNSALESNUMBER/>
+                <BASICPACKAGEMARKS/>
+                <BASICNUMPACKAGES/>
+                <SDTAXCLASSIFICATIONNAME/>
+                <NATUREOFCOMPONENT/>
+                <COMPONENTLISTTYPE/>
+                <DISPLAYNATUREOFCOMPONENT/>
+                <BOMNAME/>
+                <ORIGINVOICENUMBER/>
+                <ORIGINVOICEBOOKNAME/>
+                <ORIGSALESINVNO/>
+                <EXCISERETURNINVOICENO/>
+                <REASONOFREJECTION/>
+                <EXCISECREDITPARTY/>
+                <EXCISECREDITSTKITEM/>
+                <EXCISECREDITCATEGORY/>
+                <TRADERSUPPLIERINVOICENO/>
+                <EXCISESALESINVOICENO/>
+                <GSTITEMUQC/>
+                <GSTITEMUQCUOM/>
+                <ADDLAMOUNT/>
+                <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+                <ISGSTASSESSABLEVALUEOVERRIDDEN/>
+                <STRDISGSTAPPLICABLE/>
+                <CONTENTNEGISPOS/>
+                <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+                <ISAUTONEGATE>No</ISAUTONEGATE>
+                <ISCUSTOMSCLEARANCE/>
+                <ISTRACKCOMPONENT/>
+                <ISTRACKPRODUCTION/>
+                <ISPRIMARYITEM/>
+                <ISSCRAP>No</ISSCRAP>
+                <RATE>550.00/nos</RATE>
+                <DISCOUNT>0</DISCOUNT>
+                <VATTAXRATE>0</VATTAXRATE>
+                <ORIGINVGOODSQTY>0</ORIGINVGOODSQTY>
+                <EXCISEMRPABATEMENT>0</EXCISEMRPABATEMENT>
+                <ADDLCOSTPERC>0</ADDLCOSTPERC>
+                <REVISEDRATEOFDUTY>0</REVISEDRATEOFDUTY>
+                <ORIGRATEOFDUTY>0</ORIGRATEOFDUTY>
+                <ORIGMRPABATEMENT>0</ORIGMRPABATEMENT>
+                <EXCISERETURNDUTYRATE>0</EXCISERETURNDUTYRATE>
+                <GVATEXCISERATE>0</GVATEXCISERATE>
+                <AMOUNT>550.00</AMOUNT>
+                <EXCISEASSESSABLEVALUE/>
+                <CESSASSVALONCLASS/>
+                <EIDISCOUNTAMT/>
+                <VATASSESSABLEVALUE/>
+                <VATWCDEDUCTAMT/>
+                <WCTOTALDEDUCTIONAMT/>
+                <ORIGINVGOODSVALUE/>
+                <GSTOVRDNASSESSABLEVALUE/>
+                <GSTASSBLVALUE/>
+                <STRDCOMPUTEDASSESSABLEVALUE/>
+                <STRDCOMPUTEDIGST/>
+                <STRDCOMPUTEDCGST/>
+                <STRDCOMPUTEDSGST/>
+                <STRDCOMPUTEDCESS/>
+                <STRDCOMPUTEDCESSONQTY/>
+                <ORIGINVGOODSTAXVALUE/>
+                <VATASSBLVALUE/>
+                <VATACCEPTEDTAXAMT/>
+                <VATACCEPTEDADDLTAXAMT/>
+                <STRDAPPRSTATECESSGST/>
+                <STRDAPPROPRIATEDDISCOUNT/>
+                <STRDEXCISETAX/>
+                <VATINPUTTAXCREDIT/>
+                <VATELIGIBLECREDIT/>
+                <GVATEXCISEAMT/>
+                <ACTUALQTY> 1.00 nos</ACTUALQTY>
+                <BILLEDQTY> 1.00 nos</BILLEDQTY>
+                <ORIGACTUALQTY/>
+                <ORIGBILLEDQTY/>
+                <EXCISERETURNINVOICEQTY/>
+                <USABLEQTY/>
+                <EXCISECREDITPENDINGQTY/>
+                <MRPRATE/>
+                <EXCISEMRPRATE/>
+                <ORIGRATE/>
+                <REVISEDRATE/>
+                <ESCALATIONRATE/>
+                <ORIGMRPRATE/>
+                <ORIGRATEOFQTY/>
+                <REVISEDRATEOFQTY/>
+                <INCLVATRATE/>
+                <BATCHALLOCATIONS.LIST>
+                  <MFDON/>
+                  <ORDERYEAREND/>
+                  <TRACKINGYEAREND/>
+                  <ORDERPRECLOSUREDATE/>
+                  <NARRATION/>
+                  <GODOWNNAME>Main Location</GODOWNNAME>
+                  <BATCHNAME>Primary Batch</BATCHNAME>
+                  <DESTINATIONGODOWNNAME/>
+                  <INDENTNO> Not Applicable</INDENTNO>
+                  <ORDERTYPE/>
+                  <PARENTITEM/>
+                  <ORDERCLOSUREREASON/>
+                  <ORDERNO> Not Applicable</ORDERNO>
+                  <TRACKINGNUMBER>Verbally</TRACKINGNUMBER>
+                  <DYNAMICCSTNO/>
+                  <DYNAMICCSTPARENTITEM/>
+                  <SUMDYNAMICCSTNO/>
+                  <SUMBATCHNAME/>
+                  <SUMTRACKINGNUMBER/>
+                  <SUMORDERNO/>
+                  <SUMINDENTNO/>
+                  <ADDLAMOUNT/>
+                  <DYNAMICCSTISCLEARED>No</DYNAMICCSTISCLEARED>
+                  <TRACKID TYPE="Number"/>
+                  <BATCHID TYPE="Number"/>
+                  <BATCHDISCOUNT TYPE="Number"/>
+                  <AMOUNT>550.00</AMOUNT>
+                  <ADDLEXPENSEAMOUNT/>
+                  <BATCHDIFFVAL/>
+                  <ACTUALQTY> 1.00 nos</ACTUALQTY>
+                  <BILLEDQTY> 1.00 nos</BILLEDQTY>
+                  <ORDERPRECLOSUREQTY/>
+                  <ORIGACTUALQTY/>
+                  <ORIGBILLEDQTY/>
+                  <BATCHPHYSDIFF/>
+                  <ORIGRATE/>
+                  <REVISEDRATE/>
+                  <ESCALATIONRATE/>
+                  <INCLVATRATE/>
+                  <BATCHRATE TYPE="Rate">550.00/nos</BATCHRATE>
+                  <EXPIRYPERIOD/>
+                  <INDENTDUEDATE/>
+                  <ORDERDUEDATE/>
+                  <ADDITIONALDETAILS.LIST>        </ADDITIONALDETAILS.LIST>
+                  <VOUCHERCOMPONENTLIST.LIST>        </VOUCHERCOMPONENTLIST.LIST>
+                </BATCHALLOCATIONS.LIST>
+                <DUTYHEADDETAILS.LIST>       </DUTYHEADDETAILS.LIST>
+                <RATEDETAILS.LIST>
+                  <GSTRATEDUTYHEAD>CGST</GSTRATEDUTYHEAD>
+                  <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                  <GSTRATE> 9</GSTRATE>
+                  <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+                </RATEDETAILS.LIST>
+                <RATEDETAILS.LIST>
+                  <GSTRATEDUTYHEAD>SGST/UTGST</GSTRATEDUTYHEAD>
+                  <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                  <GSTRATE> 9</GSTRATE>
+                  <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+                </RATEDETAILS.LIST>
+                <RATEDETAILS.LIST>
+                  <GSTRATEDUTYHEAD>IGST</GSTRATEDUTYHEAD>
+                  <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                  <GSTRATE> 18</GSTRATE>
+                  <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+                </RATEDETAILS.LIST>
+                <RATEDETAILS.LIST>
+                  <GSTRATEDUTYHEAD>Cess</GSTRATEDUTYHEAD>
+                  <GSTRATEVALUATIONTYPE> Not Applicable</GSTRATEVALUATIONTYPE>
+                  <GSTRATE>0</GSTRATE>
+                  <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+                </RATEDETAILS.LIST>
+                <RATEDETAILS.LIST>
+                  <GSTRATEDUTYHEAD>State Cess</GSTRATEDUTYHEAD>
+                  <GSTRATEVALUATIONTYPE>Based on Value</GSTRATEVALUATIONTYPE>
+                  <GSTRATE>0</GSTRATE>
+                  <GSTRATEPERUNIT>0</GSTRATEPERUNIT>
+                </RATEDETAILS.LIST>
+                <SUPPLEMENTARYDUTYHEADDETAILS.LIST>       </SUPPLEMENTARYDUTYHEADDETAILS.LIST>
+                <TAXOBJECTALLOCATIONS.LIST>       </TAXOBJECTALLOCATIONS.LIST>
+                <COSTTRACKALLOCATIONS.LIST>       </COSTTRACKALLOCATIONS.LIST>
+                <REFVOUCHERDETAILS.LIST>       </REFVOUCHERDETAILS.LIST>
+                <EXCISEALLOCATIONS.LIST>       </EXCISEALLOCATIONS.LIST>
+                <EXPENSEALLOCATIONS.LIST>       </EXPENSEALLOCATIONS.LIST>
+              </INVENTORYALLOCATIONS.LIST>
+              <DUTYHEADDETAILS.LIST>      </DUTYHEADDETAILS.LIST>
+              <EXCISEDUTYHEADDETAILS.LIST>      </EXCISEDUTYHEADDETAILS.LIST>
+              <RATEDETAILS.LIST>      </RATEDETAILS.LIST>
+              <SUMMARYALLOCS.LIST>      </SUMMARYALLOCS.LIST>
+              <CENVATDUTYALLOCATIONS.LIST>      </CENVATDUTYALLOCATIONS.LIST>
+              <STPYMTDETAILS.LIST>      </STPYMTDETAILS.LIST>
+              <EXCISEPAYMENTALLOCATIONS.LIST>      </EXCISEPAYMENTALLOCATIONS.LIST>
+              <TAXBILLALLOCATIONS.LIST>      </TAXBILLALLOCATIONS.LIST>
+              <TAXOBJECTALLOCATIONS.LIST>      </TAXOBJECTALLOCATIONS.LIST>
+              <TDSEXPENSEALLOCATIONS.LIST>      </TDSEXPENSEALLOCATIONS.LIST>
+              <VATSTATUTORYDETAILS.LIST>      </VATSTATUTORYDETAILS.LIST>
+              <REFVOUCHERDETAILS.LIST>      </REFVOUCHERDETAILS.LIST>
+              <INVOICEWISEDETAILS.LIST>      </INVOICEWISEDETAILS.LIST>
+              <VATITCDETAILS.LIST>      </VATITCDETAILS.LIST>
+              <ADVANCETAXDETAILS.LIST>      </ADVANCETAXDETAILS.LIST>
+              <TAXTYPEALLOCATIONS.LIST>      </TAXTYPEALLOCATIONS.LIST>
+            </ALLLEDGERENTRIES.LIST>
+            <ALLLEDGERENTRIES.LIST>
+              <OLDAUDITENTRYIDS.LIST TYPE="Number">
+                <OLDAUDITENTRYIDS>-1</OLDAUDITENTRYIDS>
+              </OLDAUDITENTRYIDS.LIST>
+              <ORIGPURCHINVDATE/>
+              <NARRATION/>
+              <ADDLALLOCTYPE/>
+              <TAXCLASSIFICATIONNAME/>
+              <APPROPRIATEFOR/>
+              <GSTDUTYHEAD/>
+              <GSTAPPROPRIATETO/>
+              <NOTIFICATIONSLNO/>
+              <EXCISEALLOCTYPE/>
+              <SWIFTCODE/>
+              <ROUNDTYPE> Not Applicable</ROUNDTYPE>
+              <LEDGERNAME>CGST</LEDGERNAME>
+              <TAXUNITNAME/>
+              <STATNATURENAME/>
+              <GOODSTYPE/>
+              <VATTRADENAME/>
+              <METHODTYPE/>
+              <CLASSRATE/>
+              <STATCLASSIFICATIONNAME/>
+              <EXCISECLASSIFICATIONNAME/>
+              <ISZRBASICSERVICE/>
+              <VATCOMMODITYNAME/>
+              <SCHEDULE/>
+              <SCHEDULESERIALNUMBER/>
+              <VATCOMMODITYCODE/>
+              <VATSUBCOMMODITYCODE/>
+              <VATMAJORCOMMODITYNAME/>
+              <STRDGSTDERIVEDLOCATIONTYPE/>
+              <STRDGSTDERIVEDTAXABILITY/>
+              <STRDGSTDERIVEDNATURETYPE/>
+              <STRDGSTDERIVEDSUPPLYTYPE/>
+              <TDSPARTYNAME/>
+              <VATPARTYORGNAME/>
+              <XBRLADJTYPE/>
+              <VOUCHERFBTCATEGORY/>
+              <TYPEOFTAXPAYMENT/>
+              <VATCALCULATIONTYPE/>
+              <VATWORKSCONTRACTTYPE/>
+              <VATWCDESCRIPTION/>
+              <GSTCLASS> Not Applicable</GSTCLASS>
+              <SCHVIADJTYPE/>
+              <GSTOVRDNCLASSIFICATION/>
+              <GSTOVRDNNATURE/>
+              <GSTOVRDNINELIGIBLEITC/>
+              <GSTOVRDNISREVCHARGEAPPL/>
+              <GSTOVRDNTAXABILITY/>
+              <GSTHSNSACCODE/>
+              <GSTSOURCETYPE/>
+              <GSTITEMSOURCE/>
+              <GSTLEDGERSOURCE/>
+              <GSTGROUPSOURCE/>
+              <GSTSTOCKGROUPSOURCE/>
+              <HSNSOURCETYPE/>
+              <HSNITEMSOURCE/>
+              <HSNLEDGERSOURCE/>
+              <HSNGROUPSOURCE/>
+              <HSNSTOCKGROUPSOURCE/>
+              <GSTOVRDNSTOREDNATURE/>
+              <GSTOVRDNTYPEOFSUPPLY/>
+              <GSTRATEINFERAPPLICABILITY/>
+              <GSTOVRDNNATUREOFGOODS/>
+              <GSTHSNNAME/>
+              <GSTHSNDESCRIPTION/>
+              <GSTHSNINFERAPPLICABILITY/>
+              <HSNOVRDNCLASSIFICATION/>
+              <STRDGSTFINALNATUREOFENTRY/>
+              <STRDGSTDUTYHEAD/>
+              <VATGOODSNATURE/>
+              <GSTDEPGSTCLASSIFICATION/>
+              <GSTDEPHSNCLASSIFICATION/>
+              <POSPAYMENTTYPE/>
+              <GSTPARTYLEDGER/>
+              <ORIGPURCHPARTY/>
+              <ORIGPURCHPARTYADDRESS/>
+              <ORIGPURCHINVNO/>
+              <ORIGPURCHNOTE/>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <LEDGERFROMITEM>No</LEDGERFROMITEM>
+              <REMOVEZEROENTRIES/>
+              <ISPARTYLEDGER>No</ISPARTYLEDGER>
+              <GSTOVERRIDDEN>No</GSTOVERRIDDEN>
+              <ISGSTASSESSABLEVALUEOVERRIDDEN>No</ISGSTASSESSABLEVALUEOVERRIDDEN>
+              <STRDISGSTAPPLICABLE>No</STRDISGSTAPPLICABLE>
+              <STRDGSTISPARTYLEDGER>No</STRDGSTISPARTYLEDGER>
+              <STRDGSTISDUTYLEDGER>No</STRDGSTISDUTYLEDGER>
+              <CONTENTNEGISPOS/>
+              <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+              <ISCAPVATTAXALTERED/>
+              <ISCAPVATNOTCLAIMED>No</ISCAPVATNOTCLAIMED>
+              <STCRADJPERCENT>0</STCRADJPERCENT>
+              <ROUNDLIMIT>0</ROUNDLIMIT>
+              <RATEOFADDLVAT>0</RATEOFADDLVAT>
+              <RATEOFCESSONVAT>0</RATEOFCESSONVAT>
+              <VATTAXRATE>0</VATTAXRATE>
+              <VATITEMQTY>0</VATITEMQTY>
+              <VATWCDEDUCTRATE>0</VATWCDEDUCTRATE>
+              <PREVINVTOTALNUM>0</PREVINVTOTALNUM>
+              <VATWCDEDUCTIONRATE>0</VATWCDEDUCTIONRATE>
+              <GSTTAXRATE>0</GSTTAXRATE>
+              <ORIGINVGOODSQTY>0</ORIGINVGOODSQTY>
+              <CAPVATTAXRATE>0</CAPVATTAXRATE>
+              <AMOUNT>277.65</AMOUNT>
+              <CESSASSVALONCLASS/>
+              <ADDNLVATCLASSAMT/>
+              <EIDISCOUNTAMT/>
+              <FBTEXEMPTAMOUNT/>
+              <VATASSESSABLEVALUE/>
+              <VATWCCOSTOFLAND/>
+              <VATWCDEDLABOURCHARGES/>
+              <VATWCOTHERDEDUCTIONAMT/>
+              <VATWCVALUEOFTAXFREEGOODS/>
+              <VATWCOTHERCHARGES/>
+              <VATWCSUBCONTRACTORAMT/>
+              <VATWCDEDUCTAMT/>
+              <WCTOTALDEDUCTIONAMT/>
+              <PREVAMOUNT/>
+              <PREVINVTOTALAMT/>
+              <VATWCDEDUCTIONAMOUNT/>
+              <ORIGINVGOODSVALUE/>
+              <CENVATCAPTINPUTAMT/>
+              <GSTASSESSABLEVALUE/>
+              <IGSTLIABILITY/>
+              <CGSTLIABILITY/>
+              <SGSTLIABILITY/>
+              <GSTCESSLIABILITY/>
+              <GSTOVRDNASSESSABLEVALUE/>
+              <GSTASSBLVALUE/>
+              <STRDCOMPUTEDASSESSABLEVALUE/>
+              <STRDCOMPUTEDIGST/>
+              <STRDCOMPUTEDCGST/>
+              <STRDCOMPUTEDSGST/>
+              <STRDCOMPUTEDCESS/>
+              <STRDCOMPUTEDCESSONQTY/>
+              <ORIGINVGOODSTAXVALUE/>
+              <VATWCESTABLISHMENTCOST/>
+              <VATWCCONTRACTORPROFIT/>
+              <VATWCPLANNINGDESIGNFEES/>
+              <VATWCMACHINERYTOOLSCHARGES/>
+              <VATWCCONSUMABLESCOST/>
+              <VATEXPAMOUNT>6163.02</VATEXPAMOUNT>
+              <VATASSBLVALUE/>
+              <VATACCEPTEDTAXAMT/>
+              <VATACCEPTEDADDLTAXAMT/>
+              <CASHRECEIVED/>
+              <CAPVATASSEABLEVALUE/>
+              <CAPVATTAXVALUE/>
+              <ORIGPURCHVALUE/>
+              <SUPPLYMARGVAL/>
+              <STRDAPPRSTATECESSGST/>
+              <STRDAPPROPRIATEDDISCOUNT/>
+              <STRDEXCISETAX/>
+              <SERVICETAXDETAILS.LIST>      </SERVICETAXDETAILS.LIST>
+              <BANKALLOCATIONS.LIST>      </BANKALLOCATIONS.LIST>
+              <BILLALLOCATIONS.LIST>      </BILLALLOCATIONS.LIST>
+              <INTERESTCOLLECTION.LIST>      </INTERESTCOLLECTION.LIST>
+              <OLDAUDITENTRIES.LIST>      </OLDAUDITENTRIES.LIST>
+              <ACCOUNTAUDITENTRIES.LIST>      </ACCOUNTAUDITENTRIES.LIST>
+              <AUDITENTRIES.LIST>      </AUDITENTRIES.LIST>
+              <INPUTCRALLOCS.LIST>      </INPUTCRALLOCS.LIST>
+              <DUTYHEADDETAILS.LIST>      </DUTYHEADDETAILS.LIST>
+              <EXCISEDUTYHEADDETAILS.LIST>      </EXCISEDUTYHEADDETAILS.LIST>
+              <RATEDETAILS.LIST>      </RATEDETAILS.LIST>
+              <SUMMARYALLOCS.LIST>      </SUMMARYALLOCS.LIST>
+              <CENVATDUTYALLOCATIONS.LIST>      </CENVATDUTYALLOCATIONS.LIST>
+              <STPYMTDETAILS.LIST>      </STPYMTDETAILS.LIST>
+              <EXCISEPAYMENTALLOCATIONS.LIST>      </EXCISEPAYMENTALLOCATIONS.LIST>
+              <TAXBILLALLOCATIONS.LIST>      </TAXBILLALLOCATIONS.LIST>
+              <TAXOBJECTALLOCATIONS.LIST>      </TAXOBJECTALLOCATIONS.LIST>
+              <TDSEXPENSEALLOCATIONS.LIST>      </TDSEXPENSEALLOCATIONS.LIST>
+              <VATSTATUTORYDETAILS.LIST>      </VATSTATUTORYDETAILS.LIST>
+              <COSTTRACKALLOCATIONS.LIST>      </COSTTRACKALLOCATIONS.LIST>
+              <REFVOUCHERDETAILS.LIST>      </REFVOUCHERDETAILS.LIST>
+              <INVOICEWISEDETAILS.LIST>      </INVOICEWISEDETAILS.LIST>
+              <VATITCDETAILS.LIST>      </VATITCDETAILS.LIST>
+              <ADVANCETAXDETAILS.LIST>      </ADVANCETAXDETAILS.LIST>
+              <TAXTYPEALLOCATIONS.LIST>      </TAXTYPEALLOCATIONS.LIST>
+            </ALLLEDGERENTRIES.LIST>
+            <ALLLEDGERENTRIES.LIST>
+              <OLDAUDITENTRYIDS.LIST TYPE="Number">
+                <OLDAUDITENTRYIDS>-1</OLDAUDITENTRYIDS>
+              </OLDAUDITENTRYIDS.LIST>
+              <ORIGPURCHINVDATE/>
+              <NARRATION/>
+              <ADDLALLOCTYPE/>
+              <TAXCLASSIFICATIONNAME/>
+              <APPROPRIATEFOR/>
+              <GSTDUTYHEAD/>
+              <GSTAPPROPRIATETO/>
+              <NOTIFICATIONSLNO/>
+              <EXCISEALLOCTYPE/>
+              <SWIFTCODE/>
+              <ROUNDTYPE> Not Applicable</ROUNDTYPE>
+              <LEDGERNAME>SGST</LEDGERNAME>
+              <TAXUNITNAME/>
+              <STATNATURENAME/>
+              <GOODSTYPE/>
+              <VATTRADENAME/>
+              <METHODTYPE/>
+              <CLASSRATE/>
+              <STATCLASSIFICATIONNAME/>
+              <EXCISECLASSIFICATIONNAME/>
+              <ISZRBASICSERVICE/>
+              <VATCOMMODITYNAME/>
+              <SCHEDULE/>
+              <SCHEDULESERIALNUMBER/>
+              <VATCOMMODITYCODE/>
+              <VATSUBCOMMODITYCODE/>
+              <VATMAJORCOMMODITYNAME/>
+              <STRDGSTDERIVEDLOCATIONTYPE/>
+              <STRDGSTDERIVEDTAXABILITY/>
+              <STRDGSTDERIVEDNATURETYPE/>
+              <STRDGSTDERIVEDSUPPLYTYPE/>
+              <TDSPARTYNAME/>
+              <VATPARTYORGNAME/>
+              <XBRLADJTYPE/>
+              <VOUCHERFBTCATEGORY/>
+              <TYPEOFTAXPAYMENT/>
+              <VATCALCULATIONTYPE/>
+              <VATWORKSCONTRACTTYPE/>
+              <VATWCDESCRIPTION/>
+              <GSTCLASS> Not Applicable</GSTCLASS>
+              <SCHVIADJTYPE/>
+              <GSTOVRDNCLASSIFICATION/>
+              <GSTOVRDNNATURE/>
+              <GSTOVRDNINELIGIBLEITC/>
+              <GSTOVRDNISREVCHARGEAPPL/>
+              <GSTOVRDNTAXABILITY/>
+              <GSTHSNSACCODE/>
+              <GSTSOURCETYPE/>
+              <GSTITEMSOURCE/>
+              <GSTLEDGERSOURCE/>
+              <GSTGROUPSOURCE/>
+              <GSTSTOCKGROUPSOURCE/>
+              <HSNSOURCETYPE/>
+              <HSNITEMSOURCE/>
+              <HSNLEDGERSOURCE/>
+              <HSNGROUPSOURCE/>
+              <HSNSTOCKGROUPSOURCE/>
+              <GSTOVRDNSTOREDNATURE/>
+              <GSTOVRDNTYPEOFSUPPLY/>
+              <GSTRATEINFERAPPLICABILITY/>
+              <GSTOVRDNNATUREOFGOODS/>
+              <GSTHSNNAME/>
+              <GSTHSNDESCRIPTION/>
+              <GSTHSNINFERAPPLICABILITY/>
+              <HSNOVRDNCLASSIFICATION/>
+              <STRDGSTFINALNATUREOFENTRY/>
+              <STRDGSTDUTYHEAD/>
+              <VATGOODSNATURE/>
+              <GSTDEPGSTCLASSIFICATION/>
+              <GSTDEPHSNCLASSIFICATION/>
+              <POSPAYMENTTYPE/>
+              <GSTPARTYLEDGER/>
+              <ORIGPURCHPARTY/>
+              <ORIGPURCHPARTYADDRESS/>
+              <ORIGPURCHINVNO/>
+              <ORIGPURCHNOTE/>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <LEDGERFROMITEM>No</LEDGERFROMITEM>
+              <REMOVEZEROENTRIES/>
+              <ISPARTYLEDGER>No</ISPARTYLEDGER>
+              <GSTOVERRIDDEN>No</GSTOVERRIDDEN>
+              <ISGSTASSESSABLEVALUEOVERRIDDEN>No</ISGSTASSESSABLEVALUEOVERRIDDEN>
+              <STRDISGSTAPPLICABLE>No</STRDISGSTAPPLICABLE>
+              <STRDGSTISPARTYLEDGER>No</STRDGSTISPARTYLEDGER>
+              <STRDGSTISDUTYLEDGER>No</STRDGSTISDUTYLEDGER>
+              <CONTENTNEGISPOS/>
+              <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+              <ISCAPVATTAXALTERED/>
+              <ISCAPVATNOTCLAIMED>No</ISCAPVATNOTCLAIMED>
+              <STCRADJPERCENT>0</STCRADJPERCENT>
+              <ROUNDLIMIT>0</ROUNDLIMIT>
+              <RATEOFADDLVAT>0</RATEOFADDLVAT>
+              <RATEOFCESSONVAT>0</RATEOFCESSONVAT>
+              <VATTAXRATE>0</VATTAXRATE>
+              <VATITEMQTY>0</VATITEMQTY>
+              <VATWCDEDUCTRATE>0</VATWCDEDUCTRATE>
+              <PREVINVTOTALNUM>0</PREVINVTOTALNUM>
+              <VATWCDEDUCTIONRATE>0</VATWCDEDUCTIONRATE>
+              <GSTTAXRATE>0</GSTTAXRATE>
+              <ORIGINVGOODSQTY>0</ORIGINVGOODSQTY>
+              <CAPVATTAXRATE>0</CAPVATTAXRATE>
+              <AMOUNT>277.65</AMOUNT>
+              <CESSASSVALONCLASS/>
+              <ADDNLVATCLASSAMT/>
+              <EIDISCOUNTAMT/>
+              <FBTEXEMPTAMOUNT/>
+              <VATASSESSABLEVALUE/>
+              <VATWCCOSTOFLAND/>
+              <VATWCDEDLABOURCHARGES/>
+              <VATWCOTHERDEDUCTIONAMT/>
+              <VATWCVALUEOFTAXFREEGOODS/>
+              <VATWCOTHERCHARGES/>
+              <VATWCSUBCONTRACTORAMT/>
+              <VATWCDEDUCTAMT/>
+              <WCTOTALDEDUCTIONAMT/>
+              <PREVAMOUNT/>
+              <PREVINVTOTALAMT/>
+              <VATWCDEDUCTIONAMOUNT/>
+              <ORIGINVGOODSVALUE/>
+              <CENVATCAPTINPUTAMT/>
+              <GSTASSESSABLEVALUE/>
+              <IGSTLIABILITY/>
+              <CGSTLIABILITY/>
+              <SGSTLIABILITY/>
+              <GSTCESSLIABILITY/>
+              <GSTOVRDNASSESSABLEVALUE/>
+              <GSTASSBLVALUE/>
+              <STRDCOMPUTEDASSESSABLEVALUE/>
+              <STRDCOMPUTEDIGST/>
+              <STRDCOMPUTEDCGST/>
+              <STRDCOMPUTEDSGST/>
+              <STRDCOMPUTEDCESS/>
+              <STRDCOMPUTEDCESSONQTY/>
+              <ORIGINVGOODSTAXVALUE/>
+              <VATWCESTABLISHMENTCOST/>
+              <VATWCCONTRACTORPROFIT/>
+              <VATWCPLANNINGDESIGNFEES/>
+              <VATWCMACHINERYTOOLSCHARGES/>
+              <VATWCCONSUMABLESCOST/>
+              <VATEXPAMOUNT>6163.02</VATEXPAMOUNT>
+              <VATASSBLVALUE/>
+              <VATACCEPTEDTAXAMT/>
+              <VATACCEPTEDADDLTAXAMT/>
+              <CASHRECEIVED/>
+              <CAPVATASSEABLEVALUE/>
+              <CAPVATTAXVALUE/>
+              <ORIGPURCHVALUE/>
+              <SUPPLYMARGVAL/>
+              <STRDAPPRSTATECESSGST/>
+              <STRDAPPROPRIATEDDISCOUNT/>
+              <STRDEXCISETAX/>
+              <SERVICETAXDETAILS.LIST>      </SERVICETAXDETAILS.LIST>
+              <BANKALLOCATIONS.LIST>      </BANKALLOCATIONS.LIST>
+              <BILLALLOCATIONS.LIST>      </BILLALLOCATIONS.LIST>
+              <INTERESTCOLLECTION.LIST>      </INTERESTCOLLECTION.LIST>
+              <OLDAUDITENTRIES.LIST>      </OLDAUDITENTRIES.LIST>
+              <ACCOUNTAUDITENTRIES.LIST>      </ACCOUNTAUDITENTRIES.LIST>
+              <AUDITENTRIES.LIST>      </AUDITENTRIES.LIST>
+              <INPUTCRALLOCS.LIST>      </INPUTCRALLOCS.LIST>
+              <DUTYHEADDETAILS.LIST>      </DUTYHEADDETAILS.LIST>
+              <EXCISEDUTYHEADDETAILS.LIST>      </EXCISEDUTYHEADDETAILS.LIST>
+              <RATEDETAILS.LIST>      </RATEDETAILS.LIST>
+              <SUMMARYALLOCS.LIST>      </SUMMARYALLOCS.LIST>
+              <CENVATDUTYALLOCATIONS.LIST>      </CENVATDUTYALLOCATIONS.LIST>
+              <STPYMTDETAILS.LIST>      </STPYMTDETAILS.LIST>
+              <EXCISEPAYMENTALLOCATIONS.LIST>      </EXCISEPAYMENTALLOCATIONS.LIST>
+              <TAXBILLALLOCATIONS.LIST>      </TAXBILLALLOCATIONS.LIST>
+              <TAXOBJECTALLOCATIONS.LIST>      </TAXOBJECTALLOCATIONS.LIST>
+              <TDSEXPENSEALLOCATIONS.LIST>      </TDSEXPENSEALLOCATIONS.LIST>
+              <VATSTATUTORYDETAILS.LIST>      </VATSTATUTORYDETAILS.LIST>
+              <COSTTRACKALLOCATIONS.LIST>      </COSTTRACKALLOCATIONS.LIST>
+              <REFVOUCHERDETAILS.LIST>      </REFVOUCHERDETAILS.LIST>
+              <INVOICEWISEDETAILS.LIST>      </INVOICEWISEDETAILS.LIST>
+              <VATITCDETAILS.LIST>      </VATITCDETAILS.LIST>
+              <ADVANCETAXDETAILS.LIST>      </ADVANCETAXDETAILS.LIST>
+              <TAXTYPEALLOCATIONS.LIST>      </TAXTYPEALLOCATIONS.LIST>
+            </ALLLEDGERENTRIES.LIST>
+            <BASICBUYERNAME>Rokoko Interior Designers Pvt Ltd</BASICBUYERNAME>
+            <BASICBUYERSSALESTAXNO>27AAHCR8718G1Z1</BASICBUYERSSALESTAXNO>
+            <PARTYGSTIN>27AAHCR8718G1Z1</PARTYGSTIN>
+            <STATENAME>Maharashtra</STATENAME>
+            <PLACEOFSUPPLY>Maharashtra</PLACEOFSUPPLY>
+            <ADDRESS.LIST TYPE="String">
+              <ADDRESS>C 77 Gajalaxmi Society Sahakar Nagar</ADDRESS>
+              <ADDRESS>Pune</ADDRESS>
+              <ADDRESS>Rokoko Interior Designers Pvt Ltd</ADDRESS>
+            </ADDRESS.LIST>
+            <BASICBUYERADDRESS.LIST TYPE="String">
+              <ADDRESS>C 77 Gajalaxmi Society Sahakar Nagar</ADDRESS>
+              <ADDRESS>Pune</ADDRESS>
+              <ADDRESS>Rokoko Interior Designers Pvt Ltd</ADDRESS>
+            </BASICBUYERADDRESS.LIST>
+          </VOUCHER>
+        </TALLYMESSAGE>
+      </REQUESTDATA>
+    </IMPORTDATA>
+  </BODY>
+</ENVELOPE>

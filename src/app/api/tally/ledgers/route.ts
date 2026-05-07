@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { collectNodes, nodeText, parseTallyXml, postToTally, tallyExportXml } from "@/lib/tally";
+import { collectNodes, nodeText, parseTallyXml, postToTally, tallyListOfAccountsXml } from "@/lib/tally";
 
 export const runtime = "nodejs";
 
@@ -11,10 +11,9 @@ type TallyLedgerOption = {
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const group = url.searchParams.get("group") || "sales";
-  const requestXml = tallyExportXml("client ledger fetch");
 
   try {
-    const rawResponse = await postToTally(requestXml, `ledger lookup ${group}`);
+    const rawResponse = await postToTally(tallyListOfAccountsXml("Ledgers"), `ledger lookup ${group}`);
     const root = parseTallyXml(rawResponse);
     const ledgers = collectNodes(root, "LEDGER")
       .map((ledger) => ({
@@ -42,15 +41,21 @@ function filterLedgers(ledgers: TallyLedgerOption[], group: string) {
   const normalizedGroup = group.toLowerCase();
   if (normalizedGroup === "sales") {
     return ledgers.filter((ledger) => {
-      const haystack = `${ledger.name} ${ledger.group}`.toLowerCase();
-      return haystack.includes("sales") && !haystack.includes("purchase");
+      return ledger.group.toLowerCase().includes("sales") || /^sales\b/i.test(ledger.name);
     });
   }
 
   if (normalizedGroup === "tax") {
     return ledgers.filter((ledger) => {
-      const haystack = `${ledger.name} ${ledger.group}`.toLowerCase();
-      return haystack.includes("gst") || haystack.includes("cgst") || haystack.includes("sgst") || haystack.includes("igst");
+      return (
+        ledger.group.toLowerCase().includes("duties") ||
+        ledger.group.toLowerCase().includes("tax") ||
+        /\bcgst\b/i.test(ledger.name) ||
+        /\bsgst\b/i.test(ledger.name) ||
+        /\bigst\b/i.test(ledger.name) ||
+        /\butgst\b/i.test(ledger.name) ||
+        /\bgst\b/i.test(ledger.name)
+      );
     });
   }
 

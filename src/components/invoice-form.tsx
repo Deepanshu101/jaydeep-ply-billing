@@ -114,6 +114,35 @@ export function InvoiceForm({
     [items, gstPercent, discountValue, discountType],
   );
 
+  useEffect(() => {
+    setItems(initialRows.preparedItems);
+    setAlternateRates(initialRows.preparedAlternateRates);
+    setSelectedClientId(initialClient?.id ?? "");
+    setInvoiceNo(invoice?.invoice_no ?? "");
+    setClientName(initialClient?.name ?? invoice?.client_name ?? "");
+    setClientAddress(initialClient?.address ?? invoice?.address ?? "");
+    setClientGstNumber(initialClient?.gst_number ?? invoice?.gst_number ?? "");
+    setShowShipTo(Boolean(invoice?.ship_to_enabled));
+    setShipToName(invoice?.ship_to_name ?? initialClient?.name ?? invoice?.client_name ?? "");
+    setShipToAddress(invoice?.ship_to_address ?? initialClient?.address ?? invoice?.address ?? "");
+    setShipToGstNumber(invoice?.ship_to_gst_number ?? initialClient?.gst_number ?? invoice?.gst_number ?? "");
+    setGstPercent(invoice?.gst_percent ?? 18);
+    setDiscountType(invoice?.discount_type ?? "amount");
+    setDiscountValue(Number(invoice?.discount_value ?? 0));
+    setDispatchDocNo(invoice?.dispatch_doc_no ?? "");
+    setDispatchDate(invoice?.dispatch_date ?? "");
+    setDispatchedThrough(invoice?.dispatched_through ?? "");
+    setDestination(invoice?.destination ?? "");
+    setCarrierName(invoice?.carrier_name ?? "");
+    setBillLadingNo(invoice?.bill_lading_no ?? "");
+    setVehicleNo(invoice?.vehicle_no ?? "");
+    setOrderNo(invoice?.order_no ?? "");
+    setOrderDate(invoice?.order_date ?? "");
+    setPaymentTerms(invoice?.payment_terms ?? "");
+    setOtherReferences(invoice?.other_references ?? "");
+    setTermsOfDelivery(invoice?.terms_of_delivery ?? "");
+  }, [initialRows, initialClient, invoice]);
+
   function updateItem(index: number, patch: Partial<LineItem>) {
     setItems((current) => current.map((item, itemIndex) => (itemIndex === index ? { ...item, ...patch } : item)));
   }

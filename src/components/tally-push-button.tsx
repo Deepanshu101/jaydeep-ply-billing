@@ -8,14 +8,31 @@ type LedgerOption = {
   group: string;
 };
 
+type VoucherTypeOption = {
+  name: string;
+  parent: string;
+  affectsStock: boolean;
+  isActive: boolean;
+};
+
+type GodownOption = {
+  name: string;
+  parent?: string;
+};
+
 type Readiness = {
   ok: boolean;
   mode: "accounting" | "inventory";
   missingPartyLedger: boolean;
   missingLedgers: string[];
   missingStockItems: string[];
+  voucherTypeIssue?: string;
+  godownIssue?: string;
   checked?: {
     gstThroughSalesLedger?: boolean;
+    resolvedGodownName?: string;
+    availableGodowns?: string[];
+    stockEnabledVoucherTypes?: string[];
   };
 };
 
@@ -45,7 +62,7 @@ export function TallyPushButton({ invoiceId, projectName }: { invoiceId: string;
   const [discountLedgerName, setDiscountLedgerName] = useState("");
   const [voucherTypeName, setVoucherTypeName] = useState("Sales GST");
   const [voucherSuffix, setVoucherSuffix] = useState("-STK");
-  const [godownName, setGodownName] = useState("Main Location");
+  const [godownName, setGodownName] = useState("");
   const [inventoryMode, setInventoryMode] = useState(true);
   const [isInterstate, setIsInterstate] = useState(false);
   const [gstThroughSalesLedger, setGstThroughSalesLedger] = useState(true);
@@ -53,6 +70,8 @@ export function TallyPushButton({ invoiceId, projectName }: { invoiceId: string;
   const [createMissingStockItems, setCreateMissingStockItems] = useState(true);
   const [salesLedgers, setSalesLedgers] = useState<LedgerOption[]>([]);
   const [taxLedgers, setTaxLedgers] = useState<LedgerOption[]>([]);
+  const [voucherTypes, setVoucherTypes] = useState<VoucherTypeOption[]>([]);
+  const [godowns, setGodowns] = useState<GodownOption[]>([]);
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   const options = useMemo(
@@ -71,7 +90,6 @@ export function TallyPushButton({ invoiceId, projectName }: { invoiceId: string;
       createMissingStockItems,
       stockGroupName: "",
       narration: projectName ? `Invoice for ${projectName}` : "Invoice from Jaydeep Ply Billing",
-      orderReference: projectName,
       voucherNumberSuffix: "",
       voucherAction: "Create",
     }),
@@ -127,10 +145,37 @@ export function TallyPushButton({ invoiceId, projectName }: { invoiceId: string;
     }
   }, []);
 
+  const loadVoucherTypes = useCallback(async () => {
+    try {
+      const response = await fetch("/api/tally/masters?type=voucher-types");
+      const payload = await response.json();
+      if (!response.ok || !payload.ok) throw new Error(payload.error || "Could not load Tally voucher types.");
+      const options = (payload.voucherTypes ?? []) as VoucherTypeOption[];
+      setVoucherTypes(options);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Could not load Tally voucher types.");
+    }
+  }, []);
+
+  const loadGodowns = useCallback(async () => {
+    try {
+      const response = await fetch("/api/tally/masters?type=godowns");
+      const payload = await response.json();
+      if (!response.ok || !payload.ok) throw new Error(payload.error || "Could not load Tally godowns.");
+      const options = (payload.godowns ?? []) as GodownOption[];
+      setGodowns(options);
+      if (options.length === 1) setGodownName((current) => current || options[0].name);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Could not load Tally godowns.");
+    }
+  }, []);
+
   useEffect(() => {
     void loadSalesLedgers();
     void loadTaxLedgers();
-  }, [loadSalesLedgers, loadTaxLedgers]);
+    void loadVoucherTypes();
+    void loadGodowns();
+  }, [loadSalesLedgers, loadTaxLedgers, loadVoucherTypes, loadGodowns]);
 
   useEffect(() => {
     if (!salesLedgerName.trim() || loadingLedgers) return;
@@ -244,7 +289,15 @@ export function TallyPushButton({ invoiceId, projectName }: { invoiceId: string;
             ))}
           </select>
         </label>
-        <Field label="Voucher type" value={voucherTypeName} onChange={setVoucherTypeName} />
+        <TextDatalist
+          label="Voucher type"
+          value={voucherTypeName}
+          onChange={setVoucherTypeName}
+          options={voucherTypes.map((voucherType) => ({
+            value: voucherType.name,
+            hint: `${voucherType.parent}${voucherType.affectsStock ? " | stock" : " | no stock"}`,
+          }))}
+        />
         <LedgerSelect label="CGST ledger" value={cgstLedgerName} onChange={setCgstLedgerName} ledgers={taxLedgers} disabled={isInterstate || gstThroughSalesLedger} />
         <LedgerSelect label="SGST ledger" value={sgstLedgerName} onChange={setSgstLedgerName} ledgers={taxLedgers} disabled={isInterstate || gstThroughSalesLedger} />
       </div>
@@ -280,7 +333,14 @@ export function TallyPushButton({ invoiceId, projectName }: { invoiceId: string;
         <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4 rounded-md border border-[#d8dfd7] p-3">
           <LedgerSelect label="IGST ledger" value={igstLedgerName} onChange={setIgstLedgerName} ledgers={taxLedgers} disabled={!isInterstate || gstThroughSalesLedger} />
           <Field label="Discount ledger" value={discountLedgerName} onChange={setDiscountLedgerName} placeholder="Only if discount exists" />
-          <Field label="Godown / location" value={godownName} onChange={setGodownName} placeholder="Optional, exact Tally name" disabled={!inventoryMode} />
+          <TextDatalist
+            label="Godown / location"
+            value={godownName}
+            onChange={setGodownName}
+            options={godowns.map((godown) => ({ value: godown.name, hint: godown.parent || "" }))}
+            placeholder="Optional, exact Tally name"
+            disabled={!inventoryMode}
+          />
           <Field label="Test voucher suffix" value={voucherSuffix} onChange={setVoucherSuffix} placeholder="-STK" disabled={!inventoryMode} />
         </div>
       ) : null}
@@ -296,6 +356,12 @@ export function TallyPushButton({ invoiceId, projectName }: { invoiceId: string;
       )}
 
       {readiness ? <ReadinessPanel readiness={readiness} /> : null}
+      {readiness?.voucherTypeIssue ? (
+        <p className="rounded-md border border-[#f0d48a] bg-[#fff8e5] p-3 text-sm text-[#6f4b00]">{readiness.voucherTypeIssue}</p>
+      ) : null}
+      {readiness?.godownIssue ? (
+        <p className="rounded-md border border-[#f0d48a] bg-[#fff8e5] p-3 text-sm text-[#6f4b00]">{readiness.godownIssue}</p>
+      ) : null}
       {readiness?.missingLedgers.length ? (
         <p className="rounded-md border border-[#f0d48a] bg-[#fff8e5] p-3 text-sm text-[#6f4b00]">
           Pick the exact ledger names from the dropdowns above. If your Sales ledger already handles GST, keep `GST handled by sales ledger` turned on.
@@ -378,7 +444,36 @@ function ReadinessPanel({ readiness }: { readiness: Readiness }) {
           ok={!readiness.missingStockItems.length}
           value={readiness.mode === "accounting" ? "Not required in safe mode" : readiness.missingStockItems.length ? readiness.missingStockItems.join(", ") : "OK"}
         />
+        <Status
+          label="Voucher type"
+          ok={!readiness.voucherTypeIssue}
+          value={
+            readiness.mode === "accounting"
+              ? "Not required in safe mode"
+              : readiness.voucherTypeIssue || (readiness.checked?.stockEnabledVoucherTypes?.length ? "OK" : "No stock-enabled voucher type found")
+          }
+        />
+        <Status
+          label="Godown"
+          ok={!readiness.godownIssue}
+          value={
+            readiness.mode === "accounting"
+              ? "Not required in safe mode"
+              : readiness.godownIssue || readiness.checked?.resolvedGodownName || "Optional / not set"
+          }
+        />
       </div>
+      {readiness.checked?.stockEnabledVoucherTypes?.length ? (
+        <p className="mt-2 rounded-md bg-white px-3 py-2 text-sm">
+          <span className="font-semibold">Stock-enabled voucher types in Tally:</span>{" "}
+          {readiness.checked.stockEnabledVoucherTypes.join(", ")}
+        </p>
+      ) : null}
+      {readiness.checked?.availableGodowns?.length ? (
+        <p className="mt-2 rounded-md bg-white px-3 py-2 text-sm">
+          <span className="font-semibold">Godowns in Tally:</span> {readiness.checked.availableGodowns.join(", ")}
+        </p>
+      ) : null}
     </div>
   );
 }
@@ -484,6 +579,44 @@ function Field({
         placeholder={placeholder}
         disabled={disabled}
       />
+    </label>
+  );
+}
+
+function TextDatalist({
+  label,
+  value,
+  onChange,
+  options,
+  placeholder,
+  disabled,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  options: { value: string; hint?: string }[];
+  placeholder?: string;
+  disabled?: boolean;
+}) {
+  const listId = `tally-${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+  return (
+    <label>
+      <span className="text-sm font-semibold">{label}</span>
+      <input
+        className="mt-1 w-full rounded-md border border-[#cdd6cf] px-3 py-2 disabled:bg-[#eef3ee] disabled:text-[#7b877f]"
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        list={listId}
+        placeholder={placeholder}
+        disabled={disabled}
+      />
+      <datalist id={listId}>
+        {options.map((option) => (
+          <option key={`${listId}-${option.value}`} value={option.value}>
+            {option.hint}
+          </option>
+        ))}
+      </datalist>
     </label>
   );
 }
